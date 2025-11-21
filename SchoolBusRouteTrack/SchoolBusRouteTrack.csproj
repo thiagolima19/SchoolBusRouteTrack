@@ -46,14 +46,89 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="AdministratorSystem\FormAdminDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="AdministratorSystem\FormAdminDashboard.Designer.cs">
+      <DependentUpon>FormAdminDashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdministratorSystem\UserControlReports.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AdministratorSystem\UserControlReports.Designer.cs">
+      <DependentUpon>UserControlReports.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdministratorSystem\UserControlRouteView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AdministratorSystem\UserControlRouteView.Designer.cs">
+      <DependentUpon>UserControlRouteView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdministratorSystem\UserControlStudentRegister.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AdministratorSystem\UserControlStudentRegister.Designer.cs">
+      <DependentUpon>UserControlStudentRegister.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DriverSystem\FormDriverDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DriverSystem\FormDriverDashboard.Designer.cs">
+      <DependentUpon>FormDriverDashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DriverSystem\UserControlAttendence.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DriverSystem\UserControlAttendence.Designer.cs">
+      <DependentUpon>UserControlAttendence.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DriverSystem\UserControlRoute.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DriverSystem\UserControlRoute.Designer.cs">
+      <DependentUpon>UserControlRoute.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DriverSystem\UserControlTrip.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DriverSystem\UserControlTrip.Designer.cs">
+      <DependentUpon>UserControlTrip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AdministratorSystem\FormAdminDashboard.resx">
+      <DependentUpon>FormAdminDashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdministratorSystem\UserControlReports.resx">
+      <DependentUpon>UserControlReports.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdministratorSystem\UserControlRouteView.resx">
+      <DependentUpon>UserControlRouteView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdministratorSystem\UserControlStudentRegister.resx">
+      <DependentUpon>UserControlStudentRegister.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DriverSystem\FormDriverDashboard.resx">
+      <DependentUpon>FormDriverDashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DriverSystem\UserControlAttendence.resx">
+      <DependentUpon>UserControlAttendence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DriverSystem\UserControlRoute.resx">
+      <DependentUpon>UserControlRoute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DriverSystem\UserControlTrip.resx">
+      <DependentUpon>UserControlTrip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -62,6 +137,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -75,6 +151,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\temp_logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
