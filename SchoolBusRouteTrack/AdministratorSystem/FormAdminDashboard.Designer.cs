@@ -30,6 +30,7 @@
         {
             this.panelContentAdminDashboard = new System.Windows.Forms.Panel();
             this.flowLayoutPanelSideBarAdmin = new System.Windows.Forms.Panel();
+            this.buttonDriverRegister = new System.Windows.Forms.Button();
             this.buttonStudentRegister = new System.Windows.Forms.Button();
             this.buttonRouteView = new System.Windows.Forms.Button();
             this.buttonReports = new System.Windows.Forms.Button();
@@ -39,29 +40,44 @@
             // 
             // panelContentAdminDashboard
             // 
+            this.panelContentAdminDashboard.AutoSize = true;
             this.panelContentAdminDashboard.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelContentAdminDashboard.Location = new System.Drawing.Point(220, 0);
+            this.panelContentAdminDashboard.Location = new System.Drawing.Point(147, 0);
+            this.panelContentAdminDashboard.Margin = new System.Windows.Forms.Padding(2);
             this.panelContentAdminDashboard.Name = "panelContentAdminDashboard";
-            this.panelContentAdminDashboard.Size = new System.Drawing.Size(980, 720);
+            this.panelContentAdminDashboard.Size = new System.Drawing.Size(922, 645);
             this.panelContentAdminDashboard.TabIndex = 0;
             // 
             // flowLayoutPanelSideBarAdmin
             // 
+            this.flowLayoutPanelSideBarAdmin.Controls.Add(this.buttonDriverRegister);
             this.flowLayoutPanelSideBarAdmin.Controls.Add(this.buttonStudentRegister);
             this.flowLayoutPanelSideBarAdmin.Controls.Add(this.buttonRouteView);
             this.flowLayoutPanelSideBarAdmin.Controls.Add(this.buttonReports);
             this.flowLayoutPanelSideBarAdmin.Controls.Add(this.buttonLogout);
             this.flowLayoutPanelSideBarAdmin.Dock = System.Windows.Forms.DockStyle.Left;
             this.flowLayoutPanelSideBarAdmin.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanelSideBarAdmin.Margin = new System.Windows.Forms.Padding(2);
             this.flowLayoutPanelSideBarAdmin.Name = "flowLayoutPanelSideBarAdmin";
-            this.flowLayoutPanelSideBarAdmin.Size = new System.Drawing.Size(220, 720);
+            this.flowLayoutPanelSideBarAdmin.Size = new System.Drawing.Size(147, 645);
             this.flowLayoutPanelSideBarAdmin.TabIndex = 1;
+            // 
+            // buttonDriverRegister
+            // 
+            this.buttonDriverRegister.Location = new System.Drawing.Point(0, 131);
+            this.buttonDriverRegister.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonDriverRegister.Name = "buttonDriverRegister";
+            this.buttonDriverRegister.Size = new System.Drawing.Size(143, 39);
+            this.buttonDriverRegister.TabIndex = 4;
+            this.buttonDriverRegister.Text = "Driver Registration";
+            this.buttonDriverRegister.UseVisualStyleBackColor = true;
             // 
             // buttonStudentRegister
             // 
-            this.buttonStudentRegister.Location = new System.Drawing.Point(3, 3);
+            this.buttonStudentRegister.Location = new System.Drawing.Point(2, 2);
+            this.buttonStudentRegister.Margin = new System.Windows.Forms.Padding(2);
             this.buttonStudentRegister.Name = "buttonStudentRegister";
-            this.buttonStudentRegister.Size = new System.Drawing.Size(214, 60);
+            this.buttonStudentRegister.Size = new System.Drawing.Size(143, 39);
             this.buttonStudentRegister.TabIndex = 0;
             this.buttonStudentRegister.Text = "Student Registration";
             this.buttonStudentRegister.UseVisualStyleBackColor = true;
@@ -69,9 +85,10 @@
             // 
             // buttonRouteView
             // 
-            this.buttonRouteView.Location = new System.Drawing.Point(3, 69);
+            this.buttonRouteView.Location = new System.Drawing.Point(2, 45);
+            this.buttonRouteView.Margin = new System.Windows.Forms.Padding(2);
             this.buttonRouteView.Name = "buttonRouteView";
-            this.buttonRouteView.Size = new System.Drawing.Size(214, 60);
+            this.buttonRouteView.Size = new System.Drawing.Size(143, 39);
             this.buttonRouteView.TabIndex = 1;
             this.buttonRouteView.Text = "Route View";
             this.buttonRouteView.UseVisualStyleBackColor = true;
@@ -79,9 +96,10 @@
             // 
             // buttonReports
             // 
-            this.buttonReports.Location = new System.Drawing.Point(3, 135);
+            this.buttonReports.Location = new System.Drawing.Point(2, 88);
+            this.buttonReports.Margin = new System.Windows.Forms.Padding(2);
             this.buttonReports.Name = "buttonReports";
-            this.buttonReports.Size = new System.Drawing.Size(214, 60);
+            this.buttonReports.Size = new System.Drawing.Size(143, 39);
             this.buttonReports.TabIndex = 2;
             this.buttonReports.Text = "Reports";
             this.buttonReports.UseVisualStyleBackColor = true;
@@ -91,9 +109,10 @@
             // 
             this.buttonLogout.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonLogout.Location = new System.Drawing.Point(3, 660);
+            this.buttonLogout.Location = new System.Drawing.Point(2, 606);
+            this.buttonLogout.Margin = new System.Windows.Forms.Padding(2);
             this.buttonLogout.Name = "buttonLogout";
-            this.buttonLogout.Size = new System.Drawing.Size(214, 57);
+            this.buttonLogout.Size = new System.Drawing.Size(143, 37);
             this.buttonLogout.TabIndex = 3;
             this.buttonLogout.Text = "Logout";
             this.buttonLogout.UseVisualStyleBackColor = true;
@@ -101,17 +120,19 @@
             // 
             // FormAdminDashboard
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1200, 720);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(1069, 645);
             this.Controls.Add(this.panelContentAdminDashboard);
             this.Controls.Add(this.flowLayoutPanelSideBarAdmin);
-            this.MinimumSize = new System.Drawing.Size(1024, 600);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FormAdminDashboard";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Administrator Dashboard";
             this.flowLayoutPanelSideBarAdmin.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -123,5 +144,6 @@
         private System.Windows.Forms.Button buttonRouteView;
         private System.Windows.Forms.Button buttonReports;
         private System.Windows.Forms.Button buttonLogout;
+        private System.Windows.Forms.Button buttonDriverRegister;
     }
 }

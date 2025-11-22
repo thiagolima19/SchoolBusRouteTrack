@@ -46,11 +46,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdministratorSystem\Driver.cs" />
     <Compile Include="AdministratorSystem\FormAdminDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AdministratorSystem\FormAdminDashboard.Designer.cs">
       <DependentUpon>FormAdminDashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdministratorSystem\Student.cs" />
+    <Compile Include="AdministratorSystem\UserControlDriverRegister.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AdministratorSystem\UserControlDriverRegister.Designer.cs">
+      <DependentUpon>UserControlDriverRegister.cs</DependentUpon>
     </Compile>
     <Compile Include="AdministratorSystem\UserControlReports.cs">
       <SubType>UserControl</SubType>
@@ -104,6 +112,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AdministratorSystem\FormAdminDashboard.resx">
       <DependentUpon>FormAdminDashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdministratorSystem\UserControlDriverRegister.resx">
+      <DependentUpon>UserControlDriverRegister.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AdministratorSystem\UserControlReports.resx">
       <DependentUpon>UserControlReports.cs</DependentUpon>

@@ -20,6 +20,7 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             this.buttonRouteView.Click += new EventHandler(buttonRouteView_Click);
             this.buttonReports.Click += new EventHandler(buttonReports_Click); 
             this.buttonLogout.Click += new EventHandler(buttonLogout_Click);
+            this.buttonDriverRegister.Click += new EventHandler(buttonDriverRegister_Click);
         }
 
         // --- THE HELPER METHOD ---
@@ -69,6 +70,12 @@ namespace SchoolBusRouteTrack.AdministratorSystem
 
             // 3. Close the current dashboard form
             this.Close();
+        }
+
+        private void buttonDriverRegister_Click(object sender, EventArgs e)
+        {
+            UserControlDriverRegister UCDriverRegister = new UserControlDriverRegister();
+            LoadContent(UCDriverRegister);
         }
     }
 }
