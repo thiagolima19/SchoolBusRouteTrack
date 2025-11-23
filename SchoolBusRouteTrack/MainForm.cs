@@ -55,7 +55,7 @@ namespace SchoolBusRouteTrack
             // Hide the login form
             this.Hide();
 
-            // Show the new dashboard
+            dashboardForm.FormClosed += (s, args) => this.Close();
             dashboardForm.Show();
         }
 
