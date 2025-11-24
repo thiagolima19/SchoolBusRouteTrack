@@ -43,13 +43,13 @@ namespace SchoolBusRouteTrack.AdministratorSystem
 
         private void buttonStudentRegister_Click(object sender, EventArgs e)
         {
+            // Opens the Student Registration screen
             UserControlStudentRegister UCStudentRegister = new UserControlStudentRegister();
             LoadContent(UCStudentRegister);
         }
 
         private void buttonRouteView_Click(object sender, EventArgs e)
         {
-            // Opens the Student Registration screen
             UserControlRouteView UCRoute = new UserControlRouteView();
             LoadContent(UCRoute);
         }
