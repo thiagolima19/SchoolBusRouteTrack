@@ -87,7 +87,7 @@ namespace SchoolBusRouteTrack.AdministratorSystem
                 string relationship = textBoxRelationship.Text;
                 int schoolID = int.Parse(textBoxSchoolID.Text);
                 string specialCare = textBoxSpecialCare.Text;
-                int stopID = int.Parse(textBoxStopID.Text);
+                BusStop stopID = new BusStop();
 
                 Student newStudent = new Student(studentName, address, grade, guardianName, relationship, phone, schoolID, specialCare, stopID);
 

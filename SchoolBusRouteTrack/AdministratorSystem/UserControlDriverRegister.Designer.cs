@@ -28,15 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelErrorAssignedRoute = new System.Windows.Forms.Label();
+            this.labelErrorAssignedVehicle = new System.Windows.Forms.Label();
             this.labelErrorPhone = new System.Windows.Forms.Label();
             this.labelErrorName = new System.Windows.Forms.Label();
             this.listBoxDriver = new System.Windows.Forms.ListBox();
             this.buttonDriverClear = new System.Windows.Forms.Button();
-            this.buttonDrivertSave = new System.Windows.Forms.Button();
+            this.buttonDriverSave = new System.Windows.Forms.Button();
             this.labelPageTittle = new System.Windows.Forms.Label();
-            this.textBoxAssignedRoute = new System.Windows.Forms.TextBox();
-            this.labelAssignedRoute = new System.Windows.Forms.Label();
+            this.textBoxAssignedVehicle = new System.Windows.Forms.TextBox();
+            this.labelAssignedVehicle = new System.Windows.Forms.Label();
             this.textBoxPhone = new System.Windows.Forms.TextBox();
             this.labelPhone = new System.Windows.Forms.Label();
             this.textBoxAddress = new System.Windows.Forms.TextBox();
@@ -44,17 +44,19 @@
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.labelName = new System.Windows.Forms.Label();
             this.labelErrorAddress = new System.Windows.Forms.Label();
+            this.gMapControlDriverAddress = new GMap.NET.WindowsForms.GMapControl();
+            this.buttonAddressSearch = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // labelErrorAssignedRoute
+            // labelErrorAssignedVehicle
             // 
-            this.labelErrorAssignedRoute.AutoSize = true;
-            this.labelErrorAssignedRoute.ForeColor = System.Drawing.Color.Red;
-            this.labelErrorAssignedRoute.Location = new System.Drawing.Point(133, 275);
-            this.labelErrorAssignedRoute.Name = "labelErrorAssignedRoute";
-            this.labelErrorAssignedRoute.Size = new System.Drawing.Size(0, 13);
-            this.labelErrorAssignedRoute.TabIndex = 61;
-            this.labelErrorAssignedRoute.Tag = "";
+            this.labelErrorAssignedVehicle.AutoSize = true;
+            this.labelErrorAssignedVehicle.ForeColor = System.Drawing.Color.Red;
+            this.labelErrorAssignedVehicle.Location = new System.Drawing.Point(133, 275);
+            this.labelErrorAssignedVehicle.Name = "labelErrorAssignedVehicle";
+            this.labelErrorAssignedVehicle.Size = new System.Drawing.Size(0, 13);
+            this.labelErrorAssignedVehicle.TabIndex = 61;
+            this.labelErrorAssignedVehicle.Tag = "";
             // 
             // labelErrorPhone
             // 
@@ -91,18 +93,18 @@
             this.buttonDriverClear.TabIndex = 51;
             this.buttonDriverClear.Text = "Clear";
             this.buttonDriverClear.UseVisualStyleBackColor = true;
-            this.buttonDriverClear.Click += new System.EventHandler(this.buttonDriverClear_Click);
+            this.buttonDriverClear.Click += new System.EventHandler(this.ButtonDriverClear_Click);
             // 
-            // buttonDrivertSave
+            // buttonDriverSave
             // 
-            this.buttonDrivertSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDrivertSave.Location = new System.Drawing.Point(231, 574);
-            this.buttonDrivertSave.Name = "buttonDrivertSave";
-            this.buttonDrivertSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonDrivertSave.TabIndex = 50;
-            this.buttonDrivertSave.Text = "Save";
-            this.buttonDrivertSave.UseVisualStyleBackColor = true;
-            this.buttonDrivertSave.Click += new System.EventHandler(this.buttonDriverSave_Click);
+            this.buttonDriverSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonDriverSave.Location = new System.Drawing.Point(231, 574);
+            this.buttonDriverSave.Name = "buttonDriverSave";
+            this.buttonDriverSave.Size = new System.Drawing.Size(75, 23);
+            this.buttonDriverSave.TabIndex = 50;
+            this.buttonDriverSave.Text = "Save";
+            this.buttonDriverSave.UseVisualStyleBackColor = true;
+            this.buttonDriverSave.Click += new System.EventHandler(this.ButtonDriverSave_Click);
             // 
             // labelPageTittle
             // 
@@ -114,22 +116,22 @@
             this.labelPageTittle.TabIndex = 49;
             this.labelPageTittle.Text = "Driver Management";
             // 
-            // textBoxAssignedRoute
+            // textBoxAssignedVehicle
             // 
-            this.textBoxAssignedRoute.Location = new System.Drawing.Point(134, 252);
-            this.textBoxAssignedRoute.Name = "textBoxAssignedRoute";
-            this.textBoxAssignedRoute.Size = new System.Drawing.Size(288, 20);
-            this.textBoxAssignedRoute.TabIndex = 44;
-            this.textBoxAssignedRoute.Tag = "AssignedRoute";
+            this.textBoxAssignedVehicle.Location = new System.Drawing.Point(134, 252);
+            this.textBoxAssignedVehicle.Name = "textBoxAssignedVehicle";
+            this.textBoxAssignedVehicle.Size = new System.Drawing.Size(288, 20);
+            this.textBoxAssignedVehicle.TabIndex = 44;
+            this.textBoxAssignedVehicle.Tag = "AssignedVehicle";
             // 
-            // labelAssignedRoute
+            // labelAssignedVehicle
             // 
-            this.labelAssignedRoute.AutoSize = true;
-            this.labelAssignedRoute.Location = new System.Drawing.Point(49, 255);
-            this.labelAssignedRoute.Name = "labelAssignedRoute";
-            this.labelAssignedRoute.Size = new System.Drawing.Size(85, 13);
-            this.labelAssignedRoute.TabIndex = 43;
-            this.labelAssignedRoute.Text = "Assigned Route:";
+            this.labelAssignedVehicle.AutoSize = true;
+            this.labelAssignedVehicle.Location = new System.Drawing.Point(49, 255);
+            this.labelAssignedVehicle.Name = "labelAssignedVehicle";
+            this.labelAssignedVehicle.Size = new System.Drawing.Size(85, 13);
+            this.labelAssignedVehicle.TabIndex = 43;
+            this.labelAssignedVehicle.Text = "Assigned Route:";
             // 
             // textBoxPhone
             // 
@@ -191,20 +193,58 @@
             this.labelErrorAddress.Size = new System.Drawing.Size(0, 13);
             this.labelErrorAddress.TabIndex = 62;
             // 
+            // gMapControlDriverAddress
+            // 
+            this.gMapControlDriverAddress.Bearing = 0F;
+            this.gMapControlDriverAddress.CanDragMap = true;
+            this.gMapControlDriverAddress.EmptyTileColor = System.Drawing.Color.Navy;
+            this.gMapControlDriverAddress.GrayScaleMode = false;
+            this.gMapControlDriverAddress.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
+            this.gMapControlDriverAddress.LevelsKeepInMemory = 5;
+            this.gMapControlDriverAddress.Location = new System.Drawing.Point(134, 342);
+            this.gMapControlDriverAddress.MarkersEnabled = true;
+            this.gMapControlDriverAddress.MaxZoom = 2;
+            this.gMapControlDriverAddress.MinZoom = 2;
+            this.gMapControlDriverAddress.MouseWheelZoomEnabled = true;
+            this.gMapControlDriverAddress.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.gMapControlDriverAddress.Name = "gMapControlDriverAddress";
+            this.gMapControlDriverAddress.NegativeMode = false;
+            this.gMapControlDriverAddress.PolygonsEnabled = true;
+            this.gMapControlDriverAddress.RetryLoadTile = 0;
+            this.gMapControlDriverAddress.RoutesEnabled = true;
+            this.gMapControlDriverAddress.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+            this.gMapControlDriverAddress.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+            this.gMapControlDriverAddress.ShowTileGridLines = false;
+            this.gMapControlDriverAddress.Size = new System.Drawing.Size(288, 150);
+            this.gMapControlDriverAddress.TabIndex = 63;
+            this.gMapControlDriverAddress.Zoom = 0D;
+            // 
+            // buttonAddressSearch
+            // 
+            this.buttonAddressSearch.Location = new System.Drawing.Point(428, 155);
+            this.buttonAddressSearch.Name = "buttonAddressSearch";
+            this.buttonAddressSearch.Size = new System.Drawing.Size(75, 20);
+            this.buttonAddressSearch.TabIndex = 64;
+            this.buttonAddressSearch.Text = "Search";
+            this.buttonAddressSearch.UseVisualStyleBackColor = true;
+            this.buttonAddressSearch.Click += new System.EventHandler(this.ButtonAddressSearch_Click);
+            // 
             // UserControlDriverRegister
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonAddressSearch);
+            this.Controls.Add(this.gMapControlDriverAddress);
             this.Controls.Add(this.labelErrorAddress);
-            this.Controls.Add(this.labelErrorAssignedRoute);
+            this.Controls.Add(this.labelErrorAssignedVehicle);
             this.Controls.Add(this.labelErrorPhone);
             this.Controls.Add(this.labelErrorName);
             this.Controls.Add(this.listBoxDriver);
             this.Controls.Add(this.buttonDriverClear);
-            this.Controls.Add(this.buttonDrivertSave);
+            this.Controls.Add(this.buttonDriverSave);
             this.Controls.Add(this.labelPageTittle);
-            this.Controls.Add(this.textBoxAssignedRoute);
-            this.Controls.Add(this.labelAssignedRoute);
+            this.Controls.Add(this.textBoxAssignedVehicle);
+            this.Controls.Add(this.labelAssignedVehicle);
             this.Controls.Add(this.textBoxPhone);
             this.Controls.Add(this.labelPhone);
             this.Controls.Add(this.textBoxAddress);
@@ -213,7 +253,7 @@
             this.Controls.Add(this.labelName);
             this.Name = "UserControlDriverRegister";
             this.Size = new System.Drawing.Size(883, 663);
-            this.Load += new System.EventHandler(this.UserControlDriverRegister_Load);
+            this.Click += new System.EventHandler(this.HandleClickOutsideListBox);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -221,15 +261,15 @@
 
         #endregion
 
-        private System.Windows.Forms.Label labelErrorAssignedRoute;
+        private System.Windows.Forms.Label labelErrorAssignedVehicle;
         private System.Windows.Forms.Label labelErrorPhone;
         private System.Windows.Forms.Label labelErrorName;
         private System.Windows.Forms.ListBox listBoxDriver;
         private System.Windows.Forms.Button buttonDriverClear;
-        private System.Windows.Forms.Button buttonDrivertSave;
+        private System.Windows.Forms.Button buttonDriverSave;
         private System.Windows.Forms.Label labelPageTittle;
-        private System.Windows.Forms.TextBox textBoxAssignedRoute;
-        private System.Windows.Forms.Label labelAssignedRoute;
+        private System.Windows.Forms.TextBox textBoxAssignedVehicle;
+        private System.Windows.Forms.Label labelAssignedVehicle;
         private System.Windows.Forms.TextBox textBoxPhone;
         private System.Windows.Forms.Label labelPhone;
         private System.Windows.Forms.TextBox textBoxAddress;
@@ -237,5 +277,7 @@
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.Label labelErrorAddress;
+        private GMap.NET.WindowsForms.GMapControl gMapControlDriverAddress;
+        private System.Windows.Forms.Button buttonAddressSearch;
     }
 }
