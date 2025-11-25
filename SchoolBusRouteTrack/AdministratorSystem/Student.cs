@@ -10,11 +10,11 @@
         public string _guardianPhone { get; private set; }
         public int _schoolID { get; private set; }
         public string _specialCare { get; private set; }
-        public int _stopID { get; private set; }
+        public BusStop _busStop { get; private set; }
 
 
 
-        public Student(string name, string address, string grade, string guardianName, string guardianRelationship, string guardianPhone, int schoolID, string specialCare, int stopID)
+        public Student(string name, string address, string grade, string guardianName, string guardianRelationship, string guardianPhone, int schoolID, string specialCare, BusStop busStop)
         {
             _name = name;
             _address = address;
@@ -24,7 +24,7 @@
             _guardianPhone = guardianPhone;
             _schoolID = schoolID;
             _specialCare = specialCare;
-            _stopID = stopID;
+            _busStop = busStop;
 
         }
 
