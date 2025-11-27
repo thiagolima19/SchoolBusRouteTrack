@@ -40,8 +40,6 @@
             this.labelRelationship = new System.Windows.Forms.Label();
             this.textBoxGuardianName = new System.Windows.Forms.TextBox();
             this.labelGuardianName = new System.Windows.Forms.Label();
-            this.textBoxStopID = new System.Windows.Forms.TextBox();
-            this.labelStopID = new System.Windows.Forms.Label();
             this.textBoxSpecialCare = new System.Windows.Forms.TextBox();
             this.labelSpecialCare = new System.Windows.Forms.Label();
             this.textBoxSchoolID = new System.Windows.Forms.TextBox();
@@ -58,7 +56,8 @@
             this.labelErrorPhone = new System.Windows.Forms.Label();
             this.labelErrorSchoolID = new System.Windows.Forms.Label();
             this.labelErrorSpecialCare = new System.Windows.Forms.Label();
-            this.labelErrorStopID = new System.Windows.Forms.Label();
+            this.gMapControlStudent = new GMap.NET.WindowsForms.GMapControl();
+            this.buttonSearchAddress = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // labelName
@@ -80,7 +79,7 @@
             // 
             // textBoxAddress
             // 
-            this.textBoxAddress.Location = new System.Drawing.Point(123, 105);
+            this.textBoxAddress.Location = new System.Drawing.Point(123, 99);
             this.textBoxAddress.Name = "textBoxAddress";
             this.textBoxAddress.Size = new System.Drawing.Size(288, 20);
             this.textBoxAddress.TabIndex = 3;
@@ -89,7 +88,7 @@
             // labelAddress
             // 
             this.labelAddress.AutoSize = true;
-            this.labelAddress.Location = new System.Drawing.Point(38, 105);
+            this.labelAddress.Location = new System.Drawing.Point(38, 99);
             this.labelAddress.Name = "labelAddress";
             this.labelAddress.Size = new System.Drawing.Size(48, 13);
             this.labelAddress.TabIndex = 2;
@@ -97,16 +96,16 @@
             // 
             // textBoxGrade
             // 
-            this.textBoxGrade.Location = new System.Drawing.Point(123, 157);
+            this.textBoxGrade.Location = new System.Drawing.Point(123, 145);
             this.textBoxGrade.Name = "textBoxGrade";
-            this.textBoxGrade.Size = new System.Drawing.Size(288, 20);
+            this.textBoxGrade.Size = new System.Drawing.Size(97, 20);
             this.textBoxGrade.TabIndex = 5;
             this.textBoxGrade.Tag = "Grade";
             // 
             // labelGrade
             // 
             this.labelGrade.AutoSize = true;
-            this.labelGrade.Location = new System.Drawing.Point(38, 157);
+            this.labelGrade.Location = new System.Drawing.Point(38, 145);
             this.labelGrade.Name = "labelGrade";
             this.labelGrade.Size = new System.Drawing.Size(39, 13);
             this.labelGrade.TabIndex = 4;
@@ -114,16 +113,16 @@
             // 
             // textBoxPhone
             // 
-            this.textBoxPhone.Location = new System.Drawing.Point(123, 312);
+            this.textBoxPhone.Location = new System.Drawing.Point(303, 244);
             this.textBoxPhone.Name = "textBoxPhone";
-            this.textBoxPhone.Size = new System.Drawing.Size(288, 20);
+            this.textBoxPhone.Size = new System.Drawing.Size(108, 20);
             this.textBoxPhone.TabIndex = 11;
             this.textBoxPhone.Tag = "Phone";
             // 
             // labelPhone
             // 
             this.labelPhone.AutoSize = true;
-            this.labelPhone.Location = new System.Drawing.Point(38, 312);
+            this.labelPhone.Location = new System.Drawing.Point(244, 247);
             this.labelPhone.Name = "labelPhone";
             this.labelPhone.Size = new System.Drawing.Size(41, 13);
             this.labelPhone.TabIndex = 10;
@@ -131,16 +130,16 @@
             // 
             // textBoxRelationship
             // 
-            this.textBoxRelationship.Location = new System.Drawing.Point(123, 265);
+            this.textBoxRelationship.Location = new System.Drawing.Point(123, 243);
             this.textBoxRelationship.Name = "textBoxRelationship";
-            this.textBoxRelationship.Size = new System.Drawing.Size(288, 20);
+            this.textBoxRelationship.Size = new System.Drawing.Size(108, 20);
             this.textBoxRelationship.TabIndex = 9;
             this.textBoxRelationship.Tag = "Relationship";
             // 
             // labelRelationship
             // 
             this.labelRelationship.AutoSize = true;
-            this.labelRelationship.Location = new System.Drawing.Point(38, 272);
+            this.labelRelationship.Location = new System.Drawing.Point(38, 250);
             this.labelRelationship.Name = "labelRelationship";
             this.labelRelationship.Size = new System.Drawing.Size(68, 13);
             this.labelRelationship.TabIndex = 8;
@@ -148,7 +147,7 @@
             // 
             // textBoxGuardianName
             // 
-            this.textBoxGuardianName.Location = new System.Drawing.Point(123, 208);
+            this.textBoxGuardianName.Location = new System.Drawing.Point(123, 195);
             this.textBoxGuardianName.Name = "textBoxGuardianName";
             this.textBoxGuardianName.Size = new System.Drawing.Size(288, 20);
             this.textBoxGuardianName.TabIndex = 7;
@@ -157,33 +156,15 @@
             // labelGuardianName
             // 
             this.labelGuardianName.AutoSize = true;
-            this.labelGuardianName.Location = new System.Drawing.Point(38, 215);
+            this.labelGuardianName.Location = new System.Drawing.Point(38, 202);
             this.labelGuardianName.Name = "labelGuardianName";
             this.labelGuardianName.Size = new System.Drawing.Size(84, 13);
             this.labelGuardianName.TabIndex = 6;
             this.labelGuardianName.Text = "Guardian Name:";
             // 
-            // textBoxStopID
-            // 
-            this.textBoxStopID.Location = new System.Drawing.Point(123, 462);
-            this.textBoxStopID.Name = "textBoxStopID";
-            this.textBoxStopID.Size = new System.Drawing.Size(288, 20);
-            this.textBoxStopID.TabIndex = 17;
-            this.textBoxStopID.Tag = "StopID";
-            this.textBoxStopID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxStopID_KeyPress);
-            // 
-            // labelStopID
-            // 
-            this.labelStopID.AutoSize = true;
-            this.labelStopID.Location = new System.Drawing.Point(38, 465);
-            this.labelStopID.Name = "labelStopID";
-            this.labelStopID.Size = new System.Drawing.Size(46, 13);
-            this.labelStopID.TabIndex = 16;
-            this.labelStopID.Text = "Stop ID:";
-            // 
             // textBoxSpecialCare
             // 
-            this.textBoxSpecialCare.Location = new System.Drawing.Point(123, 410);
+            this.textBoxSpecialCare.Location = new System.Drawing.Point(123, 295);
             this.textBoxSpecialCare.Name = "textBoxSpecialCare";
             this.textBoxSpecialCare.Size = new System.Drawing.Size(288, 20);
             this.textBoxSpecialCare.TabIndex = 15;
@@ -192,7 +173,7 @@
             // labelSpecialCare
             // 
             this.labelSpecialCare.AutoSize = true;
-            this.labelSpecialCare.Location = new System.Drawing.Point(38, 413);
+            this.labelSpecialCare.Location = new System.Drawing.Point(38, 298);
             this.labelSpecialCare.Name = "labelSpecialCare";
             this.labelSpecialCare.Size = new System.Drawing.Size(70, 13);
             this.labelSpecialCare.TabIndex = 14;
@@ -200,9 +181,9 @@
             // 
             // textBoxSchoolID
             // 
-            this.textBoxSchoolID.Location = new System.Drawing.Point(123, 365);
+            this.textBoxSchoolID.Location = new System.Drawing.Point(306, 145);
             this.textBoxSchoolID.Name = "textBoxSchoolID";
-            this.textBoxSchoolID.Size = new System.Drawing.Size(288, 20);
+            this.textBoxSchoolID.Size = new System.Drawing.Size(105, 20);
             this.textBoxSchoolID.TabIndex = 13;
             this.textBoxSchoolID.Tag = "SchoolID";
             this.textBoxSchoolID.TextChanged += new System.EventHandler(this.textBoxSchoolID_TextChanged);
@@ -211,7 +192,7 @@
             // labelSchoolID
             // 
             this.labelSchoolID.AutoSize = true;
-            this.labelSchoolID.Location = new System.Drawing.Point(38, 368);
+            this.labelSchoolID.Location = new System.Drawing.Point(238, 148);
             this.labelSchoolID.Name = "labelSchoolID";
             this.labelSchoolID.Size = new System.Drawing.Size(57, 13);
             this.labelSchoolID.TabIndex = 12;
@@ -230,7 +211,7 @@
             // buttonStudentSave
             // 
             this.buttonStudentSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonStudentSave.Location = new System.Drawing.Point(220, 524);
+            this.buttonStudentSave.Location = new System.Drawing.Point(557, 524);
             this.buttonStudentSave.Name = "buttonStudentSave";
             this.buttonStudentSave.Size = new System.Drawing.Size(75, 23);
             this.buttonStudentSave.TabIndex = 19;
@@ -241,7 +222,7 @@
             // buttonStudentClear
             // 
             this.buttonStudentClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonStudentClear.Location = new System.Drawing.Point(459, 524);
+            this.buttonStudentClear.Location = new System.Drawing.Point(748, 524);
             this.buttonStudentClear.Name = "buttonStudentClear";
             this.buttonStudentClear.Size = new System.Drawing.Size(75, 23);
             this.buttonStudentClear.TabIndex = 20;
@@ -270,7 +251,7 @@
             // 
             this.labelErrorAddress.AutoSize = true;
             this.labelErrorAddress.ForeColor = System.Drawing.Color.Red;
-            this.labelErrorAddress.Location = new System.Drawing.Point(122, 128);
+            this.labelErrorAddress.Location = new System.Drawing.Point(122, 122);
             this.labelErrorAddress.Name = "labelErrorAddress";
             this.labelErrorAddress.Size = new System.Drawing.Size(0, 13);
             this.labelErrorAddress.TabIndex = 23;
@@ -279,7 +260,7 @@
             // 
             this.labelErrorGrade.AutoSize = true;
             this.labelErrorGrade.ForeColor = System.Drawing.Color.Red;
-            this.labelErrorGrade.Location = new System.Drawing.Point(122, 180);
+            this.labelErrorGrade.Location = new System.Drawing.Point(122, 168);
             this.labelErrorGrade.Name = "labelErrorGrade";
             this.labelErrorGrade.Size = new System.Drawing.Size(0, 13);
             this.labelErrorGrade.TabIndex = 24;
@@ -289,7 +270,7 @@
             // 
             this.labelErrorGuardianName.AutoSize = true;
             this.labelErrorGuardianName.ForeColor = System.Drawing.Color.Red;
-            this.labelErrorGuardianName.Location = new System.Drawing.Point(122, 231);
+            this.labelErrorGuardianName.Location = new System.Drawing.Point(122, 218);
             this.labelErrorGuardianName.Name = "labelErrorGuardianName";
             this.labelErrorGuardianName.Size = new System.Drawing.Size(0, 13);
             this.labelErrorGuardianName.TabIndex = 27;
@@ -299,7 +280,7 @@
             // 
             this.labelErrorRelationship.AutoSize = true;
             this.labelErrorRelationship.ForeColor = System.Drawing.Color.Red;
-            this.labelErrorRelationship.Location = new System.Drawing.Point(122, 288);
+            this.labelErrorRelationship.Location = new System.Drawing.Point(122, 266);
             this.labelErrorRelationship.Name = "labelErrorRelationship";
             this.labelErrorRelationship.Size = new System.Drawing.Size(0, 13);
             this.labelErrorRelationship.TabIndex = 26;
@@ -308,7 +289,7 @@
             // 
             this.labelErrorPhone.AutoSize = true;
             this.labelErrorPhone.ForeColor = System.Drawing.Color.Red;
-            this.labelErrorPhone.Location = new System.Drawing.Point(122, 335);
+            this.labelErrorPhone.Location = new System.Drawing.Point(302, 267);
             this.labelErrorPhone.Name = "labelErrorPhone";
             this.labelErrorPhone.Size = new System.Drawing.Size(0, 13);
             this.labelErrorPhone.TabIndex = 25;
@@ -317,7 +298,7 @@
             // 
             this.labelErrorSchoolID.AutoSize = true;
             this.labelErrorSchoolID.ForeColor = System.Drawing.Color.Red;
-            this.labelErrorSchoolID.Location = new System.Drawing.Point(122, 388);
+            this.labelErrorSchoolID.Location = new System.Drawing.Point(305, 168);
             this.labelErrorSchoolID.Name = "labelErrorSchoolID";
             this.labelErrorSchoolID.Size = new System.Drawing.Size(0, 13);
             this.labelErrorSchoolID.TabIndex = 30;
@@ -327,28 +308,56 @@
             // 
             this.labelErrorSpecialCare.AutoSize = true;
             this.labelErrorSpecialCare.ForeColor = System.Drawing.Color.Red;
-            this.labelErrorSpecialCare.Location = new System.Drawing.Point(122, 433);
+            this.labelErrorSpecialCare.Location = new System.Drawing.Point(122, 318);
             this.labelErrorSpecialCare.Name = "labelErrorSpecialCare";
             this.labelErrorSpecialCare.Size = new System.Drawing.Size(0, 13);
             this.labelErrorSpecialCare.TabIndex = 29;
             // 
-            // labelErrorStopID
+            // gMapControlStudent
             // 
-            this.labelErrorStopID.AutoSize = true;
-            this.labelErrorStopID.ForeColor = System.Drawing.Color.Red;
-            this.labelErrorStopID.Location = new System.Drawing.Point(122, 485);
-            this.labelErrorStopID.Name = "labelErrorStopID";
-            this.labelErrorStopID.Size = new System.Drawing.Size(0, 13);
-            this.labelErrorStopID.TabIndex = 28;
+            this.gMapControlStudent.Bearing = 0F;
+            this.gMapControlStudent.CanDragMap = true;
+            this.gMapControlStudent.EmptyTileColor = System.Drawing.Color.Navy;
+            this.gMapControlStudent.GrayScaleMode = false;
+            this.gMapControlStudent.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
+            this.gMapControlStudent.LevelsKeepInMemory = 5;
+            this.gMapControlStudent.Location = new System.Drawing.Point(123, 345);
+            this.gMapControlStudent.MarkersEnabled = true;
+            this.gMapControlStudent.MaxZoom = 2;
+            this.gMapControlStudent.MinZoom = 2;
+            this.gMapControlStudent.MouseWheelZoomEnabled = true;
+            this.gMapControlStudent.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.gMapControlStudent.Name = "gMapControlStudent";
+            this.gMapControlStudent.NegativeMode = false;
+            this.gMapControlStudent.PolygonsEnabled = true;
+            this.gMapControlStudent.RetryLoadTile = 0;
+            this.gMapControlStudent.RoutesEnabled = true;
+            this.gMapControlStudent.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+            this.gMapControlStudent.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+            this.gMapControlStudent.ShowTileGridLines = false;
+            this.gMapControlStudent.Size = new System.Drawing.Size(288, 202);
+            this.gMapControlStudent.TabIndex = 31;
+            this.gMapControlStudent.Zoom = 0D;
+            // 
+            // buttonSearchAddress
+            // 
+            this.buttonSearchAddress.Location = new System.Drawing.Point(426, 99);
+            this.buttonSearchAddress.Name = "buttonSearchAddress";
+            this.buttonSearchAddress.Size = new System.Drawing.Size(75, 20);
+            this.buttonSearchAddress.TabIndex = 32;
+            this.buttonSearchAddress.Text = "Search";
+            this.buttonSearchAddress.UseVisualStyleBackColor = true;
+            this.buttonSearchAddress.Click += new System.EventHandler(this.buttonSearchAddress_Click);
             // 
             // UserControlStudentRegister
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.Controls.Add(this.buttonSearchAddress);
+            this.Controls.Add(this.gMapControlStudent);
             this.Controls.Add(this.labelErrorSchoolID);
             this.Controls.Add(this.labelErrorSpecialCare);
-            this.Controls.Add(this.labelErrorStopID);
             this.Controls.Add(this.labelErrorGuardianName);
             this.Controls.Add(this.labelErrorRelationship);
             this.Controls.Add(this.labelErrorPhone);
@@ -359,8 +368,6 @@
             this.Controls.Add(this.buttonStudentClear);
             this.Controls.Add(this.buttonStudentSave);
             this.Controls.Add(this.labelPageTittle);
-            this.Controls.Add(this.textBoxStopID);
-            this.Controls.Add(this.labelStopID);
             this.Controls.Add(this.textBoxSpecialCare);
             this.Controls.Add(this.labelSpecialCare);
             this.Controls.Add(this.textBoxSchoolID);
@@ -381,6 +388,7 @@
             this.Name = "UserControlStudentRegister";
             this.Size = new System.Drawing.Size(873, 562);
             this.Load += new System.EventHandler(this.UserControlStudentRegister_Load);
+            this.Click += new System.EventHandler(this.HandleClickOutsideListBox);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -400,8 +408,6 @@
         private System.Windows.Forms.Label labelRelationship;
         private System.Windows.Forms.TextBox textBoxGuardianName;
         private System.Windows.Forms.Label labelGuardianName;
-        private System.Windows.Forms.TextBox textBoxStopID;
-        private System.Windows.Forms.Label labelStopID;
         private System.Windows.Forms.TextBox textBoxSpecialCare;
         private System.Windows.Forms.Label labelSpecialCare;
         private System.Windows.Forms.TextBox textBoxSchoolID;
@@ -418,6 +424,7 @@
         private System.Windows.Forms.Label labelErrorPhone;
         private System.Windows.Forms.Label labelErrorSchoolID;
         private System.Windows.Forms.Label labelErrorSpecialCare;
-        private System.Windows.Forms.Label labelErrorStopID;
+        private GMap.NET.WindowsForms.GMapControl gMapControlStudent;
+        private System.Windows.Forms.Button buttonSearchAddress;
     }
 }

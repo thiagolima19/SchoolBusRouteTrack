@@ -254,6 +254,11 @@ namespace SchoolBusRouteTrack.AdministratorSystem
                 }
             }
         }
+
+        private void UserControlDriverRegister_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }

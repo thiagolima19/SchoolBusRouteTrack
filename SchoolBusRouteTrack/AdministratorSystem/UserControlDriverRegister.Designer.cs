@@ -253,6 +253,7 @@
             this.Controls.Add(this.labelName);
             this.Name = "UserControlDriverRegister";
             this.Size = new System.Drawing.Size(883, 663);
+            this.Load += new System.EventHandler(this.UserControlDriverRegister_Load);
             this.Click += new System.EventHandler(this.HandleClickOutsideListBox);
             this.ResumeLayout(false);
             this.PerformLayout();
