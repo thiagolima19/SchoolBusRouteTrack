@@ -12,7 +12,7 @@ namespace SchoolBusRouteTrack
         public MainForm()
         {
             InitializeComponent();
-      
+
             this.buttonLogin.Click += new System.EventHandler(this.ButtonLogin_Click);
         }
 
@@ -67,16 +67,32 @@ namespace SchoolBusRouteTrack
         // Helper method to handle closing Login and opening the new Dashboard
         private void OpenDashboard(Form dashboardForm)
         {
-            // Hide the login form
             this.Hide();
 
-            dashboardForm.FormClosed += (s, args) => this.Close();
-            dashboardForm.Show();
+            DialogResult result = dashboardForm.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                this.Show();
+                ClearLoginFields();
+            }
+            else
+            {
+                Application.Exit();
+            }
         }
 
         private void ButtonExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void ClearLoginFields()
+        {
+            textBoxUsername.Clear();
+            textBoxPassword.Clear();
+
+            textBoxUsername.Focus();
         }
     }
 }

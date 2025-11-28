@@ -61,13 +61,9 @@ namespace SchoolBusRouteTrack.DriverSystem
 
         private void buttonLogout_Click(object sender, EventArgs e)
         {
-            // 1. Create a new instance of the Login Form (MainForm)
-            MainForm loginForm = new MainForm();
+            this.DialogResult = DialogResult.OK;
 
-            // 2. Show the Login Form
-            loginForm.Show();
-
-            this.Close(); // Close the current dashboard form
+            this.Close();
         }
     }
 }
