@@ -1,14 +1,9 @@
 ﻿using SchoolBusRouteTrack.AdministratorSystem;
+using SchoolBusRouteTrack.Data;
 using SchoolBusRouteTrack.DriverSystem;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Data.SqlClient;
 
 namespace SchoolBusRouteTrack
 {
@@ -33,15 +28,35 @@ namespace SchoolBusRouteTrack
                 return;
             }
 
-            // 2. Hardcoded Logic for Roles
-            // In the future, this part will be replaced by a Database Query
-            if (username == "admin" && password == "admin123")
+            // 2. Database Query Logic (REPLACES HARDCODED LOGIC)
+            string query = "SELECT Role FROM [User] WHERE Username = @Username AND Password = @Password";
+
+            SqlParameter[] parameters = new SqlParameter[]
             {
-                OpenDashboard(new FormAdminDashboard());
-            }
-            else if (username == "driver" && password == "driver123")
+                //prevent SQL Injection attacks!
+                new SqlParameter("@Username", username),
+                new SqlParameter("@Password", password)
+            };
+
+            DBHelper db = new DBHelper();
+            object roleResult = db.ExecuteScalar(query, parameters);
+
+            if (roleResult != null)
             {
-                OpenDashboard(new FormDriverDashboard());
+                string userRole = roleResult.ToString();
+
+                if (userRole == "Admin")
+                {
+                    OpenDashboard(new FormAdminDashboard());
+                }
+                else if (userRole == "Driver")
+                {
+                    OpenDashboard(new FormDriverDashboard());
+                }
+                else
+                {
+                    MessageBox.Show("User role is invalid.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
