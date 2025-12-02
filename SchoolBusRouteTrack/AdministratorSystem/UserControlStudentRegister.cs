@@ -2,6 +2,7 @@
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using Newtonsoft.Json.Linq;
+using SchoolBusRouteTrack.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -46,14 +47,22 @@ namespace SchoolBusRouteTrack.AdministratorSystem
 
         private void LoadStudentsList()
         {
-            listBoxStudents.DataSource = students;
+            //listBoxStudents.DataSource = students;
 
+            //listBoxStudents.DisplayMember = "_name";
+            //listBoxStudents.ValueMember = "_studentID";
+
+            //listBoxStudents.SelectedIndex = -1;
+
+            //listBoxStudents.SelectedIndexChanged += ListBoxStudents_SelectedIndexChanged;
+
+            StudentRepository repo = new StudentRepository();
+            students = new BindingList<Student>(repo.GetAllStudents());
+
+            listBoxStudents.DataSource = students;
             listBoxStudents.DisplayMember = "_name";
             listBoxStudents.ValueMember = "_studentID";
-
             listBoxStudents.SelectedIndex = -1;
-
-            listBoxStudents.SelectedIndexChanged += ListBoxStudents_SelectedIndexChanged;
         }
 
         private void ListBoxStudents_SelectedIndexChanged(object sender, EventArgs e)
@@ -206,9 +215,9 @@ namespace SchoolBusRouteTrack.AdministratorSystem
                     double latitude = request.Item1;
                     double longitude = request.Item2;
 
-                    int userID = students.Count + 1;
+                    //int userID = students.Count + 1;
                     string studentName = textBoxName.Text;
-                    MapLocation address = new MapLocation(latitude, longitude, textBoxAddress.Text, userID);
+                    MapLocation address = new MapLocation(latitude, longitude, textBoxAddress.Text, 0);
                     string grade = textBoxGrade.Text;
                     string guardianName = textBoxGuardianName.Text;
                     string phone = textBoxPhone.Text;
@@ -216,24 +225,33 @@ namespace SchoolBusRouteTrack.AdministratorSystem
                     int schoolID = int.Parse(textBoxSchoolID.Text);
                     string specialCare = textBoxSpecialCare.Text;
                     
-                    Student newStudent = new Student(userID, studentName, address, grade, guardianName, relationship, phone, schoolID, specialCare);
+                    Student newStudent = new Student(0, studentName, address, grade, guardianName, relationship, phone, schoolID, specialCare);
 
-                    students.Add(newStudent);
+                    //students.Add(newStudent);
+                    StudentRepository repo = new StudentRepository();
+
+                    if (repo.InsertStudent(newStudent))
+                    {
+                        MessageBox.Show("Student saved to database!");
+                        LoadStudentsList(); // Refresh UI from DB
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to save student.");
+                    }
+
                     listBoxStudents.SelectedIndex = -1;
-
                     clearForm();
                 }
                 else
-                {                     
+                {
                     MessageBox.Show("Invalid address.");
                 }
-
             }
             else
-            { 
+            {
                 MessageBox.Show("Please fill in all required fields!");
             }
-
         }
 
         private void clearForm()
@@ -249,7 +267,6 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             gMapControlStudent.Overlays.Clear();
             gMapControlStudent.Visible = false;
             listBoxStudents.ClearSelected();
-
         }
 
         private void buttonStudentClear_Click(object sender, EventArgs e)
