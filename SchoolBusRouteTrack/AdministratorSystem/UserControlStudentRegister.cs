@@ -2,18 +2,15 @@
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using Newtonsoft.Json.Linq;
+using SchoolBusRouteTrack.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace SchoolBusRouteTrack.AdministratorSystem
 {
@@ -21,64 +18,64 @@ namespace SchoolBusRouteTrack.AdministratorSystem
     {
         private const string googleApiKey = "AIzaSyCArvLZgooiF9BKD-2WlIZPdtHhbnYcDno"; // Replace with your actual Google Maps API key
         private List<Control> formFields;
-        private BindingList<Student> students = new BindingList<Student>()
-        {
-            new Student(1, "Alice Brown", new MapLocation(53.4806233,-113.349991, "123 Maple Way NW, Calgary",1), "5", "Mary Brown", "Mother", "555-1111", 101, "None"),
-            new Student(2, "Bob Smith", new MapLocation(51.05011,-114.08529, "456 Oak St, Calgary, AB",2), "6", "John Smith", "Father", "555-2222", 102, "Allergy to peanuts"),
-            new Student(3, "Charlie Johnson", new MapLocation (51.0912546,-114.2239332, "789 Pine St, Calgary, AB",3), "4", "Linda Johnson", "Guardian", "555-3333", 103, "Asthma")
-
-        };
-
+        private BindingList<Student> students = new BindingList<Student>();
 
         public UserControlStudentRegister()
         {
-
             InitializeComponent();
-
             GetFormFields();
-
             InitializeGMap();
-
             LoadStudentsList();
-
-
         }
 
         private void LoadStudentsList()
         {
-            listBoxStudents.DataSource = students;
+            StudentRepository repo = new StudentRepository();
+            students = new BindingList<Student>(repo.GetAllStudents());
 
+            UpdateUIState(false);
+            listBoxStudents.DataSource = students;
             listBoxStudents.DisplayMember = "_name";
             listBoxStudents.ValueMember = "_studentID";
-
             listBoxStudents.SelectedIndex = -1;
-
             listBoxStudents.SelectedIndexChanged += ListBoxStudents_SelectedIndexChanged;
         }
+
 
         private void ListBoxStudents_SelectedIndexChanged(object sender, EventArgs e)
         {
             Student selectedStudent = (Student)listBoxStudents.SelectedItem;
 
-            if (selectedStudent!=null)
-            {
-                textBoxName.Text = selectedStudent._name;
-                textBoxAddress.Text = selectedStudent._address.FullAddress;
-                textBoxGrade.Text = selectedStudent._grade;
-                textBoxGuardianName.Text = selectedStudent._guardianName;
-                textBoxPhone.Text = selectedStudent._guardianPhone;
-                textBoxRelationship.Text = selectedStudent._guardianRelationship;
-                textBoxSchoolID.Text = selectedStudent._schoolID.ToString();
-                textBoxSpecialCare.Text = selectedStudent._specialCare;
+            UpdateUIState(selectedStudent != null);
 
-                DrawMarker(selectedStudent._address.Latitude, selectedStudent._address.Longitude);
-                gMapControlStudent.Position = new PointLatLng(selectedStudent._address.Latitude, selectedStudent._address.Longitude);
-                gMapControlStudent.Visible = true;
+            if (selectedStudent == null)
+            {
+                clearForm();
+                return;
             }
+
+            textBoxName.Text = selectedStudent._name;
+            textBoxAddress.Text = selectedStudent._address.FullAddress;
+            textBoxGrade.Text = selectedStudent._grade;
+            textBoxGuardianName.Text = selectedStudent._guardianName;
+            textBoxPhone.Text = selectedStudent._guardianPhone;
+            textBoxRelationship.Text = selectedStudent._guardianRelationship;
+            textBoxSchoolID.Text = selectedStudent._schoolID.ToString();
+            textBoxSpecialCare.Text = selectedStudent._specialCare;
+            buttonDelete.Enabled = true;
+
+            // Draw the location only when a valid student is selected
+            DrawMarker(selectedStudent._address.Latitude, selectedStudent._address.Longitude);
+            gMapControlStudent.Position = new PointLatLng(
+                selectedStudent._address.Latitude,
+                selectedStudent._address.Longitude
+            );
+            gMapControlStudent.Visible = true;
         }
-        private void GetFormFields ()
+
+        private void GetFormFields()
         {
-            formFields = new List<Control> ();
+            formFields = new List<Control>();
             formFields.Add(textBoxName);
             formFields.Add(textBoxAddress);
             formFields.Add(textBoxGrade);
@@ -87,8 +84,6 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             formFields.Add(textBoxRelationship);
             formFields.Add(textBoxSchoolID);
             formFields.Add(textBoxSpecialCare);
- 
-
         }
 
         private void InitializeGMap()
@@ -161,7 +156,6 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             gMapControlStudent.Overlays.Add(driverOverlay);
         }
 
-
         private void UserControlStudentRegister_Load(object sender, EventArgs e)
         {
 
@@ -169,9 +163,9 @@ namespace SchoolBusRouteTrack.AdministratorSystem
 
         private bool isFormValid()
         {
-            bool isValid = true;          
+            bool isValid = true;
 
-            foreach (Control control in formFields) 
+            foreach (Control control in formFields)
             {
                 Control errorLabel = this.Controls.Find($"labelError{control.Tag}", true).FirstOrDefault();
 
@@ -179,20 +173,16 @@ namespace SchoolBusRouteTrack.AdministratorSystem
                 {
                     isValid = false;
 
-                    
-                    if (errorLabel != null) 
-                    { 
+                    if (errorLabel != null)
+                    {
                         errorLabel.Text = $"{control.Tag} is required.";
                     }
-                                      
                 }
                 else if (errorLabel != null)
                 {
                     errorLabel.Text = "";
                 }
-                
             }
-
             return isValid;
         }
 
@@ -202,38 +192,48 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             {
                 var request = await GetCoordinatesFromAddress(textBoxAddress.Text);
                 if (request != null)
-                { 
+                {
                     double latitude = request.Item1;
                     double longitude = request.Item2;
 
-                    int userID = students.Count + 1;
+                    //int userID = students.Count + 1;
                     string studentName = textBoxName.Text;
-                    MapLocation address = new MapLocation(latitude, longitude, textBoxAddress.Text, userID);
+                    MapLocation address = new MapLocation(latitude, longitude, textBoxAddress.Text, 0);
                     string grade = textBoxGrade.Text;
                     string guardianName = textBoxGuardianName.Text;
                     string phone = textBoxPhone.Text;
                     string relationship = textBoxRelationship.Text;
                     int schoolID = int.Parse(textBoxSchoolID.Text);
                     string specialCare = textBoxSpecialCare.Text;
-                    
-                    Student newStudent = new Student(userID, studentName, address, grade, guardianName, relationship, phone, schoolID, specialCare);
 
-                    students.Add(newStudent);
+                    Student newStudent = new Student(0, studentName, address, grade, guardianName, relationship, phone, schoolID, specialCare);
+
+                    //students.Add(newStudent);
+                    StudentRepository repo = new StudentRepository();
+
+                    if (repo.InsertStudent(newStudent))
+                    {
+                        MessageBox.Show("Student saved to database!");
+                        LoadStudentsList(); // Refresh UI from DB
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to save student.");
+                    }
+
                     listBoxStudents.SelectedIndex = -1;
-
                     clearForm();
                 }
                 else
-                {                     
+                {
                     MessageBox.Show("Invalid address.");
                 }
-
             }
             else
-            { 
+            {
                 MessageBox.Show("Please fill in all required fields!");
             }
-
+            UpdateUIState(false);
         }
 
         private void clearForm()
@@ -249,12 +249,12 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             gMapControlStudent.Overlays.Clear();
             gMapControlStudent.Visible = false;
             listBoxStudents.ClearSelected();
-
         }
 
         private void buttonStudentClear_Click(object sender, EventArgs e)
         {
             clearForm();
+            UpdateUIState(false);
         }
 
         private void textBoxSchoolID_TextChanged(object sender, EventArgs e)
@@ -276,7 +276,7 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             isNumericValue(e);
         }
 
-        private async void  buttonSearchAddress_Click(object sender, EventArgs e)
+        private async void buttonSearchAddress_Click(object sender, EventArgs e)
         {
             var request = await GetCoordinatesFromAddress(textBoxAddress.Text);
 
@@ -306,6 +306,105 @@ namespace SchoolBusRouteTrack.AdministratorSystem
                     clearForm();
                 }
             }
+        }
+
+
+
+        private void buttonDelete_Click(object sender, EventArgs e)
+        {
+            Student selected = (Student)listBoxStudents.SelectedItem;
+
+            if (selected == null)
+            {
+                MessageBox.Show("No student selected.");
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                $"Delete {selected._name}?",
+                "Confirm Delete",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (confirm == DialogResult.Yes)
+            {
+                StudentRepository repo = new StudentRepository();
+
+                if (repo.DeleteStudent(selected._studentID))
+                {
+                    MessageBox.Show("Student deleted successfully!");
+                    LoadStudentsList();        // Refresh list
+                    gMapControlStudent.Overlays.Clear(); // Remove marker
+                    gMapControlStudent.Visible = false; // Hide map
+                    clearForm();               // Clear form inputs
+                }
+                else
+                {
+                    MessageBox.Show("Delete failed!");
+                }
+            }
+        }
+
+        private async void buttonEdit_Click(object sender, EventArgs e)
+        {
+            Student selectedStudent = (Student)listBoxStudents.SelectedItem;
+
+            if (selectedStudent == null)
+            {
+                MessageBox.Show("Please select a student to edit!", "No Selection",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!isFormValid())
+            {
+                MessageBox.Show("Please fill in all required fields!");
+                return;
+            }
+
+            // Get updated coordinates from Google API
+            var request = await GetCoordinatesFromAddress(textBoxAddress.Text);
+            if (request == null)
+            {
+                MessageBox.Show("Invalid address. Unable to update coordinates.");
+                return;
+            }
+
+            double latitude = request.Item1;
+            double longitude = request.Item2;
+
+            // Apply changes to the selected student object
+            selectedStudent._name = textBoxName.Text;
+            selectedStudent._address = new MapLocation(latitude, longitude, textBoxAddress.Text, selectedStudent._studentID);
+            selectedStudent._grade = textBoxGrade.Text;
+            selectedStudent._guardianName = textBoxGuardianName.Text;
+            selectedStudent._guardianRelationship = textBoxRelationship.Text;
+            selectedStudent._guardianPhone = textBoxPhone.Text;
+            selectedStudent._schoolID = int.Parse(textBoxSchoolID.Text);
+            selectedStudent._specialCare = textBoxSpecialCare.Text;
+
+            // Update DB
+            StudentRepository repo = new StudentRepository();
+            if (repo.UpdateStudent(selectedStudent))
+            {
+                MessageBox.Show("Student updated successfully!");
+
+                LoadStudentsList(); // refresh from DB
+                listBoxStudents.ClearSelected();
+                clearForm();
+            }
+            else
+            {
+                MessageBox.Show("Failed to update student.");
+            }
+            UpdateUIState(false);
+        }
+
+        private void UpdateUIState(bool studentSelected)
+        {
+            buttonStudentSave.Enabled = !studentSelected; // only when adding new
+            buttonEdit.Enabled = studentSelected;        // only when editing
+            buttonDelete.Enabled = studentSelected;      // only when deleting
         }
     }
 

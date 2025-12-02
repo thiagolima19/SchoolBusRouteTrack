@@ -32,5 +32,40 @@ namespace SchoolBusRouteTrack.Data
                 }
             }
         }
+        public DataTable ExecuteDataTable(string procName, SqlParameter[] parameters = null)
+        {
+            using (SqlConnection conn = GetConnection())
+            {
+                using (SqlCommand cmd = new SqlCommand(procName, conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    if (parameters != null)
+                        cmd.Parameters.AddRange(parameters);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
+                }
+            }
+        }
+
+        public int ExecuteNonQuerySP(string procName, SqlParameter[] parameters = null)
+        {
+            using (SqlConnection conn = GetConnection())
+            {
+                using (SqlCommand cmd = new SqlCommand(procName, conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    if (parameters != null)
+                        cmd.Parameters.AddRange(parameters);
+
+                    conn.Open();
+                    return cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
