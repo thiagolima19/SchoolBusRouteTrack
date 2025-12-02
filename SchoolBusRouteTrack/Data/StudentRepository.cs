@@ -62,6 +62,26 @@ namespace SchoolBusRouteTrack.Data
             return students;
         }
 
+        public bool UpdateStudent(Student student)
+        {
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+        new SqlParameter("@StudentID", student._studentID),
+        new SqlParameter("@FullName", student._name),
+        new SqlParameter("@Latitude", student._address.Latitude),
+        new SqlParameter("@Longitude", student._address.Longitude),
+        new SqlParameter("@Address", student._address.FullAddress),
+        new SqlParameter("@Grade", student._grade),
+        new SqlParameter("@GuardianName", student._guardianName),
+        new SqlParameter("@GuardianRelationship", student._guardianRelationship),
+        new SqlParameter("@GuardianPhone", student._guardianPhone),
+        new SqlParameter("@SchoolID", student._schoolID),
+        new SqlParameter("@SpecialCare", student._specialCare ?? (object)DBNull.Value)
+            };
+
+            return _db.ExecuteNonQuerySP("sp_UpdateStudent", parameters) > 0;
+        }
+
         public bool DeleteStudent(int studentID)
         {
             SqlParameter[] prm = { new SqlParameter("@StudentID", studentID) };
