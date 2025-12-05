@@ -1,6 +1,11 @@
 ﻿using Microsoft.Data.SqlClient;
+using SchoolBusRouteTrack.TripModels;
+using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Windows.Forms;
+using SchoolBusRouteTrack.UserModel;
 
 namespace SchoolBusRouteTrack.Data
 {
@@ -15,23 +20,35 @@ namespace SchoolBusRouteTrack.Data
             return new SqlConnection(ConnectionString);
         }
 
-        // Generic method to execute a query that returns a single object (like a count or a login check)
-        public object ExecuteScalar(string query, SqlParameter[] parameters = null)
+        //checks and validates the login for a given user id
+        public LoginUser ValidateLoginSP(string username, string password)
         {
-            using (SqlConnection conn = GetConnection())
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    if (parameters != null)
-                    {
-                        cmd.Parameters.AddRange(parameters);
-                    }
+                SqlCommand cmd = new SqlCommand("sp_ValidateLogin", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Username", username);
+                cmd.Parameters.AddWithValue("@Password", password);
 
-                    conn.Open();
-                    return cmd.ExecuteScalar();
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    return new LoginUser
+                    {
+                        UserID = Convert.ToInt32(reader["UserID"]),
+                        Username = reader["Username"].ToString(),
+                        Password = reader["Password"].ToString(),
+                        Role = reader["Role"].ToString(),
+                        DriverID = reader["DriverID"] != DBNull.Value ? (int?)Convert.ToInt32(reader["DriverID"]) : null
+                    };
                 }
             }
+            return null;
         }
+
+        //get all students from studentRepository.cs
         public DataTable ExecuteDataTable(string procName, SqlParameter[] parameters = null)
         {
             using (SqlConnection conn = GetConnection())
@@ -52,6 +69,7 @@ namespace SchoolBusRouteTrack.Data
             }
         }
 
+        //insert/update/delete student
         public int ExecuteNonQuerySP(string procName, SqlParameter[] parameters = null)
         {
             using (SqlConnection conn = GetConnection())
@@ -65,6 +83,81 @@ namespace SchoolBusRouteTrack.Data
                     conn.Open();
                     return cmd.ExecuteNonQuery();
                 }
+            }
+        }
+
+        //gets all the trips on DB for a driver ID
+        public List<Trip> GetTrips(int driverId)
+        {
+            List<Trip> trips = new List<Trip>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("GetTripsByDriver", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@DriverID", driverId);
+
+                    conn.Open();
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        trips.Add(new Trip
+                        {
+                            TripID = (int)reader["TripID"],
+                            RouteID = (int)reader["RouteID"],
+                            DriverID = (int)reader["DriverID"],
+                            StartTime = reader["StartTime"] as DateTime?,
+                            EndTime = reader["EndTime"] as DateTime?,
+                            Status = reader["Status"].ToString(),
+                            RouteNumber = reader["RouteNumber"].ToString(),        
+                            RouteDescription = reader["RouteDescription"].ToString(), 
+                            SchoolName = reader["SchoolName"].ToString()           
+                        });
+                    }
+                    reader.Close();
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                MessageBox.Show($"SQL Error: {sqlEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+
+            return trips;
+        }
+
+        //add the time and date when the trip is started
+        public bool StartTrip(int tripId)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
+            using (SqlCommand cmd = new SqlCommand("sp_StartTrip", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@TripID", tripId);
+
+                conn.Open();
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+
+        //add the time and date when the trip is ended
+        public bool EndTrip(int tripId)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
+            using (SqlCommand cmd = new SqlCommand("sp_EndTrip", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@TripID", tripId);
+
+                conn.Open();
+                return cmd.ExecuteNonQuery() > 0;
             }
         }
     }
