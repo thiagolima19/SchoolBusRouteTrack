@@ -28,18 +28,107 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.comboBoxRoutes = new System.Windows.Forms.ComboBox();
+            this.labelRouteName = new System.Windows.Forms.Label();
+            this.checkedListBoxBusStop = new System.Windows.Forms.CheckedListBox();
+            this.gMapControlRoute = new GMap.NET.WindowsForms.GMapControl();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // comboBoxRoutes
+            // 
+            this.comboBoxRoutes.FormattingEnabled = true;
+            this.comboBoxRoutes.Items.AddRange(new object[] {
+            "Route School 1",
+            "Route School 2"});
+            this.comboBoxRoutes.Location = new System.Drawing.Point(89, 49);
+            this.comboBoxRoutes.Name = "comboBoxRoutes";
+            this.comboBoxRoutes.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxRoutes.TabIndex = 0;
+            this.comboBoxRoutes.Text = "Route School 1";
+            // 
+            // labelRouteName
+            // 
+            this.labelRouteName.AutoSize = true;
+            this.labelRouteName.Location = new System.Drawing.Point(41, 52);
+            this.labelRouteName.Name = "labelRouteName";
+            this.labelRouteName.Size = new System.Drawing.Size(42, 13);
+            this.labelRouteName.TabIndex = 1;
+            this.labelRouteName.Text = "Route: ";
+            // 
+            // checkedListBoxBusStop
+            // 
+            this.checkedListBoxBusStop.FormattingEnabled = true;
+            this.checkedListBoxBusStop.Items.AddRange(new object[] {
+            "Bus Stop 1",
+            "Bus Stop 2",
+            "Bus Stop 3"});
+            this.checkedListBoxBusStop.Location = new System.Drawing.Point(44, 106);
+            this.checkedListBoxBusStop.Name = "checkedListBoxBusStop";
+            this.checkedListBoxBusStop.Size = new System.Drawing.Size(245, 334);
+            this.checkedListBoxBusStop.TabIndex = 2;
+            // 
+            // gMapControlRoute
+            // 
+            this.gMapControlRoute.Bearing = 0F;
+            this.gMapControlRoute.CanDragMap = true;
+            this.gMapControlRoute.EmptyTileColor = System.Drawing.Color.Navy;
+            this.gMapControlRoute.GrayScaleMode = false;
+            this.gMapControlRoute.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
+            this.gMapControlRoute.LevelsKeepInMemory = 5;
+            this.gMapControlRoute.Location = new System.Drawing.Point(307, 52);
+            this.gMapControlRoute.MarkersEnabled = true;
+            this.gMapControlRoute.MaxZoom = 2;
+            this.gMapControlRoute.MinZoom = 2;
+            this.gMapControlRoute.MouseWheelZoomEnabled = true;
+            this.gMapControlRoute.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.gMapControlRoute.Name = "gMapControlRoute";
+            this.gMapControlRoute.NegativeMode = false;
+            this.gMapControlRoute.PolygonsEnabled = true;
+            this.gMapControlRoute.RetryLoadTile = 0;
+            this.gMapControlRoute.RoutesEnabled = true;
+            this.gMapControlRoute.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+            this.gMapControlRoute.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+            this.gMapControlRoute.ShowTileGridLines = false;
+            this.gMapControlRoute.Size = new System.Drawing.Size(303, 388);
+            this.gMapControlRoute.TabIndex = 3;
+            this.gMapControlRoute.Zoom = 0D;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(267, 14);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(123, 20);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Current Route";
             // 
             // UserControlRoute
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(945, 660);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.gMapControlRoute);
+            this.Controls.Add(this.checkedListBoxBusStop);
+            this.Controls.Add(this.labelRouteName);
+            this.Controls.Add(this.comboBoxRoutes);
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "UserControlRoute";
+            this.Size = new System.Drawing.Size(653, 468);
+            this.Load += new System.EventHandler(this.UserControlRoute_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private System.Windows.Forms.ComboBox comboBoxRoutes;
+        private System.Windows.Forms.Label labelRouteName;
+        private System.Windows.Forms.CheckedListBox checkedListBoxBusStop;
+        private GMap.NET.WindowsForms.GMapControl gMapControlRoute;
+        private System.Windows.Forms.Label label1;
     }
 }

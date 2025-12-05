@@ -16,5 +16,10 @@ namespace SchoolBusRouteTrack.DriverSystem
         {
             InitializeComponent();
         }
+
+        private void UserControlRoute_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
