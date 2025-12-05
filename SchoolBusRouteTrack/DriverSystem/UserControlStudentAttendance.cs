@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace SchoolBusRouteTrack.DriverSystem
 {
-    public partial class UserControlAttendence : UserControl
+    public partial class UserControlStudentAttendance : UserControl
     {
-        public UserControlAttendence()
+        public UserControlStudentAttendance()
         {
             InitializeComponent();
-        }
-
-        private void buttonSaveAttendance_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

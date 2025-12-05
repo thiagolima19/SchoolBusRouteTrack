@@ -32,7 +32,7 @@
             this.labelRouteName = new System.Windows.Forms.Label();
             this.checkedListBoxBusStop = new System.Windows.Forms.CheckedListBox();
             this.gMapControlRoute = new GMap.NET.WindowsForms.GMapControl();
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelRoutePage = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // comboBoxRoutes
@@ -94,22 +94,22 @@
             this.gMapControlRoute.TabIndex = 3;
             this.gMapControlRoute.Zoom = 0D;
             // 
-            // label1
+            // labelRoutePage
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(267, 14);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(123, 20);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Current Route";
+            this.labelRoutePage.AutoSize = true;
+            this.labelRoutePage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelRoutePage.Location = new System.Drawing.Point(267, 14);
+            this.labelRoutePage.Name = "labelRoutePage";
+            this.labelRoutePage.Size = new System.Drawing.Size(123, 20);
+            this.labelRoutePage.TabIndex = 4;
+            this.labelRoutePage.Text = "Current Route";
             // 
             // UserControlRoute
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelRoutePage);
             this.Controls.Add(this.gMapControlRoute);
             this.Controls.Add(this.checkedListBoxBusStop);
             this.Controls.Add(this.labelRouteName);
@@ -129,6 +129,6 @@
         private System.Windows.Forms.Label labelRouteName;
         private System.Windows.Forms.CheckedListBox checkedListBoxBusStop;
         private GMap.NET.WindowsForms.GMapControl gMapControlRoute;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelRoutePage;
     }
 }
