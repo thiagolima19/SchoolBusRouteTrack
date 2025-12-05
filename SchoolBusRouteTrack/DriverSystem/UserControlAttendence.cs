@@ -12,9 +12,18 @@ namespace SchoolBusRouteTrack.DriverSystem
 {
     public partial class UserControlAttendence : UserControl
     {
-        public UserControlAttendence()
+        private int _driverId;
+
+        public UserControlAttendence(int driverId)
         {
             InitializeComponent();
+            _driverId = driverId;
+            LoadAttendanceData();
+        }
+
+        private void LoadAttendanceData()
+        {
+            throw new NotImplementedException();
         }
     }
 }

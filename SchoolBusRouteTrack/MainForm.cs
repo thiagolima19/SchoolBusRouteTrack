@@ -1,9 +1,9 @@
 ﻿using SchoolBusRouteTrack.AdministratorSystem;
 using SchoolBusRouteTrack.Data;
 using SchoolBusRouteTrack.DriverSystem;
+using SchoolBusRouteTrack.UserModel;
 using System;
 using System.Windows.Forms;
-using Microsoft.Data.SqlClient;
 
 namespace SchoolBusRouteTrack
 {
@@ -28,34 +28,35 @@ namespace SchoolBusRouteTrack
                 return;
             }
 
-            // 2. Database Query Logic (REPLACES HARDCODED LOGIC)
-            string query = "SELECT Role FROM [User] WHERE Username = @Username AND Password = @Password";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-                //prevent SQL Injection attacks!
-                new SqlParameter("@Username", username),
-                new SqlParameter("@Password", password)
-            };
-
+            // 2. Validate login using the stored Procedure ValidateLoginSP
             DBHelper db = new DBHelper();
-            object roleResult = db.ExecuteScalar(query, parameters);
+            LoginUser loggedInUser = db.ValidateLoginSP(username, password);
+            // OR use the stored procedure version:
+            // UserModel loggedInUser = db.ValidateLoginSP(username, password);
 
-            if (roleResult != null)
+            if (loggedInUser != null)
             {
-                string userRole = roleResult.ToString();
+                // 3. Set the current user session
+                CurrentUser.SetUser(
+                    loggedInUser.UserID,
+                    loggedInUser.Username,
+                    loggedInUser.Role,
+                    loggedInUser.DriverID
+                );
 
-                if (userRole == "Admin")
+                // 4. Open appropriate dashboard
+                if (loggedInUser.Role == "Admin")
                 {
                     OpenDashboard(new FormAdminDashboard());
                 }
-                else if (userRole == "Driver")
+                else if (loggedInUser.Role == "Driver")
                 {
                     OpenDashboard(new FormDriverDashboard());
                 }
                 else
                 {
                     MessageBox.Show("User role is invalid.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    CurrentUser.Clear();
                 }
             }
             else
@@ -63,8 +64,6 @@ namespace SchoolBusRouteTrack
                 MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        // Helper method to handle closing Login and opening the new Dashboard
         private void OpenDashboard(Form dashboardForm)
         {
             this.Hide();
@@ -73,11 +72,15 @@ namespace SchoolBusRouteTrack
 
             if (result == DialogResult.OK)
             {
+                // User logged out from dashboard
+                CurrentUser.Clear(); // Clear the session
                 this.Show();
                 ClearLoginFields();
             }
             else
             {
+                // User closed the application
+                CurrentUser.Clear(); // Clear the session
                 Application.Exit();
             }
         }

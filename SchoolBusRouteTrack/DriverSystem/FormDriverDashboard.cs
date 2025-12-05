@@ -1,4 +1,5 @@
 ﻿using SchoolBusRouteTrack.AdministratorSystem;
+using SchoolBusRouteTrack.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -43,19 +44,30 @@ namespace SchoolBusRouteTrack.DriverSystem
 
         private void buttonTrip_Click(object sender, EventArgs e)
         {
-            UserControlTrip UCTrip = new UserControlTrip();
-            LoadContent(UCTrip);
+            // Pass the driver ID from CurrentUser
+            int driverId = CurrentUser.DriverID ?? 0;
+            if (driverId > 0)
+            {
+                UserControlTrip UCTrip = new UserControlTrip(driverId);
+                LoadContent(UCTrip);
+            }
+            else
+            {
+                MessageBox.Show("Driver ID not found. Please contact administrator.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void buttonRoute_Click(object sender, EventArgs e)
         {
-            UserControlRoute UCRoute = new UserControlRoute();
+            int driverId = CurrentUser.DriverID ?? 0;
+            UserControlRoute UCRoute = new UserControlRoute(driverId);
             LoadContent(UCRoute);
         }
 
         private void buttonAttendence_Click(object sender, EventArgs e)
         {
-            UserControlAttendence UCAttendence = new UserControlAttendence();
+            int driverId = CurrentUser.DriverID ?? 0;
+            UserControlAttendence UCAttendence = new UserControlAttendence(driverId);
             LoadContent(UCAttendence);
         }
 
