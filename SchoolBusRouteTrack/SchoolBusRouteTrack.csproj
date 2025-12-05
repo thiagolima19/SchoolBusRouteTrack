@@ -194,6 +194,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UserModel\CurrentUser.cs" />
     <Compile Include="Data\DBHelper.cs" />
     <Compile Include="Data\StudentRepository.cs" />
     <Compile Include="DriverSystem\UserControlStudentAttendance.cs">
@@ -205,6 +206,8 @@
     <Compile Include="RouteModels\Bus.cs" />
     <Compile Include="RouteModels\BusRoute.cs" />
     <Compile Include="RouteModels\BusStop.cs" />
+    <Compile Include="TripModels\Trip.cs" />
+    <Compile Include="UserModel\LoginUser.cs" />
     <Compile Include="_DriverModels\Driver.cs" />
     <Compile Include="AdministratorSystem\FormAdminDashboard.cs">
       <SubType>Form</SubType>

@@ -12,9 +12,18 @@ namespace SchoolBusRouteTrack.DriverSystem
 {
     public partial class UserControlRoute : UserControl
     {
-        public UserControlRoute()
+        private int _driverId;
+
+        public UserControlRoute(int driverId)
         {
             InitializeComponent();
+            _driverId = driverId;
+            LoadRouteData();
+        }
+
+        private void LoadRouteData()
+        {
+            throw new NotImplementedException();
         }
 
         private void UserControlRoute_Load(object sender, EventArgs e)
