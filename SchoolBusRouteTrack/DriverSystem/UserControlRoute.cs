@@ -25,5 +25,10 @@ namespace SchoolBusRouteTrack.DriverSystem
         {
             throw new NotImplementedException();
         }
+
+        private void UserControlRoute_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

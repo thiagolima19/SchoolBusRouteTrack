@@ -197,6 +197,12 @@
     <Compile Include="UserModel\CurrentUser.cs" />
     <Compile Include="Data\DBHelper.cs" />
     <Compile Include="Data\StudentRepository.cs" />
+    <Compile Include="DriverSystem\UserControlStudentAttendance.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DriverSystem\UserControlStudentAttendance.Designer.cs">
+      <DependentUpon>UserControlStudentAttendance.cs</DependentUpon>
+    </Compile>
     <Compile Include="RouteModels\Bus.cs" />
     <Compile Include="RouteModels\BusRoute.cs" />
     <Compile Include="RouteModels\BusStop.cs" />
@@ -290,6 +296,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DriverSystem\UserControlRoute.resx">
       <DependentUpon>UserControlRoute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DriverSystem\UserControlStudentAttendance.resx">
+      <DependentUpon>UserControlStudentAttendance.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DriverSystem\UserControlTrip.resx">
       <DependentUpon>UserControlTrip.cs</DependentUpon>
