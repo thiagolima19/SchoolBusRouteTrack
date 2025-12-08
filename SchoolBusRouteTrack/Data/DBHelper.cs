@@ -86,6 +86,34 @@ namespace SchoolBusRouteTrack.Data
             }
         }
 
+        //Execute without using Store Procedures - Patricia
+        public DataTable ExecuteSelect(string sql, SqlParameter[] parameters = null)
+        {
+            using (SqlConnection conn = GetConnection())
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            {
+                cmd.CommandType = CommandType.Text;   // it's not Stored Procedure
+
+                if (parameters != null)
+                    cmd.Parameters.AddRange(parameters);
+
+                using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                {
+                    DataTable dt = new DataTable();
+                    try
+                    {
+                        
+                        adapter.Fill(dt);
+                    }
+                    catch (Exception ex) {
+                        Console.WriteLine(ex.ToString());
+                        throw ex;
+                    } // fulfill Data table with SELECT result
+                    return dt;
+                }
+            }
+        }
+
         //gets all the trips on DB for a driver ID
         public List<Trip> GetTrips(int driverId)
         {
