@@ -8,7 +8,7 @@
     <ProjectGuid>{D21119B4-72DD-4CAF-A004-2256E179D78C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>SchoolBusRouteTrack</RootNamespace>
-    <AssemblyName>SchoolBusRouteTrack</AssemblyName>
+    <AssemblyName>RROU</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -194,6 +194,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddRouteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddRouteForm.Designer.cs">
+      <DependentUpon>AddRouteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\DriversRepository.cs" />
+    <Compile Include="Models\Route.cs" />
+    <Compile Include="Data\RouteRepository.cs" />
+    <Compile Include="Data\SchoolRepository.cs" />
+    <Compile Include="Data\VehicleRepository.cs" />
+    <Compile Include="Models\Driver.cs" />
+    <Compile Include="Models\School.cs" />
+    <Compile Include="Models\Stop.cs" />
+    <Compile Include="Models\Vehicle.cs" />
+    <Compile Include="Service\GeoCodeResult.cs" />
+    <Compile Include="Service\MapsService.cs" />
     <Compile Include="UserModel\CurrentUser.cs" />
     <Compile Include="Data\DBHelper.cs" />
     <Compile Include="Data\StudentRepository.cs" />
@@ -273,6 +290,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_DriverModels\MapLocation.cs" />
+    <EmbeddedResource Include="AddRouteForm.resx">
+      <DependentUpon>AddRouteForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AdministratorSystem\FormAdminDashboard.resx">
       <DependentUpon>FormAdminDashboard.cs</DependentUpon>
     </EmbeddedResource>

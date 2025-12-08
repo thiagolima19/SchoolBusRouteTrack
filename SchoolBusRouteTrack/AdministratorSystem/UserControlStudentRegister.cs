@@ -406,6 +406,26 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             buttonEdit.Enabled = studentSelected;        // only when editing
             buttonDelete.Enabled = studentSelected;      // only when deleting
         }
+
+        private void labelErrorAddress_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void labelErrorName_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxAddress_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void labelAddress_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }

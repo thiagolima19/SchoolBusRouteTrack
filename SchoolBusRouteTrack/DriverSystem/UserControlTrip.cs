@@ -18,7 +18,7 @@ namespace SchoolBusRouteTrack.DriverSystem
             LoadTrips();
         }
        
-        //this method creates a card dinamicly on the usercontroltrip
+        //this method creates a card dinamically on the usercontroltrip
         private Panel CreateTripCard(Trip trip, string direction)
         {
             Panel card = new Panel();
