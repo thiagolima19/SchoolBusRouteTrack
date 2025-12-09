@@ -10,5 +10,14 @@ namespace SchoolBusRouteTrack.Data
         public int SchoolID { get; set; }
         public int? DriverID { get; set; }
         public int? VehicleID { get; set; }
+        public string SchoolName { get; set; }
+        public string AssignedDriver { get; set; }
+        public string AssignedVehicle { get; set; }
+        public string AssignedRoute { get; set; }
+
+        public override string ToString()
+        {
+            return $"{RouteNumber}: {Description} ({SchoolName})";
+        }
     }
 }
