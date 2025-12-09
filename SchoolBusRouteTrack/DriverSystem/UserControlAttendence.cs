@@ -23,7 +23,7 @@ namespace SchoolBusRouteTrack.DriverSystem
 
         private void LoadAttendanceData()
         {
-            throw new NotImplementedException();
+            
         }
 
         private void buttonSaveAttendance_Click(object sender, EventArgs e)
