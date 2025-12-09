@@ -16,7 +16,7 @@ namespace SchoolBusRouteTrack
     {
 
         SchoolRepository schoolRepository;
-        DriversRepository driversRepository;
+        DriverRepository driverRepository;
         VehicleRepository vehicleRepository;
         RouteRepository routeRepository;
         MapsService service;
@@ -26,7 +26,7 @@ namespace SchoolBusRouteTrack
             InitializeComponent();
             // objects frm classes below regarding tables SCHOOL, DRIVERS, VEHICLE, ROUTE, ROUTESTOP, STOP
             schoolRepository  = new SchoolRepository();
-            driversRepository = new DriversRepository();
+            driverRepository = new DriverRepository();
             vehicleRepository = new VehicleRepository();
             routeRepository   = new RouteRepository(); //ROUTE, ROUTESTOP, STOP
             service = new MapsService();
@@ -68,7 +68,7 @@ namespace SchoolBusRouteTrack
         }
         private List<Models.Driver> loadDrivers()
         {
-            var data = driversRepository.GetDrivers();
+            var data = driverRepository.GetDrivers();
             return Models.Driver.FromDataTable(data);
         }
         private List<Models.Vehicle> loadVehicle()

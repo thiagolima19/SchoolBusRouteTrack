@@ -1,39 +1,72 @@
-﻿using GMap.NET.WindowsForms;
-using GMap.NET;
+﻿using GMap.NET;
+using GMap.NET.WindowsForms;
+using GMap.NET.WindowsForms.Markers;
 using Newtonsoft.Json.Linq;
+using SchoolBusRouteTrack.Data;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using GMap.NET.WindowsForms.Markers;
-using System.ComponentModel;
 
-namespace SchoolBusRouteTrack.AdministratorSystem
+namespace SchoolBusRouteTrack.Models
 {
 
     public partial class UserControlDriverRegister : UserControl
     {
-        private const string googleApiKey = "AIzaSyCArvLZgooiF9BKD-2WlIZPdtHhbnYcDno"; // Replace with your actual Google Maps API key
+        private const string googleApiKey = "AIzaSyCArvLZgooiF9BKD-2WlIZPdtHhbnYcDno";
         private List<Control> formFields;
-        private BindingList<Driver> drivers = new BindingList<Driver>()
-        {
-            new Driver(1, "John Doe", new MapLocation(51.0296064, -114.0883456, "1128 Frontenac Avenue SW, Calgary, AB T2T, Canada", 1), "555-1234", "Vehicle 1"),
-            new Driver(2, "Jane Smith", new MapLocation(50.8751408,-113.9520514, "Main Street SE, Calgary, AB T3M, Canada", 2), "555-5678", "Vehicle 2"),
-            new Driver(3, "Mike Johnson", new MapLocation(51.0912546,-114.2239332, "Pine Street NW, Calgary, AB T3B, Canada", 3), "555-9012", "Vehicle 3")
-        };
+        private BindingList<Driver> drivers;
+        private List<Route> routes;
+        private DriverRepository driverRepo = new DriverRepository();
 
         public UserControlDriverRegister()
         {
             InitializeComponent();
 
             GetFormFields();
-
             InitializeGMap();
-
             LoadDriversList();
+            LoadRoutesComboBox();
+            LoadVehiclesComboBox();
+        }
+
+        // Load routes into comboBox
+        private void LoadRoutesComboBox()
+        {
+            try
+            {
+                routes = driverRepo.GetAllRoutes();
+                comboBoxRoute.DataSource = null;
+                comboBoxRoute.DataSource = routes;
+                comboBoxRoute.DisplayMember = "RouteNumber";
+                comboBoxRoute.ValueMember = "RouteID";
+                comboBoxRoute.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading routes: {ex.Message}");
+            }
+        }
+        private void LoadVehiclesComboBox()
+        {
+            try
+            {
+                var vehicles = driverRepo.GetAvailableVehicles();
+                //include "None" option
+                vehicles.Insert(0, new Vehicle { VehicleID = 0, Plate = "None", Type = "", Company = "" });
+
+                comboBoxVehicle.DataSource = vehicles;
+                comboBoxVehicle.DisplayMember = "Plate";
+                comboBoxVehicle.ValueMember = "VehicleID";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading vehicles: {ex.Message}");
+            }
         }
 
         private void InitializeGMap()
@@ -55,6 +88,7 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             gMapControlDriverAddress.Position = new PointLatLng(51.0501, -114.08529);
             gMapControlDriverAddress.Visible = false;
         }
+
         private void GetFormFields()
         {
             formFields = new List<Control>
@@ -62,19 +96,18 @@ namespace SchoolBusRouteTrack.AdministratorSystem
                 textBoxName,
                 textBoxAddress,
                 textBoxPhone,
-                textBoxAssignedVehicle
+                comboBoxVehicle
             };
-
         }
-
 
         private void LoadDriversList()
         {
+            var listFromDB = driverRepo.GetAllDrivers();
+            drivers = new BindingList<Driver>(listFromDB);
+
             listBoxDriver.DataSource = drivers;
-
-            listBoxDriver.DisplayMember = "_name";
-            listBoxDriver.ValueMember = "_driverID";
-
+            listBoxDriver.DisplayMember = "Name";
+            listBoxDriver.ValueMember = "DriverID";
             listBoxDriver.SelectedIndex = -1;
 
             listBoxDriver.SelectedIndexChanged += ListBoxDriver_SelectedIndexChanged;
@@ -92,20 +125,16 @@ namespace SchoolBusRouteTrack.AdministratorSystem
                 {
                     isValid = false;
 
-
                     if (errorLabel != null)
                     {
                         errorLabel.Text = $"{control.Tag} is required.";
                     }
-
                 }
                 else if (errorLabel != null)
                 {
                     errorLabel.Text = "";
                 }
-
             }
-
             return isValid;
         }
 
@@ -114,11 +143,11 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             textBoxName.Text = "";
             textBoxAddress.Text = "";
             textBoxPhone.Text = "";
-            textBoxAssignedVehicle.Text = "";
+            comboBoxVehicle.Text = "";
+            comboBoxRoute.SelectedIndex = -1; // NEW: Clear route selection
             gMapControlDriverAddress.Overlays.Clear();
             gMapControlDriverAddress.Visible = false;
         }
-
 
         public async Task<Tuple<double, double>> GetCoordinatesFromAddress(string address)
         {
@@ -143,7 +172,6 @@ namespace SchoolBusRouteTrack.AdministratorSystem
                 }
                 else
                 {
-                    // Handle error cases (e.g., address not found)
                     return null;
                 }
             }
@@ -153,7 +181,6 @@ namespace SchoolBusRouteTrack.AdministratorSystem
                 return null;
             }
         }
-
 
         private void DrawDriverMarker(double lat, double lng)
         {
@@ -177,15 +204,27 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             if (selectedDriver != null)
             {
                 ToggleSaveButtonState(false);
-                textBoxName.Text = selectedDriver._name;
-                textBoxPhone.Text = selectedDriver._phoneNumber;
-                textBoxAssignedVehicle.Text = selectedDriver._assignedVehicle;
+                textBoxName.Text = selectedDriver.Name;
+                textBoxPhone.Text = selectedDriver.Phone;
+                comboBoxVehicle.Text = selectedDriver.AssignedVehicle;
+                textBoxAddress.Text = selectedDriver.Address.FullAddress;
 
+                if (routes != null && selectedDriver.DriverID > 0)
+                {
+                    var driverRoute = routes.FirstOrDefault(r =>
+                        r.AssignedDriver?.Contains(selectedDriver.Name) == true);
+                    if (driverRoute != null)
+                    {
+                        comboBoxRoute.SelectedValue = driverRoute.RouteID;
+                    }
+                    else
+                    {
+                        comboBoxRoute.SelectedIndex = -1;
+                    }
+                }
 
-                textBoxAddress.Text = selectedDriver._address.FullAddress;
-
-                DrawDriverMarker(selectedDriver._address.Latitude, selectedDriver._address.Longitude);
-                gMapControlDriverAddress.Position = new PointLatLng(selectedDriver._address.Latitude, selectedDriver._address.Longitude);
+                DrawDriverMarker(selectedDriver.Address.Latitude, selectedDriver.Address.Longitude);
+                gMapControlDriverAddress.Position = new PointLatLng(selectedDriver.Address.Latitude, selectedDriver.Address.Longitude);
                 gMapControlDriverAddress.Visible = true;
             }
         }
@@ -204,31 +243,72 @@ namespace SchoolBusRouteTrack.AdministratorSystem
 
         private async void ButtonDriverSave_Click(object sender, EventArgs e)
         {
-            if (isFormValid())
+            if (!isFormValid())
             {
-                string name = textBoxName.Text;
-                string phoneNumber = textBoxPhone.Text;
-                string assignedVehicle = textBoxAssignedVehicle.Text;
+                MessageBox.Show("Please correct the errors in the form.");
+                return;
+            }
 
-                MapLocation address = new MapLocation(0, 0, "", 0); // Placeholder for address coordinates
-                var userCoordinates = await GetCoordinatesFromAddress(textBoxAddress.Text);
-                if (userCoordinates != null)
+            var coords = await GetCoordinatesFromAddress(textBoxAddress.Text);
+            if (coords == null)
+            {
+                MessageBox.Show("Address not found.");
+                return;
+            }
+
+            Driver newDriver = new Driver
+            {
+                Name = textBoxName.Text,
+                Phone = textBoxPhone.Text,
+                Status = "Active",
+                AssignedVehicle = comboBoxVehicle.Text,
+                Address = new MapLocation(coords.Item1, coords.Item2, textBoxAddress.Text)
+            };
+
+            bool success = driverRepo.InsertDriver(newDriver);
+
+            if (!success)
+            {
+                MessageBox.Show("Error saving driver to database.");
+                return;
+            }
+
+            
+            if (comboBoxRoute.SelectedItem != null && comboBoxRoute.SelectedValue != null)
+            {
+                int routeId = (int)comboBoxRoute.SelectedValue;
+                var allDrivers = driverRepo.GetAllDrivers();
+                var latestDriver = allDrivers.LastOrDefault(d => d.Name == newDriver.Name && d.Phone == newDriver.Phone);
+
+                if (latestDriver != null)
                 {
-                    address = new MapLocation(userCoordinates.Item1, userCoordinates.Item2, textBoxAddress.Text, drivers.Count + 1);
+                    bool routeAssigned = driverRepo.AssignDriverToRoute(routeId, latestDriver.DriverID);
+                    if (routeAssigned)
+                    {
+                        if (!string.IsNullOrWhiteSpace(comboBoxVehicle.Text))
+                        {
+                            var vehicles = driverRepo.GetAvailableVehicles();
+                            var selectedVehicle = vehicles.FirstOrDefault(v =>
+                                v.Plate.Equals(comboBoxVehicle.Text, StringComparison.OrdinalIgnoreCase));
+
+                            if (selectedVehicle != null)
+                            {
+                                driverRepo.AssignVehicleToRoute(routeId, selectedVehicle.VehicleID);
+                            }
+                            else
+                            {
+                                MessageBox.Show($"Vehicle with plate {comboBoxVehicle.Text} not found or not available.");
+                            }
+                        }
+                    }
                 }
-
-                Driver newDriver = new Driver(drivers.Count + 1, name, address, phoneNumber, assignedVehicle);
-
-                drivers.Add(newDriver);
-
-                listBoxDriver.SelectedIndex = -1;
-
-                ClearForm();
             }
-            else
-            {
-                MessageBox.Show("Please correct the errors in the form.", "Form Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+
+            MessageBox.Show("Driver added successfully!");
+
+            LoadDriversList();
+            LoadRoutesComboBox(); 
+            ClearForm();
         }
 
         private void ButtonDriverClear_Click(object sender, EventArgs e)
@@ -254,9 +334,80 @@ namespace SchoolBusRouteTrack.AdministratorSystem
                 }
             }
         }
-        private void UserControlDriverRegister_Load(object sender, EventArgs e)
-        {
 
+        private async void btnEdit_Click(object sender, EventArgs e)
+        {
+            if (listBoxDriver.SelectedItem == null)
+            {
+                MessageBox.Show("Select a driver to edit.");
+                return;
+            }
+
+            Driver selected = (Driver)listBoxDriver.SelectedItem;
+
+            var coords = await GetCoordinatesFromAddress(textBoxAddress.Text);
+            if (coords == null)
+            {
+                MessageBox.Show("Address not found.");
+                return;
+            }
+
+            selected.Name = textBoxName.Text;
+            selected.Phone = textBoxPhone.Text;
+            selected.AssignedVehicle = comboBoxVehicle.Text;
+            selected.Address = new MapLocation(coords.Item1, coords.Item2, textBoxAddress.Text);
+
+            // Update driver info
+            if (!driverRepo.UpdateDriver(selected))
+            {
+                MessageBox.Show("Error updating driver.");
+                return;
+            }
+
+            if (comboBoxRoute.SelectedItem != null && comboBoxRoute.SelectedValue != null)
+            {
+                int routeId = (int)comboBoxRoute.SelectedValue;
+                bool routeAssigned = driverRepo.AssignDriverToRoute(routeId, selected.DriverID);
+
+                if (routeAssigned && !string.IsNullOrWhiteSpace(comboBoxVehicle.Text))
+                {
+                    var vehicles = driverRepo.GetAvailableVehicles();
+                    var selectedVehicle = vehicles.FirstOrDefault(v =>
+                        v.Plate.Equals(comboBoxVehicle.Text, StringComparison.OrdinalIgnoreCase));
+
+                    if (selectedVehicle != null)
+                    {
+                        driverRepo.AssignVehicleToRoute(routeId, selectedVehicle.VehicleID);
+                    }
+                }
+            }
+
+            MessageBox.Show("Driver updated successfully!");
+            LoadDriversList();
+            LoadRoutesComboBox(); 
+            ClearForm();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (listBoxDriver.SelectedItem == null)
+            {
+                MessageBox.Show("Select a driver to delete.");
+                return;
+            }
+
+            Driver selected = (Driver)listBoxDriver.SelectedItem;
+
+            if (!driverRepo.DeleteDriver(selected.DriverID))
+            {
+                MessageBox.Show("Error deleting driver.");
+                return;
+            }
+
+            MessageBox.Show("Driver deleted!");
+
+            LoadDriversList();
+            ClearForm();
         }
     }
 
