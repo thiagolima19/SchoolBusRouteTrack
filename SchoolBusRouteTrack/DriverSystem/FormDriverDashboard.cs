@@ -20,7 +20,8 @@ namespace SchoolBusRouteTrack.DriverSystem
 
             this.buttonTrip.Click += new EventHandler(buttonTrip_Click);
             this.buttonRoute.Click += new EventHandler(buttonRoute_Click);
-            this.buttonAttendence.Click += new EventHandler(buttonAttendence_Click);
+            //   this.btn_attendance.Click += new EventHandler(ButtonAttendence_Click);
+            this.btn_attendance.Click += new EventHandler(btn_attendance_Click);
             this.buttonLogout.Click += new EventHandler(buttonLogout_Click);
         }
 
@@ -64,18 +65,21 @@ namespace SchoolBusRouteTrack.DriverSystem
             LoadContent(UCRoute);
         }
 
-        private void buttonAttendence_Click(object sender, EventArgs e)
-        {
-            int driverId = CurrentUser.DriverID ?? 0;
-            UserControlAttendence UCAttendence = new UserControlAttendence(driverId);
-            LoadContent(UCAttendence);
-        }
+        //private void ButtonAttendence_Click(object sender, EventArgs e)
+        //{
+
+        //}
 
         private void buttonLogout_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
 
             this.Close();
+        }
+
+        private void btn_attendance_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

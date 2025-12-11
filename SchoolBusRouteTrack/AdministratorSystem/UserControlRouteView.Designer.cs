@@ -3,7 +3,7 @@
     partial class UserControlRouteView
     {
         private System.ComponentModel.IContainer components = null;
-              
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -12,16 +12,17 @@
             }
             base.Dispose(disposing);
         }
-
+       
         private void InitializeComponent()
         {
             this.gMapControl1 = new GMap.NET.WindowsForms.GMapControl();
             this.comboBoxRoutes = new System.Windows.Forms.ComboBox();
             this.btn_addRoute = new System.Windows.Forms.Button();
             this.btn_edit = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.btn_remove = new System.Windows.Forms.Button();
+            this.lbl_school = new System.Windows.Forms.Label();
+            this.lbl_driver = new System.Windows.Forms.Label();
+            this.lbl_plate = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // gMapControl1
@@ -36,7 +37,7 @@
             this.gMapControl1.GrayScaleMode = false;
             this.gMapControl1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
             this.gMapControl1.LevelsKeepInMemory = 5;
-            this.gMapControl1.Location = new System.Drawing.Point(281, 11);
+            this.gMapControl1.Location = new System.Drawing.Point(297, 37);
             this.gMapControl1.Margin = new System.Windows.Forms.Padding(2);
             this.gMapControl1.MarkersEnabled = true;
             this.gMapControl1.MaxZoom = 2;
@@ -51,82 +52,117 @@
             this.gMapControl1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.gMapControl1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.gMapControl1.ShowTileGridLines = false;
-            this.gMapControl1.Size = new System.Drawing.Size(937, 770);
+            this.gMapControl1.Size = new System.Drawing.Size(613, 574);
             this.gMapControl1.TabIndex = 0;
             this.gMapControl1.Zoom = 0D;
             // 
             // comboBoxRoutes
             // 
+            this.comboBoxRoutes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(254)));
             this.comboBoxRoutes.FormattingEnabled = true;
-            this.comboBoxRoutes.Location = new System.Drawing.Point(21, 11);
+            this.comboBoxRoutes.Location = new System.Drawing.Point(8, 37);
             this.comboBoxRoutes.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxRoutes.Name = "comboBoxRoutes";
-            this.comboBoxRoutes.Size = new System.Drawing.Size(214, 24);
+            this.comboBoxRoutes.Size = new System.Drawing.Size(268, 24);
             this.comboBoxRoutes.TabIndex = 1;
             // 
             // btn_addRoute
             // 
-            this.btn_addRoute.Location = new System.Drawing.Point(31, 64);
+            this.btn_addRoute.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(167)))), ((int)(((byte)(69)))));
+            this.btn_addRoute.FlatAppearance.BorderSize = 0;
+            this.btn_addRoute.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_addRoute.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
+            this.btn_addRoute.ForeColor = System.Drawing.Color.White;
+            this.btn_addRoute.Location = new System.Drawing.Point(72, 87);
+            this.btn_addRoute.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn_addRoute.Name = "btn_addRoute";
-            this.btn_addRoute.Size = new System.Drawing.Size(122, 23);
+            this.btn_addRoute.Size = new System.Drawing.Size(116, 41);
             this.btn_addRoute.TabIndex = 2;
             this.btn_addRoute.Text = "Add Route";
-            this.btn_addRoute.UseVisualStyleBackColor = true;
+            this.btn_addRoute.UseVisualStyleBackColor = false;
             this.btn_addRoute.Click += new System.EventHandler(this.btn_addRoute_Click);
             // 
             // btn_edit
             // 
-            this.btn_edit.Location = new System.Drawing.Point(31, 93);
+            this.btn_edit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.btn_edit.FlatAppearance.BorderSize = 0;
+            this.btn_edit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_edit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
+            this.btn_edit.ForeColor = System.Drawing.Color.White;
+            this.btn_edit.Location = new System.Drawing.Point(72, 139);
+            this.btn_edit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn_edit.Name = "btn_edit";
-            this.btn_edit.Size = new System.Drawing.Size(122, 23);
+            this.btn_edit.Size = new System.Drawing.Size(116, 41);
             this.btn_edit.TabIndex = 3;
             this.btn_edit.Text = "Edit Route";
-            this.btn_edit.UseVisualStyleBackColor = true;
+            this.btn_edit.UseVisualStyleBackColor = false;
+            this.btn_edit.Click += new System.EventHandler(this.btn_edit_Click);
             // 
-            // button1
+            // btn_remove
             // 
-            this.button1.Location = new System.Drawing.Point(31, 122);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(122, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Remove Route";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btn_remove.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(53)))), ((int)(((byte)(69)))));
+            this.btn_remove.FlatAppearance.BorderSize = 0;
+            this.btn_remove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_remove.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
+            this.btn_remove.ForeColor = System.Drawing.Color.White;
+            this.btn_remove.Location = new System.Drawing.Point(72, 190);
+            this.btn_remove.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btn_remove.Name = "btn_remove";
+            this.btn_remove.Size = new System.Drawing.Size(116, 41);
+            this.btn_remove.TabIndex = 4;
+            this.btn_remove.Text = "Remove Route";
+            this.btn_remove.UseVisualStyleBackColor = false;
+            this.btn_remove.Click += new System.EventHandler(this.btn_remove_Click);
             // 
-            // label1
+            // lbl_school
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 194);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(49, 16);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "School";
-  
+            this.lbl_school.AutoSize = true;
+            this.lbl_school.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
+            this.lbl_school.Location = new System.Drawing.Point(61, 250);
+            this.lbl_school.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbl_school.Name = "lbl_school";
+            this.lbl_school.Size = new System.Drawing.Size(59, 16);
+            this.lbl_school.TabIndex = 5;
+            this.lbl_school.Text = "School:";
             // 
-            // label2
+            // lbl_driver
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(21, 245);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 16);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "School";
-
+            this.lbl_driver.AutoSize = true;
+            this.lbl_driver.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
+            this.lbl_driver.Location = new System.Drawing.Point(61, 275);
+            this.lbl_driver.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbl_driver.Name = "lbl_driver";
+            this.lbl_driver.Size = new System.Drawing.Size(53, 16);
+            this.lbl_driver.TabIndex = 6;
+            this.lbl_driver.Text = "Driver:";
+            // 
+            // lbl_plate
+            // 
+            this.lbl_plate.AutoSize = true;
+            this.lbl_plate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
+            this.lbl_plate.Location = new System.Drawing.Point(61, 299);
+            this.lbl_plate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbl_plate.Name = "lbl_plate";
+            this.lbl_plate.Size = new System.Drawing.Size(47, 16);
+            this.lbl_plate.TabIndex = 7;
+            this.lbl_plate.Text = "Plate:";
             // 
             // UserControlRouteView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Info;
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.lbl_plate);
+            this.Controls.Add(this.lbl_driver);
+            this.Controls.Add(this.lbl_school);
+            this.Controls.Add(this.btn_remove);
             this.Controls.Add(this.btn_edit);
             this.Controls.Add(this.btn_addRoute);
             this.Controls.Add(this.comboBoxRoutes);
             this.Controls.Add(this.gMapControl1);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "UserControlRouteView";
-            this.Size = new System.Drawing.Size(1229, 794);
+            this.Size = new System.Drawing.Size(922, 645);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -136,8 +172,9 @@
         private System.Windows.Forms.ComboBox comboBoxRoutes;
         private System.Windows.Forms.Button btn_addRoute;
         private System.Windows.Forms.Button btn_edit;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btn_remove;
+        private System.Windows.Forms.Label lbl_school;
+        private System.Windows.Forms.Label lbl_driver;
+        private System.Windows.Forms.Label lbl_plate;
     }
 }
