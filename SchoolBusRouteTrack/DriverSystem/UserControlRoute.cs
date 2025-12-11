@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SchoolBusRouteTrack.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,7 +24,26 @@ namespace SchoolBusRouteTrack.DriverSystem
 
         private void LoadRouteData()
         {
-            
+            RouteStopRepository repo = new RouteStopRepository();
+            var stops = new List <RouteStop>();
+            DataTable dt = repo.GetRouteStops();
+
+
+            foreach (DataRow stop in dt.Rows)
+            {
+                stops.Add(new RouteStop
+                {
+                    StopID = Convert.ToInt32 (stop["StopId"]),
+                    StopOrder = Convert.ToInt32 (stop["StopOrder"]),
+                 });
+            }
+
+            checkedListBoxBusStop.Items.Clear();
+            foreach (var stop in stops.OrderBy(s => s.StopOrder))
+            {
+                checkedListBoxBusStop.Items.Add($"Stop {stop.StopOrder} - ID: {stop.StopID}");
+            }
+
         }
 
         private void UserControlRoute_Load(object sender, EventArgs e)

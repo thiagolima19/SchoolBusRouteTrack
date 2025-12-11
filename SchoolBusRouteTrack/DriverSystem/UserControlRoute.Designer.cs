@@ -59,10 +59,6 @@
             // checkedListBoxBusStop
             // 
             this.checkedListBoxBusStop.FormattingEnabled = true;
-            this.checkedListBoxBusStop.Items.AddRange(new object[] {
-            "Bus Stop 1",
-            "Bus Stop 2",
-            "Bus Stop 3"});
             this.checkedListBoxBusStop.Location = new System.Drawing.Point(44, 106);
             this.checkedListBoxBusStop.Name = "checkedListBoxBusStop";
             this.checkedListBoxBusStop.Size = new System.Drawing.Size(245, 334);
