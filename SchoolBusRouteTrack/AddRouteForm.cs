@@ -81,7 +81,7 @@ namespace SchoolBusRouteTrack
             }
             else
             {
-                // Generate RouteNumber format: (R001, R002, ...) and unable to include manually
+                // Generate RouteNumber format: (R001, R002, ...) and disable to include manually
                 string nextRouteNumber = routeRepository.GetNextRouteNumber();
                 txt_route_num.Text = nextRouteNumber;
 
@@ -151,6 +151,10 @@ namespace SchoolBusRouteTrack
             {
                 list_stops.Items.Add(stop);
             }
+
+            //Disable RouteNumber to prevent editing
+            txt_route_num.ReadOnly = true;
+            txt_route_num.Enabled  = false;
         }
 
         private List<School> loadSchools()
