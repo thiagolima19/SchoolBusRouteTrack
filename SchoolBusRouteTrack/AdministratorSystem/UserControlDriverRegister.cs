@@ -21,7 +21,7 @@ namespace SchoolBusRouteTrack.Models
         private List<Control> formFields;
         private BindingList<Driver> drivers;
         private List<Route> routes;
-        private DriverRepository driverRepo = new DriverRepository();
+        private DriversRepository driverRepo = new DriversRepository();
 
         public UserControlDriverRegister()
         {

@@ -194,20 +194,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdministratorSystem\AddRouteForm.cs">
+    <Compile Include="AddRouteForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AdministratorSystem\AddRouteForm.Designer.cs">
+    <Compile Include="AddRouteForm.Designer.cs">
       <DependentUpon>AddRouteForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\DriverRepository.cs" />
-    <Compile Include="Models\Driver.cs" />
+    <Compile Include="Data\DriversRepository.cs" />
+    <Compile Include="Models\MapLocation.cs" />
     <Compile Include="Models\Route.cs" />
     <Compile Include="Data\RouteRepository.cs" />
     <Compile Include="Data\SchoolRepository.cs" />
     <Compile Include="Data\VehicleRepository.cs" />
+    <Compile Include="Models\Driver.cs" />
     <Compile Include="Models\School.cs" />
     <Compile Include="Models\Stop.cs" />
+    <Compile Include="Models\Student.cs" />
     <Compile Include="Models\Vehicle.cs" />
     <Compile Include="Service\GeoCodeResult.cs" />
     <Compile Include="Service\MapsService.cs" />
@@ -231,7 +233,6 @@
     <Compile Include="AdministratorSystem\FormAdminDashboard.Designer.cs">
       <DependentUpon>FormAdminDashboard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\Student.cs" />
     <Compile Include="AdministratorSystem\UserControlDriverRegister.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -288,8 +289,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\MapLocation.cs" />
-    <EmbeddedResource Include="AdministratorSystem\AddRouteForm.resx">
+    <EmbeddedResource Include="AddRouteForm.resx">
       <DependentUpon>AddRouteForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AdministratorSystem\FormAdminDashboard.resx">
@@ -354,6 +354,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\logo_bus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="_DriverModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

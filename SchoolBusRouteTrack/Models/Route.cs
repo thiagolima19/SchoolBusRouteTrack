@@ -10,6 +10,7 @@ namespace SchoolBusRouteTrack.Data
         public int SchoolID { get; set; }
         public int? DriverID { get; set; }
         public int? VehicleID { get; set; }
+
         public string SchoolName { get; set; }
         public string AssignedDriver { get; set; }
         public string AssignedVehicle { get; set; }
@@ -19,5 +20,6 @@ namespace SchoolBusRouteTrack.Data
         {
             return $"{RouteNumber}: {Description} ({SchoolName})";
         }
+        
     }
 }
