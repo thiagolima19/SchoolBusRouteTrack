@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Data;
 using System.Windows.Forms;
 using SchoolBusRouteTrack.UserModel;
+using SchoolBusRouteTrack.Models;
 
 namespace SchoolBusRouteTrack.Data
 {
@@ -187,6 +188,48 @@ namespace SchoolBusRouteTrack.Data
                 conn.Open();
                 return cmd.ExecuteNonQuery() > 0;
             }
+        }
+
+        //gets all the stops on DB for a route
+        public List<Stop> GetStopsByRoute(int routeId)
+        {
+            List<Stop> stops = new List<Stop>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("GetStopsByRoute", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@RouteID", routeId);
+
+                    conn.Open();
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        stops.Add(new Stop
+                        {
+                            StopID = (int)reader["StopID"],
+                            Address = reader["Address"].ToString(),
+                            Latitude = (float)reader["Latitude"],
+                            Longitude = (float)reader["Longitude"]
+                        });
+                    }
+                    reader.Close();
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                MessageBox.Show($"SQL Error: {sqlEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+
+            return stops;
         }
     }
 }

@@ -87,10 +87,6 @@
             // comboBoxStops
             // 
             this.comboBoxStops.FormattingEnabled = true;
-            this.comboBoxStops.Items.AddRange(new object[] {
-            "Bus Stop 1",
-            "Bus Stop 2",
-            "Bus Stop 3"});
             this.comboBoxStops.Location = new System.Drawing.Point(324, 63);
             this.comboBoxStops.Name = "comboBoxStops";
             this.comboBoxStops.Size = new System.Drawing.Size(121, 21);
