@@ -56,6 +56,30 @@ namespace SchoolBusRouteTrack.Data
             };
         }
 
+        public string GetNextRouteNumber() // Patricia - testes
+        {
+            var sql = @"SELECT RouteNumber FROM Route ORDER BY RouteNumber DESC";
+
+            var dt = _db.ExecuteSelect(sql, null);
+
+            // if there is no route number
+            if (dt.Rows.Count == 0)
+                return "R001";
+
+            string lastRouteNum = dt.Rows[0]["RouteNumber"].ToString();
+
+            // Expected format R + number (ex: R012)
+            if (lastRouteNum.StartsWith("R") && int.TryParse(lastRouteNum.Substring(1), out int num))
+            {
+                int next = num + 1;
+                return "R" + next.ToString("000"); // 3 digits
+            }
+
+            // fallback if something is wrong in the DB
+            return "R001";
+        }
+
+
         // Get all stops for a specific route ordered by StopOrder
         public List<Stop> GetStopsByRouteId(int routeId)
         {

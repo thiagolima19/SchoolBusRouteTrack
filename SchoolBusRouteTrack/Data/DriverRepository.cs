@@ -127,7 +127,7 @@ namespace SchoolBusRouteTrack.Data
             return null;
         }
 
-        //get vehicle avalaiable
+        //get vehicle available
         public List<Vehicle> GetAvailableVehicles()
         {
             DataTable dt = _db.ExecuteDataTable("sp_GetAvailableVehicles");

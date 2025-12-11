@@ -45,7 +45,7 @@
             this.list_stops = new System.Windows.Forms.ListBox();
             this.btn_up = new System.Windows.Forms.Button();
             this.btn_down = new System.Windows.Forms.Button();
-            this.label_erro_endereco = new System.Windows.Forms.Label();
+            this.lbl_error_address = new System.Windows.Forms.Label();
             this.btn_remove = new System.Windows.Forms.Button();
             this.lbl_error = new System.Windows.Forms.Label();
             this.btn_save = new System.Windows.Forms.Button();
@@ -65,7 +65,7 @@
             // lbl_school
             // 
             this.lbl_school.AutoSize = true;
-            this.lbl_school.Location = new System.Drawing.Point(33, 163);
+            this.lbl_school.Location = new System.Drawing.Point(33, 175);
             this.lbl_school.Name = "lbl_school";
             this.lbl_school.Size = new System.Drawing.Size(49, 16);
             this.lbl_school.TabIndex = 1;
@@ -74,7 +74,7 @@
             // lbl_description
             // 
             this.lbl_description.AutoSize = true;
-            this.lbl_description.Location = new System.Drawing.Point(33, 103);
+            this.lbl_description.Location = new System.Drawing.Point(33, 115);
             this.lbl_description.Name = "lbl_description";
             this.lbl_description.Size = new System.Drawing.Size(75, 16);
             this.lbl_description.TabIndex = 2;
@@ -83,7 +83,7 @@
             // lbl_driver
             // 
             this.lbl_driver.AutoSize = true;
-            this.lbl_driver.Location = new System.Drawing.Point(33, 217);
+            this.lbl_driver.Location = new System.Drawing.Point(33, 229);
             this.lbl_driver.Name = "lbl_driver";
             this.lbl_driver.Size = new System.Drawing.Size(43, 16);
             this.lbl_driver.TabIndex = 3;
@@ -92,7 +92,7 @@
             // lbl_stop_address
             // 
             this.lbl_stop_address.AutoSize = true;
-            this.lbl_stop_address.Location = new System.Drawing.Point(283, 37);
+            this.lbl_stop_address.Location = new System.Drawing.Point(271, 38);
             this.lbl_stop_address.Name = "lbl_stop_address";
             this.lbl_stop_address.Size = new System.Drawing.Size(89, 16);
             this.lbl_stop_address.TabIndex = 4;
@@ -101,7 +101,7 @@
             // lbl_vehicle
             // 
             this.lbl_vehicle.AutoSize = true;
-            this.lbl_vehicle.Location = new System.Drawing.Point(33, 276);
+            this.lbl_vehicle.Location = new System.Drawing.Point(33, 288);
             this.lbl_vehicle.Name = "lbl_vehicle";
             this.lbl_vehicle.Size = new System.Drawing.Size(52, 16);
             this.lbl_vehicle.TabIndex = 5;
@@ -116,57 +116,57 @@
             // 
             // txt_description
             // 
-            this.txt_description.Location = new System.Drawing.Point(36, 122);
+            this.txt_description.Location = new System.Drawing.Point(36, 134);
             this.txt_description.Name = "txt_description";
-            this.txt_description.Size = new System.Drawing.Size(228, 22);
+            this.txt_description.Size = new System.Drawing.Size(209, 22);
             this.txt_description.TabIndex = 7;
             // 
             // cb_school
             // 
             this.cb_school.FormattingEnabled = true;
-            this.cb_school.Location = new System.Drawing.Point(36, 182);
+            this.cb_school.Location = new System.Drawing.Point(36, 194);
             this.cb_school.Name = "cb_school";
-            this.cb_school.Size = new System.Drawing.Size(228, 24);
+            this.cb_school.Size = new System.Drawing.Size(209, 24);
             this.cb_school.TabIndex = 8;
             // 
             // cb_driver
             // 
             this.cb_driver.FormattingEnabled = true;
-            this.cb_driver.Location = new System.Drawing.Point(36, 236);
+            this.cb_driver.Location = new System.Drawing.Point(36, 248);
             this.cb_driver.Name = "cb_driver";
-            this.cb_driver.Size = new System.Drawing.Size(228, 24);
+            this.cb_driver.Size = new System.Drawing.Size(209, 24);
             this.cb_driver.TabIndex = 9;
             // 
             // cb_vehicle
             // 
             this.cb_vehicle.FormattingEnabled = true;
-            this.cb_vehicle.Location = new System.Drawing.Point(36, 295);
+            this.cb_vehicle.Location = new System.Drawing.Point(36, 307);
             this.cb_vehicle.Name = "cb_vehicle";
-            this.cb_vehicle.Size = new System.Drawing.Size(228, 24);
+            this.cb_vehicle.Size = new System.Drawing.Size(209, 24);
             this.cb_vehicle.TabIndex = 10;
             // 
             // txt_address
             // 
             this.txt_address.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.txt_address.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.txt_address.Location = new System.Drawing.Point(286, 57);
+            this.txt_address.Location = new System.Drawing.Point(274, 57);
             this.txt_address.Margin = new System.Windows.Forms.Padding(4);
             this.txt_address.Name = "txt_address";
-            this.txt_address.Size = new System.Drawing.Size(383, 22);
+            this.txt_address.Size = new System.Drawing.Size(360, 22);
             this.txt_address.TabIndex = 35;
             this.txt_address.Tag = "Address";
             this.txt_address.TextChanged += new System.EventHandler(this.txt_address_TextChanged);
-            //
+            // 
             // btn_add
-            //
-            this.btn_add.BackColor = System.Drawing.Color.FromArgb(40, 167, 69);
+            // 
+            this.btn_add.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(167)))), ((int)(((byte)(69)))));
             this.btn_add.FlatAppearance.BorderSize = 0;
             this.btn_add.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_add.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.btn_add.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
             this.btn_add.ForeColor = System.Drawing.Color.White;
-            this.btn_add.Location = new System.Drawing.Point(700, 50);
+            this.btn_add.Location = new System.Drawing.Point(667, 47);
             this.btn_add.Name = "btn_add";
-            this.btn_add.Size = new System.Drawing.Size(75, 40);
+            this.btn_add.Size = new System.Drawing.Size(101, 44);
             this.btn_add.TabIndex = 36;
             this.btn_add.Text = "Add";
             this.btn_add.UseVisualStyleBackColor = false;
@@ -176,59 +176,59 @@
             // 
             this.list_stops.FormattingEnabled = true;
             this.list_stops.ItemHeight = 16;
-            this.list_stops.Location = new System.Drawing.Point(286, 122);
+            this.list_stops.Location = new System.Drawing.Point(274, 134);
             this.list_stops.Name = "list_stops";
-            this.list_stops.Size = new System.Drawing.Size(383, 228);
+            this.list_stops.Size = new System.Drawing.Size(360, 228);
             this.list_stops.TabIndex = 37;
-            //
+            // 
             // btn_up
-            //
-            this.btn_up.BackColor = System.Drawing.Color.FromArgb(108, 117, 125);
+            // 
+            this.btn_up.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(117)))), ((int)(((byte)(125)))));
             this.btn_up.FlatAppearance.BorderSize = 0;
             this.btn_up.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_up.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.btn_up.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
             this.btn_up.ForeColor = System.Drawing.Color.White;
-            this.btn_up.Location = new System.Drawing.Point(700, 183);
+            this.btn_up.Location = new System.Drawing.Point(667, 195);
             this.btn_up.Name = "btn_up";
-            this.btn_up.Size = new System.Drawing.Size(75, 40);
+            this.btn_up.Size = new System.Drawing.Size(101, 44);
             this.btn_up.TabIndex = 38;
             this.btn_up.Text = "Up";
             this.btn_up.UseVisualStyleBackColor = false;
             this.btn_up.Click += new System.EventHandler(this.btn_up_Click);
-            //
+            // 
             // btn_down
-            //
-            this.btn_down.BackColor = System.Drawing.Color.FromArgb(108, 117, 125);
+            // 
+            this.btn_down.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(117)))), ((int)(((byte)(125)))));
             this.btn_down.FlatAppearance.BorderSize = 0;
             this.btn_down.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_down.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.btn_down.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
             this.btn_down.ForeColor = System.Drawing.Color.White;
-            this.btn_down.Location = new System.Drawing.Point(700, 246);
+            this.btn_down.Location = new System.Drawing.Point(667, 258);
             this.btn_down.Name = "btn_down";
-            this.btn_down.Size = new System.Drawing.Size(75, 40);
+            this.btn_down.Size = new System.Drawing.Size(101, 44);
             this.btn_down.TabIndex = 39;
             this.btn_down.Text = "Down";
             this.btn_down.UseVisualStyleBackColor = false;
             this.btn_down.Click += new System.EventHandler(this.btn_down_Click);
             // 
-            // label_erro_endereco
+            // lbl_error_address
             // 
-            this.label_erro_endereco.AutoSize = true;
-            this.label_erro_endereco.Location = new System.Drawing.Point(317, 87);
-            this.label_erro_endereco.Name = "label_erro_endereco";
-            this.label_erro_endereco.Size = new System.Drawing.Size(0, 16);
-            this.label_erro_endereco.TabIndex = 40;
-            //
+            this.lbl_error_address.AutoSize = true;
+            this.lbl_error_address.Location = new System.Drawing.Point(305, 99);
+            this.lbl_error_address.Name = "lbl_error_address";
+            this.lbl_error_address.Size = new System.Drawing.Size(0, 16);
+            this.lbl_error_address.TabIndex = 40;
+            // 
             // btn_remove
-            //
-            this.btn_remove.BackColor = System.Drawing.Color.FromArgb(220, 53, 69);
+            // 
+            this.btn_remove.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(53)))), ((int)(((byte)(69)))));
             this.btn_remove.FlatAppearance.BorderSize = 0;
             this.btn_remove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_remove.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.btn_remove.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
             this.btn_remove.ForeColor = System.Drawing.Color.White;
-            this.btn_remove.Location = new System.Drawing.Point(700, 119);
+            this.btn_remove.Location = new System.Drawing.Point(667, 133);
             this.btn_remove.Name = "btn_remove";
-            this.btn_remove.Size = new System.Drawing.Size(75, 40);
+            this.btn_remove.Size = new System.Drawing.Size(101, 44);
             this.btn_remove.TabIndex = 41;
             this.btn_remove.Text = "Remove";
             this.btn_remove.UseVisualStyleBackColor = false;
@@ -240,19 +240,19 @@
             this.lbl_error.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_error.Location = new System.Drawing.Point(174, 383);
             this.lbl_error.Name = "lbl_error";
-            this.lbl_error.Size = new System.Drawing.Size(0, 25);
+            this.lbl_error.Size = new System.Drawing.Size(0, 20);
             this.lbl_error.TabIndex = 42;
-            //
+            // 
             // btn_save
-            //
-            this.btn_save.BackColor = System.Drawing.Color.FromArgb(0, 123, 255);
+            // 
+            this.btn_save.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
             this.btn_save.FlatAppearance.BorderSize = 0;
             this.btn_save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_save.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.btn_save.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
             this.btn_save.ForeColor = System.Drawing.Color.White;
-            this.btn_save.Location = new System.Drawing.Point(700, 307);
+            this.btn_save.Location = new System.Drawing.Point(667, 319);
             this.btn_save.Name = "btn_save";
-            this.btn_save.Size = new System.Drawing.Size(75, 40);
+            this.btn_save.Size = new System.Drawing.Size(101, 44);
             this.btn_save.TabIndex = 43;
             this.btn_save.Text = "Save";
             this.btn_save.UseVisualStyleBackColor = false;
@@ -267,7 +267,7 @@
             // lbl_list_stops
             // 
             this.lbl_list_stops.AutoSize = true;
-            this.lbl_list_stops.Location = new System.Drawing.Point(283, 103);
+            this.lbl_list_stops.Location = new System.Drawing.Point(271, 115);
             this.lbl_list_stops.Name = "lbl_list_stops";
             this.lbl_list_stops.Size = new System.Drawing.Size(65, 16);
             this.lbl_list_stops.TabIndex = 45;
@@ -282,7 +282,7 @@
             this.Controls.Add(this.btn_save);
             this.Controls.Add(this.lbl_error);
             this.Controls.Add(this.btn_remove);
-            this.Controls.Add(this.label_erro_endereco);
+            this.Controls.Add(this.lbl_error_address);
             this.Controls.Add(this.btn_down);
             this.Controls.Add(this.btn_up);
             this.Controls.Add(this.list_stops);
@@ -326,7 +326,11 @@
         private System.Windows.Forms.ListBox list_stops;
         private System.Windows.Forms.Button btn_up;
         private System.Windows.Forms.Button btn_down;
-        private System.Windows.Forms.Label label_erro_endereco;
+        /// <summary>
+        // private System.Windows.Forms.Label label_erro_endereco;
+        private System.Windows.Forms.Label lbl_error_address;
+
+        /// </summary>
         private System.Windows.Forms.Button btn_remove;
         private System.Windows.Forms.Label lbl_error;
         private System.Windows.Forms.Button btn_save;

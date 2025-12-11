@@ -50,6 +50,7 @@ namespace SchoolBusRouteTrack
 
         private void load()
         {
+            //Schools
             var schools = loadSchools(); // select * from table SCHOOLS and load combobox
             foreach (School school in schools)
             {
@@ -57,6 +58,7 @@ namespace SchoolBusRouteTrack
             }
             cb_school.DisplayMember = "Name";
 
+            //Drivers
             var drivers = loadDrivers(); // select * from table DRIVERS and load combobox
             foreach (Models.Driver driver in drivers)
             {
@@ -64,6 +66,7 @@ namespace SchoolBusRouteTrack
             }
             cb_driver.DisplayMember = "FullName";
 
+            //Vehicles
             var vehicles = loadVehicle(); // select * from table VEHICLES and load combobox
             foreach (Models.Vehicle vehicle in vehicles)
             {
@@ -76,7 +79,17 @@ namespace SchoolBusRouteTrack
             {
                 LoadRouteForEditing(_editingRouteId.Value);
             }
+            else
+            {
+                // Generate RouteNumber format: (R001, R002, ...) and unable to include manually
+                string nextRouteNumber = routeRepository.GetNextRouteNumber();
+                txt_route_num.Text = nextRouteNumber;
+
+                txt_route_num.ReadOnly = true;                
+                txt_route_num.Enabled = false;
+            }
         }
+
 
         // Load route data for editing
         private void LoadRouteForEditing(int routeId)
@@ -184,126 +197,36 @@ namespace SchoolBusRouteTrack
             // validate entry
             if (string.IsNullOrWhiteSpace(txt_address.Text))
             {
-                label_erro_endereco.Text = "Type an address!";
-                label_erro_endereco.ForeColor = Color.Red;
+                lbl_error_address.Text = "Type an address!";
+                lbl_error_address.ForeColor = Color.Red;
                 return;
             }
 
             var result = await service.GetCoordinatesFromAddress(txt_address.Text);
+            // Not found
+            if (result == null || result.FormattedAddress == "Alberta, Canada")
+            {
+                lbl_error_address.Text = "Address not found!";
+                lbl_error_address.ForeColor = Color.Red;
+                return;
+            }
+            lbl_error_address.Text = "";
 
+            
+            //Add STOP if address is found
             if (result != null)
             {
                 var stop = new Stop();
 
-                // 👉 usa o endereço vindo do Google, NÃO o que foi digitado
+                // use address from, not that it was typed
                 stop.Address = result.FormattedAddress;
                 stop.Latitude = result.Latitude;
                 stop.Longitude = result.Longitude;
-
-                label_erro_endereco.Text = "";
-
-                // se quiser, já atualiza o TextBox também:
-                txt_address.Text = result.FormattedAddress;
-
+                txt_address.Clear();
                 list_stops.Items.Add(stop);
-                // list_stops.Tag = stop;  // isso aqui geralmente não precisa,
-                // Tag é do controle, não de cada item
-            }
-            else
-            {
-                label_erro_endereco.Text = "Address not found";
-                label_erro_endereco.ForeColor = Color.Red;
             }
         }
 
-        //Add address ONLY after search and confirm the existence of it - Patricia
-        /*     private async void btn_add_Click(object sender, EventArgs e)
-             {
-                 // validate entry
-                 if (string.IsNullOrWhiteSpace(txt_address.Text))
-                 {
-                     label_erro_endereco.Text = "Type an address!";
-                     label_erro_endereco.ForeColor = Color.Red;
-                     return;
-                 }
-
-                 var request = await service.GetCoordinatesFromAddress(txt_address.Text);
-
-                 if (request != null)
-                 {
-                     var stop = new Stop();
-                     stop.Address = txt_address.Text;
-                     stop.Latitude = request.Item1;
-                     stop.Longitude = request.Item2;
-                     label_erro_endereco.Text = "";
-
-                     list_stops.Items.Add(stop);
-                     list_stops.Tag = stop;
-                 }
-                 else
-                 {
-                     label_erro_endereco.Text = "Address not found";
-                     label_erro_endereco.ForeColor = Color.Red;
-                 }
-             }*/
-        //private async void btn_add_Click(object sender, EventArgs e)
-        //{
-        //    label_erro_endereco.Text = "";
-
-        //    if (string.IsNullOrWhiteSpace(txt_address.Text))
-        //    {
-        //        label_erro_endereco.Text = "Type an address!";
-        //        label_erro_endereco.ForeColor = Color.Red;
-        //        return;
-        //    }
-
-        //    btn_add.Enabled = false;
-        //    try
-        //    {
-        //        var service = new MapsService();
-        //        var result = await service.GetCoordinatesFromAddress(txt_address.Text.Trim()); // GeocodeResult
-
-        //        if (result == null || !result.Success)
-        //        {
-        //            label_erro_endereco.Text = result?.ErrorMessage ?? "Address not found";
-        //            label_erro_endereco.ForeColor = Color.Red;
-        //            return;
-        //        }
-
-        //        var stop = new Stop
-        //        {
-        //            Address = string.IsNullOrWhiteSpace(result.FormattedAddress) ? txt_address.Text.Trim() : result.FormattedAddress,
-        //            Latitude = result.Latitude,
-        //            Longitude = result.Longitude
-        //        };
-
-        //        list_stops.Items.Add(stop);
-        //        list_stops.SelectedIndex = list_stops.Items.Count - 1;
-        //        txt_address.Clear();
-        //        label_erro_endereco.Text = "";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        label_erro_endereco.Text = "Error: " + ex.Message;
-        //        label_erro_endereco.ForeColor = Color.Red;
-        //    }
-        //    finally
-        //    {
-        //        btn_add.Enabled = true;
-        //    }
-        //}
-
-
-
-
-
-
-
-        /// <summary>
-        /// // Remove STOPS from list (only screen)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btn_remove_Click(object sender, EventArgs e)
         {
             if (list_stops.SelectedIndex >= 0)
@@ -386,7 +309,7 @@ namespace SchoolBusRouteTrack
             this.Close();
         }
 
-           private async void txt_address_TextChanged(object sender, EventArgs e)
+        private async void txt_address_TextChanged(object sender, EventArgs e) // it's not working accordingly
         {
             if (txt_address.Text.Length < 3)
                 return;

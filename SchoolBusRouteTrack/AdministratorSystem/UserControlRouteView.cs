@@ -14,36 +14,35 @@ namespace SchoolBusRouteTrack.AdministratorSystem
 {
     public partial class UserControlRouteView : UserControl
     {
-        // Current route's stops
+        // Current route stops
         List<BusStop> routeStops = new List<BusStop>();
 
         // List of all routes
         List<BusRoute> allRoutes = new List<BusRoute>();
 
-        // simulates the bus running
+        // Simulate the bus running
         GMarkerGoogle busMarker;
 
-        //sets a timer for draw the bus
+        //Set a timer for draw the bus
         Timer busTimer = new Timer();
 
         //sets the current stop index
         int currentStopIndex = 0;
 
-        GMapOverlay routeOverlay; // overlay principal -- patricia teste linha azul
-                                  // caminho completo para o ônibus seguir (pontos da rota pelas ruas)
-        private List<PointLatLng> busPathPoints = new List<PointLatLng>(); // patricia teste linha azul
-        private int busPathIndex = 0; // patricia teste linha azu
+        GMapOverlay routeOverlay; // main overlay to draw complete route (route spots) to bus follows
+                                 
+        private List<PointLatLng> busPathPoints = new List<PointLatLng>(); // to draw blue line between routes
+        private int busPathIndex = 0;
 
 
         public UserControlRouteView()
         {
             InitializeComponent();
-            this.Load += UserControlRouteView_Load; //loads the User control route view together with the main controler
+            this.Load += UserControlRouteView_Load; //load the User control route view together with the main controler
         }
 
         private void UserControlRouteView_Load(object sender, EventArgs e)
         {
-
             gMapControl1.MapProvider = GMapProviders.OpenStreetMap;
 
             LoadRoutes(); //loads all routes from DB
@@ -60,12 +59,11 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             gMapControl1.DragButton = MouseButtons.Left;
             gMapControl1.IgnoreMarkerOnMouseWheel = true;
 
-            // Initial center position based on calgary's latitude and longitude
+            // Initial center position based on Calgary latitude and longitude
             gMapControl1.Position = new PointLatLng(51.0501, -114.08529);
 
             // sets the timer value
-            //busTimer.Interval = 200;
-            busTimer.Interval = 1200;
+            busTimer.Interval = 1200;  // slower
             busTimer.Tick += BusTimer_Tick;       
         }
 
@@ -76,7 +74,7 @@ namespace SchoolBusRouteTrack.AdministratorSystem
            RouteRepository repository = new RouteRepository();
            allRoutes.Clear(); // Clear existing routes before loading
 
-           var dt = repository.GetRoutesAndStops(); // dt = DataTable Patricia
+           var dt = repository.GetRoutesAndStops();
 
             foreach (DataRow row in dt.Rows)
             {
@@ -94,7 +92,8 @@ namespace SchoolBusRouteTrack.AdministratorSystem
                     existingRoute = new BusRoute
                     {
                         RouteID = routeId,
-                        RouteName = routeNumber,
+                        RouteNumber = routeNumber,
+                        RouteName = description, 
                         SchoolName = row["SchoolName"] != DBNull.Value ? row["SchoolName"].ToString() : "",
                         DriverName = row["DriverName"] != DBNull.Value ? row["DriverName"].ToString() : "",
                         Plate = row["Plate"] != DBNull.Value ? row["Plate"].ToString() : "",
@@ -116,14 +115,17 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             }
 
             comboBoxRoutes.Items.Clear();
+
             // sets the ComboBox with placeholder value
             comboBoxRoutes.Items.Add("-- Select Route --");
             comboBoxRoutes.SelectedIndex = 0;
-            //loops withim the combobox route options
+
+            //loops within the Combobox route options
             foreach (var route in allRoutes)
                 comboBoxRoutes.Items.Add(route);
+
             //gets the value select and call the method to display the route
-            comboBoxRoutes.DisplayMember = "RouteName";
+            comboBoxRoutes.DisplayMember = "DisplayName";
             comboBoxRoutes.SelectedIndexChanged += comboBoxRoutes_SelectedIndexChanged;
 
             // Clear labels when loading
@@ -133,9 +135,9 @@ namespace SchoolBusRouteTrack.AdministratorSystem
         // Clear route info labels
         private void ClearRouteInfo()
         {
-            lbl_school.Text = "School:";
-            lbl_driver.Text = "Driver:";
-            lbl_plate.Text = "Plate:";
+            lbl_school.Text = "School: ";
+            lbl_driver.Text = "Driver: ";
+            lbl_plate.Text = "Plate: ";
         }
 
         // The User selects a value on the combobox
@@ -156,39 +158,18 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             lbl_driver.Text = $"Driver: {selectedRoute.DriverName}";
             lbl_plate.Text = $"Plate: {selectedRoute.Plate}";
 
-            //sets the stops to a route and its current index position
-            // routeStops = selectedRoute.Stops; patricia teste linha azul
-            routeStops = selectedRoute.Stops ?? new List<BusStop>(); // Patricia
+            routeStops = selectedRoute.Stops ?? new List<BusStop>(); // Check if it's null, otherwise (??) create a new list
             currentStopIndex = 0;
-            // zera o caminho do ônibus para a nova rota - patricia linha azul
-            busPathPoints.Clear(); //patricia linha azul
-            busPathIndex = 0;//patricia linha azul
+            // Clear bus route to a new route
+            busPathPoints.Clear(); 
+            busPathIndex = 0;
 
-            // Clear old map drawings to allow new draw
-            //gMapControl1.Overlays.Clear(); // comentado por Patricia linha azul
-            ////gMapControl1.Refresh();
-            ////gMapControl1.Update();
-            //gMapControl1.ReloadMap();
-            ////Application.DoEvents();
-
-            //// Center map on first stop
-            //gMapControl1.Position = new PointLatLng(
-            //    routeStops[0].Latitude,
-            //    routeStops[0].Longitude
-            //);
-
-            //// calls the methods to draw the selected route on the map            
-            //DrawRouteLightPolyline();
-            //DrawRoutePolylineAlongRoads();
-            //AddRouteStopsToMap();
-            //DrawRoutePolyline();
-            //AddBusMarker();
-
+       
             // Clear old map drawings to allow new draw
             gMapControl1.Overlays.Clear();
             gMapControl1.ReloadMap();
 
-            // Cria um overlay único para tudo dessa rota
+            // Create an unique overlay for everything in this route
             routeOverlay = new GMapOverlay("route_main");
             gMapControl1.Overlays.Add(routeOverlay);
 
@@ -198,11 +179,11 @@ namespace SchoolBusRouteTrack.AdministratorSystem
                 routeStops[0].Longitude
             );
 
-            // Desenha TUDO usando o mesmo overlay
+            // Draw everything using the same overlay
             DrawRouteLightPolyline();
             DrawRoutePolylineAlongRoads();
             AddRouteStopsToMap();
-         //   DrawRoutePolyline();
+            // DrawRoutePolyline();
             AddBusMarker();
 
             // Restart bus movement
@@ -210,113 +191,22 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             busTimer.Start();
         }
 
-        // Draws stop markers
-        //private void AddRouteStopsToMap() // Patricia - linha azul - original
-        //{
-        //    //creates an overlay object to draw the stop point
-        //    GMapOverlay stopsOverlay = new GMapOverlay("stops");
-        //    int stopNumber = 1;
-
-        //    //loops into each stop and sets latitude, logitude, a marker, a stop tip when hovered
-        //    foreach (var stop in routeStops)
-        //    {
-        //        var marker = new GMarkerGoogle(
-        //            new PointLatLng(stop.Latitude, stop.Longitude),
-        //            GMarkerGoogleType.green_small);
-
-        //        marker.ToolTipText = $"{stopNumber}. {stop.Name}";
-        //        marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-
-        //        stopsOverlay.Markers.Add(marker);
-        //        stopNumber++;
-        //    }
-
-        //    gMapControl1.Overlays.Add(stopsOverlay); //adds a new stop overlay
-        //}
-
-        // Draws stop markers
-        //private void AddRouteStopsToMap() // primeiro teste patricia
-        //{
-        //    if (routeStops == null || routeStops.Count == 0 || routeOverlay == null)
-        //        return;
-
-        //    int stopNumber = 1;
-
-        //    //loops into each stop and sets latitude, longitude, a marker, a stop tip when hovered
-        //    foreach (var stop in routeStops)
-        //    {
-        //        var marker = new GMarkerGoogle(
-        //            new PointLatLng(stop.Latitude, stop.Longitude),
-        //            GMarkerGoogleType.green_small);
-
-        //        marker.ToolTipText = $"{stopNumber}. {stop.Name}";
-        //        marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-
-        //        routeOverlay.Markers.Add(marker);
-        //        stopNumber++;
-        //    }
-        //}
-        //private void AddRouteStopsToMap() // segundo teste Patricia
-        //{
-        //    if (routeStops == null || routeStops.Count == 0 || routeOverlay == null)
-        //        return;
-
-        //    int stopNumber = 1;
-
-        //    for (int i = 0; i < routeStops.Count; i++)
-        //    {
-        //        // pula o primeiro stop, porque o ônibus já marca esse ponto
-        //        if (i == 0)
-        //            continue;
-
-        //        var stop = routeStops[i];
-
-        //        var marker = new GMarkerGoogle(
-        //            new PointLatLng(stop.Latitude, stop.Longitude),
-        //            GMarkerGoogleType.green_small);
-
-        //        marker.ToolTipText = $"{stopNumber}. {stop.Name}";
-        //        marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-
-        //        routeOverlay.Markers.Add(marker);
-        //        stopNumber++;
-        //    }
-        //}
-
-
-        // Draws stop markers
+               
+        // Draws stop markers (green and red)
         private void AddRouteStopsToMap()
         {
             if (routeStops == null || routeStops.Count == 0 || routeOverlay == null)
                 return;
 
-            // vamos numerar os stops a partir de 1, mas pular o primeiro (onde já tem o ônibus)
             int stopNumber = 1;
 
             for (int i = 0; i < routeStops.Count; i++)
             {
-                // pula o primeiro stop, porque o ônibus vermelho já marca esse ponto
-                if (i == 0)
-                {
-                    stopNumber++;
-                    continue;
-                }
-
                 var stop = routeStops[i];
-
-                // escolhe o tipo de marcador:
-                // - verde para paradas intermediárias
-                // - azul para a última parada
-                GMarkerGoogleType markerType;
-
-                if (i == routeStops.Count - 1)
-                    markerType = GMarkerGoogleType.green_small;   // última parada
-                else
-                    markerType = GMarkerGoogleType.green_small;  // paradas intermediárias
-
+                        
                 var marker = new GMarkerGoogle(
                     new PointLatLng(stop.Latitude, stop.Longitude),
-                    markerType
+                    GMarkerGoogleType.green_small               
                 );
 
                 marker.ToolTipText = $"{stopNumber}. {stop.Name}";
@@ -328,76 +218,11 @@ namespace SchoolBusRouteTrack.AdministratorSystem
         }
 
 
-
-        //private void DrawRoutePolylineAlongRoads() //Patricia - linha azul original
-        //{
-        //    GMapOverlay routeOverlay = new GMapOverlay("route_roads");
-
-        //    // Vamos criar um segmento de rota entre cada par de paradas
-        //    for (int i = 0; i < routeStops.Count - 1; i++)
-        //    {
-        //        var stopA = routeStops[i];
-        //        var stopB = routeStops[i + 1];
-
-        //        PointLatLng pointA = new PointLatLng(stopA.Latitude, stopA.Longitude);
-        //        PointLatLng pointB = new PointLatLng(stopB.Latitude, stopB.Longitude);
-
-        //        // Pede para o provider calcular rota pelas ruas
-        //        MapRoute segmentRoute =
-        //            OpenStreetMapProvider.Instance.GetRoute(pointA, pointB, false, false, 15);
-
-        //        if (segmentRoute != null && segmentRoute.Points.Count > 1)
-        //        {
-        //            // Usa os pontos calculados (que seguem a estrada)
-        //            GMapRoute routeLine = new GMapRoute(segmentRoute.Points, $"segment_{i}")
-        //            {
-        //                Stroke = new Pen(Color.Blue, 3)  // mesma cor que você já usava
-        //            };
-
-        //            routeOverlay.Routes.Add(routeLine);
-        //        }
-        //    }
-
-        //    gMapControl1.Overlays.Add(routeOverlay);
-        //}
-
-        //private void DrawRoutePolylineAlongRoads() // tentativa linha azul
-        //{
-        //    if (routeStops == null || routeStops.Count < 2 || routeOverlay == null)
-        //        return;
-
-        //    // cria um segmento de rota entre cada par de paradas
-        //    for (int i = 0; i < routeStops.Count - 1; i++)
-        //    {
-        //        var stopA = routeStops[i];
-        //        var stopB = routeStops[i + 1];
-
-        //        PointLatLng pointA = new PointLatLng(stopA.Latitude, stopA.Longitude);
-        //        PointLatLng pointB = new PointLatLng(stopB.Latitude, stopB.Longitude);
-
-        //        // pede para o provider calcular rota pelas ruas
-        //        MapRoute segmentRoute =
-        //            OpenStreetMapProvider.Instance.GetRoute(pointA, pointB, false, false, 15);
-
-        //        if (segmentRoute != null && segmentRoute.Points.Count > 1)
-        //        {
-        //            // usa os pontos calculados (que seguem a estrada)
-        //            GMapRoute routeLine = new GMapRoute(segmentRoute.Points, $"segment_{i}")
-        //            {
-        //                Stroke = new Pen(Color.Blue, 3)  // mesma cor que você já usava
-        //            };
-
-        //            routeOverlay.Routes.Add(routeLine);
-        //        }
-        //    }
-        //}
-
         private void DrawRoutePolylineAlongRoads()
         {
             if (routeStops == null || routeStops.Count < 2 || routeOverlay == null)
                 return;
 
-            // vamos também montar o caminho que o ônibus vai seguir
             busPathPoints.Clear();
             busPathIndex = 0;
 
@@ -414,16 +239,16 @@ namespace SchoolBusRouteTrack.AdministratorSystem
 
                 if (segmentRoute != null && segmentRoute.Points.Count > 1)
                 {
-                    // desenha a linha nas ruas
+                    // draw lines on streets
                     GMapRoute routeLine = new GMapRoute(segmentRoute.Points, $"segment_{i}")
                     {
                         Stroke = new Pen(Color.Blue, 3)
                     };
                     routeOverlay.Routes.Add(routeLine);
 
-                    // monta o caminho do ônibus:
-                    // primeiro segmento: adiciona todos os pontos
-                    // próximos segmentos: pula o primeiro para não duplicar o ponto de junção
+                    // Mount bus route
+                    // first segment: add all points
+                    // next segments: jump first stop to avoid duplicating the junction point
                     if (busPathPoints.Count == 0)
                         busPathPoints.AddRange(segmentRoute.Points);
                     else
@@ -432,33 +257,9 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             }
         }
 
-
-
-        //private void DrawRouteLightPolyline() // comentado por Patricia - linha azul
-        //{
-        //    // overlay próprio para a linha clara
-        //    GMapOverlay routeLightOverlay = new GMapOverlay("route_light");
-        //    List<PointLatLng> points = new List<PointLatLng>();
-
-        //    foreach (var stop in routeStops)
-        //        points.Add(new PointLatLng(stop.Latitude, stop.Longitude));
-
-        //    GMapRoute routeLight = new GMapRoute(points, "RouteLight");
-
-        //    // cor clara com transparência
-        //    routeLight.Stroke = new Pen(Color.FromArgb(120, Color.LightSkyBlue), 6);
-        //    // se quiser, pode deixar a linha tracejada:
-        //    // routeLight.Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-
-        //    routeLightOverlay.Routes.Add(routeLight);
-
-        //    // adiciona ANTES da rota azul, pra ficar “debaixo”
-        //    gMapControl1.Overlays.Add(routeLightOverlay);
-        //}
-
         private void DrawRouteLightPolyline()
         {
-            // precisa de pelo menos dois pontos para desenhar linha
+            // at least 2 points to draw the light route line
             if (routeStops == null || routeStops.Count < 2 || routeOverlay == null)
                 return;
 
@@ -469,94 +270,16 @@ namespace SchoolBusRouteTrack.AdministratorSystem
 
             GMapRoute routeLight = new GMapRoute(points, "RouteLight");
 
-            // cor clara com transparência e linha grossa
+            //set color
             routeLight.Stroke = new Pen(Color.FromArgb(180, Color.LightSkyBlue), 6);
-            // opcional: linha tracejada
-            // routeLight.Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-
-            // adiciona no overlay principal
+            
+            // add it on main overlay
             routeOverlay.Routes.Add(routeLight);
         }
 
 
-        // Draw straight lines connecting the stop of the route
-        //private void DrawRoutePolyline() - Patricia Linha azul
-        //{
-        //    //creates a overlay object and list of points for latidude and longitude
-        //    GMapOverlay routeOverlay = new GMapOverlay("route");
-        //    List<PointLatLng> points = new List<PointLatLng>();
-
-        //    //loops through the route stops adding the points
-        //    foreach (var stop in routeStops)
-        //        points.Add(new PointLatLng(stop.Latitude, stop.Longitude));
-
-        //    //creates the map route object, sets its color and adds to route overlay
-        //    GMapRoute routeLine = new GMapRoute(points, "Route");
-        //    routeLine.Stroke = new Pen(Color.Blue, 3);
-        //    routeOverlay.Routes.Add(routeLine);
-
-        //    gMapControl1.Overlays.Add(routeOverlay);
-        //}
-
-        // Draw straight lines connecting the stop of the route
-        //private void DrawRoutePolyline()
-        //{
-        //    if (routeStops == null || routeStops.Count < 2 || routeOverlay == null)
-        //        return;
-
-        //    //creates a list of points for latitude and longitude
-        //    List<PointLatLng> points = new List<PointLatLng>();
-
-        //    //loops through the route stops adding the points
-        //    foreach (var stop in routeStops)
-        //        points.Add(new PointLatLng(stop.Latitude, stop.Longitude));
-
-        //    //creates the map route object, sets its color and adds to route overlay
-        //    GMapRoute routeLine = new GMapRoute(points, "RouteStraight");
-        //    routeLine.Stroke = new Pen(Color.Blue, 3);
-
-        //    routeOverlay.Routes.Add(routeLine);
-        //}
-
-
         // Add bus marker (simulation)
-        //private void AddBusMarker() Patricia - linha azul original
-        //{
-        //    //gets the first stop index position
-        //    var first = routeStops[0];
-        //    //creates a simple marker
-        //    busMarker = new GMarkerGoogle(
-        //    new PointLatLng(first.Latitude, first.Longitude),
-        //    GMarkerGoogleType.red_small
-        //    );
-        //    //creates a new overlay object and adds it to the list
-        //    GMapOverlay busOverlay = new GMapOverlay("bus");
-        //    busOverlay.Markers.Add(busMarker);
-
-        //    gMapControl1.Overlays.Add(busOverlay);
-        //}
-
-        // Add bus marker (simulation)
-        //private void AddBusMarker() tentativa linha azul
-        //{
-        //    if (routeStops == null || routeStops.Count == 0 || routeOverlay == null)
-        //        return;
-
-        //    //gets the first stop index position
-        //    var first = routeStops[0];
-
-        //    //creates a simple marker
-        //    busMarker = new GMarkerGoogle(
-        //        new PointLatLng(first.Latitude, first.Longitude),
-        //        GMarkerGoogleType.red_small
-        //    );
-
-        //    //adds bus marker to the main overlay
-        //    routeOverlay.Markers.Add(busMarker);
-        //}
-
-        // Add bus marker (simulation)
-        private void AddBusMarker() // patricia linha azul
+        private void AddBusMarker()
         {
             if (routeOverlay == null)
                 return;
@@ -564,43 +287,27 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             PointLatLng startPosition;
 
             if (busPathPoints != null && busPathPoints.Count > 0)
-                startPosition = busPathPoints[0];          // início da rota pelas ruas
+                startPosition = busPathPoints[0];    // bus starts first position of the route
             else
                 startPosition = new PointLatLng(
                     routeStops[0].Latitude,
-                    routeStops[0].Longitude);              // fallback
+                    routeStops[0].Longitude);
 
             busMarker = new GMarkerGoogle(
                 startPosition,
                 GMarkerGoogleType.red_small
             );
-
             routeOverlay.Markers.Add(busMarker);
         }
 
 
-        // Moves the bus each tick from point A to B
-        //private void BusTimer_Tick(object sender, EventArgs e) // comentaeo por Patricia linha azul
-        //{
-        //    //if is at the end returns
-        //    if (currentStopIndex >= routeStops.Count - 1)
-        //        return;
-
-        //    var a = routeStops[currentStopIndex];
-        //    var b = routeStops[currentStopIndex + 1];
-
-        //    MoveBusTowards(a, b); //calls the method to move the bus
-
-        //    if (IsBusAtStop(b)) //if the b pointis reached it move foward by 1
-        //        currentStopIndex++;
-        //}
-
+        // Moves the bus each tick from point A to B       
         private void BusTimer_Tick(object sender, EventArgs e)
         {
             if (busMarker == null || busPathPoints == null || busPathPoints.Count == 0)
                 return;
 
-            // se chegou no último ponto, para
+            // stop the timer if the bus gor last stop
             if (busPathIndex >= busPathPoints.Count - 1)
                 return;
 
@@ -653,14 +360,14 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             // Check if a route is selected
             if (comboBoxRoutes.SelectedIndex <= 0)
             {
-                MessageBox.Show("Please select a route to edit.", "No Route Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a route to edit!", "No Route Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             // Get the selected route
             if (!(comboBoxRoutes.SelectedItem is BusRoute selectedRoute))
             {
-                MessageBox.Show("Please select a valid route.", "Invalid Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a valid route!", "Invalid Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -681,14 +388,14 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             // Check if a route is selected
             if (comboBoxRoutes.SelectedIndex <= 0)
             {
-                MessageBox.Show("Please select a route to remove.", "No Route Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a route to remove!", "No Route Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             // Get the selected route
             if (!(comboBoxRoutes.SelectedItem is BusRoute selectedRoute))
             {
-                MessageBox.Show("Please select a valid route.", "Invalid Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a valid route!", "Invalid Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
