@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.studentsAttendancePanel = new System.Windows.Forms.Panel();
             this.labelAttendancePage = new System.Windows.Forms.Label();
             this.labelRoute = new System.Windows.Forms.Label();
             this.comboBoxRoutes = new System.Windows.Forms.ComboBox();
@@ -38,14 +38,14 @@
             this.buttonShowStudents = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // panel1
+            // studentsAttendancePanel
             // 
-            this.panel1.AutoScroll = true;
-            this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.Location = new System.Drawing.Point(61, 106);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(538, 300);
-            this.panel1.TabIndex = 0;
+            this.studentsAttendancePanel.AutoScroll = true;
+            this.studentsAttendancePanel.BackColor = System.Drawing.Color.White;
+            this.studentsAttendancePanel.Location = new System.Drawing.Point(61, 106);
+            this.studentsAttendancePanel.Name = "studentsAttendancePanel";
+            this.studentsAttendancePanel.Size = new System.Drawing.Size(538, 300);
+            this.studentsAttendancePanel.TabIndex = 0;
             // 
             // labelAttendancePage
             // 
@@ -69,9 +69,6 @@
             // comboBoxRoutes
             // 
             this.comboBoxRoutes.FormattingEnabled = true;
-            this.comboBoxRoutes.Items.AddRange(new object[] {
-            "Route School 1",
-            "Route School 2"});
             this.comboBoxRoutes.Location = new System.Drawing.Point(124, 63);
             this.comboBoxRoutes.Name = "comboBoxRoutes";
             this.comboBoxRoutes.Size = new System.Drawing.Size(121, 21);
@@ -131,7 +128,7 @@
             this.Controls.Add(this.labelAttendancePage);
             this.Controls.Add(this.labelRoute);
             this.Controls.Add(this.comboBoxRoutes);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.studentsAttendancePanel);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "UserControlAttendence";
             this.Size = new System.Drawing.Size(653, 468);
@@ -142,7 +139,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel studentsAttendancePanel;
         private System.Windows.Forms.Label labelAttendancePage;
         private System.Windows.Forms.Label labelRoute;
         private System.Windows.Forms.ComboBox comboBoxRoutes;
