@@ -273,7 +273,7 @@ namespace SchoolBusRouteTrack.Models
                 return;
             }
 
-            
+
             if (comboBoxRoute.SelectedItem != null && comboBoxRoute.SelectedValue != null)
             {
                 int routeId = (int)comboBoxRoute.SelectedValue;
@@ -307,7 +307,7 @@ namespace SchoolBusRouteTrack.Models
             MessageBox.Show("Driver added successfully!");
 
             LoadDriversList();
-            LoadRoutesComboBox(); 
+            LoadRoutesComboBox();
             ClearForm();
         }
 
@@ -384,7 +384,7 @@ namespace SchoolBusRouteTrack.Models
 
             MessageBox.Show("Driver updated successfully!");
             LoadDriversList();
-            LoadRoutesComboBox(); 
+            LoadRoutesComboBox();
             ClearForm();
         }
 
