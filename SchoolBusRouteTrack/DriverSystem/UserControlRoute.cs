@@ -184,7 +184,6 @@ namespace SchoolBusRouteTrack.DriverSystem
                 );
 
                 // Draw everything using the same overlay 
-                DrawRouteLightPolyline(route.Stops);
                 DrawRoutePolylineAlongRoads(route.Stops);
                 AddRouteStopsToMap(route.Stops);
                 AddBusMarker(route.Stops);
@@ -197,24 +196,7 @@ namespace SchoolBusRouteTrack.DriverSystem
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void DrawRouteLightPolyline(List<BusStop> stops)
-        {
-            if (stops == null || stops.Count < 2 || routeOverlay == null)
-                return;
-
-            List<PointLatLng> points = new List<PointLatLng>();
-
-            foreach (var stop in stops)
-                points.Add(new PointLatLng(stop.Latitude, stop.Longitude));
-
-            GMapRoute routeLight = new GMapRoute(points, "RouteLight");
-
-            // Set color 
-            routeLight.Stroke = new Pen(Color.FromArgb(180, Color.LightSkyBlue), 6);
-
-            // Add it on main overlay
-            routeOverlay.Routes.Add(routeLight);
-        }
+        
 
         // Draws road-following polyline
         private void DrawRoutePolylineAlongRoads(List<BusStop> stops)
