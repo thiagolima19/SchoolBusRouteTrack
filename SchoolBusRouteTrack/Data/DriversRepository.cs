@@ -8,17 +8,17 @@ using System.Text;
 
 namespace SchoolBusRouteTrack.Data
 {
-    internal class DriverRepository
+    internal class DriversRepository
     {
         private DBHelper _db = new DBHelper();
 
-        public DataTable GetDrivers() 
+        public DataTable GetDrivers()
         {
             try
             {
                 var sql = new StringBuilder();
 
-                sql.AppendLine("Select d.DriverID, d.FullName, d.Phone, d.Status ");
+                sql.AppendLine("Select d.DriverID, d.FullName, d.Phone, d.Status, d.Latitude, d.Longitude,d.Address, d.VehicleID ");
                 sql.AppendLine(" From Driver d ");
                 sql.AppendLine(" order by 1 ");
 
@@ -65,7 +65,7 @@ namespace SchoolBusRouteTrack.Data
                     row["Status"].ToString(),
                     location,
                     row["AssignedVehicle"]?.ToString(),
-                    row["AssignedRoute"]?.ToString()  
+                    row["AssignedRoute"]?.ToString()
                 ));
             }
 

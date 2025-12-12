@@ -1,12 +1,5 @@
 ﻿using SchoolBusRouteTrack.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SchoolBusRouteTrack.AdministratorSystem
@@ -51,6 +44,7 @@ namespace SchoolBusRouteTrack.AdministratorSystem
 
         private void buttonRouteView_Click(object sender, EventArgs e)
         {
+            // Open The RouteView Registration screen
             UserControlRouteView UCRoute = new UserControlRouteView();
             LoadContent(UCRoute);
         }

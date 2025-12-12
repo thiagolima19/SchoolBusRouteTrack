@@ -32,9 +32,5 @@ namespace SchoolBusRouteTrack.Models
 
             return list;
         }
-        public override string ToString()
-        {
-            return $"{Plate} - {Type} ({Company})";
-        }
     }
 }
