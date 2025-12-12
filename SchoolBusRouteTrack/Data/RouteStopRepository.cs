@@ -8,7 +8,6 @@ using System.Text;
 
 namespace SchoolBusRouteTrack.Data
 {
-
     internal class RouteStopRepository
     {
         private DBHelper _db = new DBHelper();
@@ -52,7 +51,5 @@ namespace SchoolBusRouteTrack.Data
             catch (Exception ex) { throw ex; }
 
         }
-
-
     }
 }
