@@ -39,7 +39,7 @@ namespace SchoolBusRouteTrack.DriverSystem
             TripRepository trip = new TripRepository();
 
 
-            List<Trip> activeRoutes = trip.GetActiveTrips(5);
+            List<Trip> activeRoutes = trip.GetActiveTrips(_driverId);
 
             comboBoxRoutes.Items.Clear();
 
