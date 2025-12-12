@@ -219,7 +219,7 @@
     <Compile Include="RouteModels\RouteStop.cs" />
     <Compile Include="Service\GeoCodeResult.cs" />
     <Compile Include="Service\MapsService.cs" />
-    <Compile Include="UserModel\CurrentUser.cs" />
+    <Compile Include="Models\CurrentUser.cs" />
     <Compile Include="Data\DBHelper.cs" />
     <Compile Include="Data\StudentRepository.cs" />
     <Compile Include="DriverSystem\UserControlStudentAttendance.cs">
@@ -231,8 +231,8 @@
     <Compile Include="RouteModels\Bus.cs" />
     <Compile Include="RouteModels\BusRoute.cs" />
     <Compile Include="RouteModels\BusStop.cs" />
-    <Compile Include="TripModels\Trip.cs" />
-    <Compile Include="UserModel\LoginUser.cs" />
+    <Compile Include="Models\Trip.cs" />
+    <Compile Include="Models\LoginUser.cs" />
     <Compile Include="AdministratorSystem\FormAdminDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -359,11 +359,10 @@
     <None Include="Resources\temp_logo.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Data\SQLQueryBus1.sql" />
     <Content Include="Resources\logo_bus.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="_DriverModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

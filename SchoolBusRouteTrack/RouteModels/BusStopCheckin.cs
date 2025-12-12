@@ -12,5 +12,6 @@ namespace SchoolBusRouteTrack
         public int BusStopID { get; set; }
         public BusStop BusStop {  get; set; }
         public DateTime CheckinTime { get; set; }
+        public int RouteID { get; set; }
     }
 }

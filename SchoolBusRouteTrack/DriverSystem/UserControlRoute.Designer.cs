@@ -36,7 +36,6 @@
             this.comboBoxRoutes.Size = new System.Drawing.Size(200, 21);
             this.comboBoxRoutes.TabIndex = 0;
             this.comboBoxRoutes.Text = "-- Select a Route --";
-            this.comboBoxRoutes.SelectedIndexChanged += new System.EventHandler(this.comboBoxRoutes_SelectedIndexChanged);
             // 
             // labelRouteName
             // 
@@ -106,7 +105,6 @@
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "UserControlRoute";
             this.Size = new System.Drawing.Size(653, 468);
-            this.Load += new System.EventHandler(this.UserControlRoute_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -26,14 +26,10 @@ namespace SchoolBusRouteTrack.AdministratorSystem
         //Set a timer for draw the bus
         Timer busTimer = new Timer();
 
-        //sets the current stop index
-        int currentStopIndex = 0;
-
         GMapOverlay routeOverlay; // main overlay to draw complete route (route spots) to bus follows
-                                 
+
         private List<PointLatLng> busPathPoints = new List<PointLatLng>(); // to draw blue line between routes
         private int busPathIndex = 0;
-
 
         public UserControlRouteView()
         {
@@ -64,17 +60,17 @@ namespace SchoolBusRouteTrack.AdministratorSystem
 
             // sets the timer value
             busTimer.Interval = 1200;  // slower
-            busTimer.Tick += BusTimer_Tick;       
+            busTimer.Tick += BusTimer_Tick;
         }
 
         // Load all routes
         //creates new BusRoute objects with a list of BusStops objects and its values for name, latitude and longitude
         private void LoadRoutes()
         {
-           RouteRepository repository = new RouteRepository();
-           allRoutes.Clear(); // Clear existing routes before loading
+            RouteRepository repository = new RouteRepository();
+            allRoutes.Clear(); // Clear existing routes before loading
 
-           var dt = repository.GetRoutesAndStops();
+            var dt = repository.GetRoutesAndStops();
 
             foreach (DataRow row in dt.Rows)
             {
@@ -93,7 +89,7 @@ namespace SchoolBusRouteTrack.AdministratorSystem
                     {
                         RouteID = routeId,
                         RouteNumber = routeNumber,
-                        RouteName = description, 
+                        RouteName = description,
                         SchoolName = row["SchoolName"] != DBNull.Value ? row["SchoolName"].ToString() : "",
                         DriverName = row["DriverName"] != DBNull.Value ? row["DriverName"].ToString() : "",
                         Plate = row["Plate"] != DBNull.Value ? row["Plate"].ToString() : "",
@@ -159,12 +155,11 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             lbl_plate.Text = $"Plate: {selectedRoute.Plate}";
 
             routeStops = selectedRoute.Stops ?? new List<BusStop>(); // Check if it's null, otherwise (??) create a new list
-            currentStopIndex = 0;
             // Clear bus route to a new route
-            busPathPoints.Clear(); 
+            busPathPoints.Clear();
             busPathIndex = 0;
 
-       
+
             // Clear old map drawings to allow new draw
             gMapControl1.Overlays.Clear();
             gMapControl1.ReloadMap();
@@ -191,7 +186,7 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             busTimer.Start();
         }
 
-               
+
         // Draws stop markers (green and red)
         private void AddRouteStopsToMap()
         {
@@ -203,10 +198,10 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             for (int i = 0; i < routeStops.Count; i++)
             {
                 var stop = routeStops[i];
-                        
+
                 var marker = new GMarkerGoogle(
                     new PointLatLng(stop.Latitude, stop.Longitude),
-                    GMarkerGoogleType.green_small               
+                    GMarkerGoogleType.green_small
                 );
 
                 marker.ToolTipText = $"{stopNumber}. {stop.Name}";
@@ -272,7 +267,7 @@ namespace SchoolBusRouteTrack.AdministratorSystem
 
             //set color
             routeLight.Stroke = new Pen(Color.FromArgb(180, Color.LightSkyBlue), 6);
-            
+
             // add it on main overlay
             routeOverlay.Routes.Add(routeLight);
         }
@@ -317,29 +312,7 @@ namespace SchoolBusRouteTrack.AdministratorSystem
             gMapControl1.Refresh();
         }
 
-        private void MoveBusTowards(BusStop a, BusStop b)
-        {
-            double lat = busMarker.Position.Lat;
-            double lng = busMarker.Position.Lng;
-            //this will make the maker run on the top of the line
-            double newLat = lat + (b.Latitude - lat) * 0.05;
-            double newLng = lng + (b.Longitude - lng) * 0.05;
 
-            busMarker.Position = new PointLatLng(newLat, newLng);
-            gMapControl1.Refresh();
-        }
-
-        private bool IsBusAtStop(BusStop stop)
-        {
-            //checks the delta difference between two points and returns if true or false if the result is lesser than 0.0003 degrees ≈ 33m, as 1 degree of latitude ≈ 111km
-            double distance = Math.Sqrt(
-                Math.Pow(busMarker.Position.Lat - stop.Latitude, 2) +
-                Math.Pow(busMarker.Position.Lng - stop.Longitude, 2)
-            );
-
-            return distance < 0.0003;
-        }
-        
         private void btn_addRoute_Click(object sender, EventArgs e)
         {
             using (var dialog = new FormAddRoute())  // Open Form "Add Route" to register new Route (modal)
@@ -347,10 +320,10 @@ namespace SchoolBusRouteTrack.AdministratorSystem
                 var result = dialog.ShowDialog(this);
 
 
-            if (result == DialogResult.OK)
-            {
-                LoadRoutes();
-            }
+                if (result == DialogResult.OK)
+                {
+                    LoadRoutes();
+                }
 
             }
         }

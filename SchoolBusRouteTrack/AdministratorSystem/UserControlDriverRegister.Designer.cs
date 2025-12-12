@@ -95,11 +95,15 @@
             // 
             // buttonDriverClear
             // 
+            this.buttonDriverClear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(117)))), ((int)(((byte)(125)))));
+            this.buttonDriverClear.FlatAppearance.BorderSize = 0;
+            this.buttonDriverClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonDriverClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDriverClear.Location = new System.Drawing.Point(577, 1104);
+            this.buttonDriverClear.ForeColor = System.Drawing.Color.White;
+            this.buttonDriverClear.Location = new System.Drawing.Point(577, 1080);
             this.buttonDriverClear.Margin = new System.Windows.Forms.Padding(6);
             this.buttonDriverClear.Name = "buttonDriverClear";
-            this.buttonDriverClear.Size = new System.Drawing.Size(150, 44);
+            this.buttonDriverClear.Size = new System.Drawing.Size(150, 68);
             this.buttonDriverClear.TabIndex = 51;
             this.buttonDriverClear.Text = "Clear";
             this.buttonDriverClear.UseVisualStyleBackColor = true;
@@ -107,12 +111,16 @@
             // 
             // buttonDriverSave
             // 
+            this.buttonDriverSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.buttonDriverSave.FlatAppearance.BorderSize = 0;
+            this.buttonDriverSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonDriverSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDriverSave.Location = new System.Drawing.Point(348, 1104);
+            this.buttonDriverSave.ForeColor = System.Drawing.Color.White;
+            this.buttonDriverSave.Location = new System.Drawing.Point(348, 1080);
             this.buttonDriverSave.Margin = new System.Windows.Forms.Padding(6);
             this.buttonDriverSave.Name = "buttonDriverSave";
-            this.buttonDriverSave.Size = new System.Drawing.Size(150, 44);
-            this.buttonDriverSave.TabIndex = 50;
+            this.buttonDriverSave.Size = new System.Drawing.Size(150, 68);
+            this.buttonDriverSave.TabIndex = 36;
             this.buttonDriverSave.Text = "Save";
             this.buttonDriverSave.UseVisualStyleBackColor = true;
             this.buttonDriverSave.Click += new System.EventHandler(this.ButtonDriverSave_Click);
@@ -234,10 +242,15 @@
             // 
             // buttonAddressSearch
             // 
+            this.buttonAddressSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(117)))), ((int)(((byte)(125)))));
+            this.buttonAddressSearch.FlatAppearance.BorderSize = 0;
+            this.buttonAddressSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonAddressSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonAddressSearch.ForeColor = System.Drawing.Color.White;
             this.buttonAddressSearch.Location = new System.Drawing.Point(856, 298);
             this.buttonAddressSearch.Margin = new System.Windows.Forms.Padding(6);
             this.buttonAddressSearch.Name = "buttonAddressSearch";
-            this.buttonAddressSearch.Size = new System.Drawing.Size(150, 38);
+            this.buttonAddressSearch.Size = new System.Drawing.Size(150, 52);
             this.buttonAddressSearch.TabIndex = 64;
             this.buttonAddressSearch.Text = "Search";
             this.buttonAddressSearch.UseVisualStyleBackColor = true;
@@ -245,24 +258,32 @@
             // 
             // btnDelete
             // 
+            this.btnDelete.BackColor = System.Drawing.Color.Red;
+            this.btnDelete.FlatAppearance.BorderSize = 0;
+            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDelete.Location = new System.Drawing.Point(577, 1176);
+            this.btnDelete.ForeColor = System.Drawing.Color.White;
+            this.btnDelete.Location = new System.Drawing.Point(577, 1164);
             this.btnDelete.Margin = new System.Windows.Forms.Padding(6);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(150, 44);
+            this.btnDelete.Size = new System.Drawing.Size(150, 68);
             this.btnDelete.TabIndex = 66;
             this.btnDelete.Tag = "delete";
             this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnEdit
             // 
+            this.btnEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(167)))), ((int)(((byte)(69)))));
+            this.btnEdit.FlatAppearance.BorderSize = 0;
+            this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEdit.Location = new System.Drawing.Point(348, 1176);
+            this.btnEdit.ForeColor = System.Drawing.Color.White;
+            this.btnEdit.Location = new System.Drawing.Point(348, 1164);
             this.btnEdit.Margin = new System.Windows.Forms.Padding(6);
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(150, 44);
+            this.btnEdit.Size = new System.Drawing.Size(150, 68);
             this.btnEdit.TabIndex = 65;
             this.btnEdit.Tag = "edit";
             this.btnEdit.Text = "Edit";
