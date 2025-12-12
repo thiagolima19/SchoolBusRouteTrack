@@ -1,12 +1,15 @@
 ﻿using Microsoft.Data.SqlClient;
+using SchoolBusRouteTrack.AdministratorSystem;
+using SchoolBusRouteTrack.Models;
 using SchoolBusRouteTrack.TripModels;
+using SchoolBusRouteTrack.UserModel;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Windows.Forms;
-using SchoolBusRouteTrack.UserModel;
-using SchoolBusRouteTrack.Models;
+using static GMap.NET.Entity.OpenStreetMapGeocodeEntity;
 
 namespace SchoolBusRouteTrack.Data
 {
@@ -230,6 +233,70 @@ namespace SchoolBusRouteTrack.Data
             }
 
             return stops;
+        }
+
+
+        //gets all the students on DB for a stop
+        internal List<Student> GetStudentsByStop(int stopId)
+        {
+            List<Student> students = new List<Student>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("GetStudentsByStop", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@StopID", stopId);
+
+                    conn.Open();
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        var location = new MapLocation(
+                            (double)reader["Latitude"],
+                            (double)reader["Longitude"],
+                            reader["Address"].ToString(),
+                            (int)reader["StudentID"]
+                        );
+
+                        students.Add(new Student(
+                            (int)reader["StudentID"],
+                            reader["FullName"].ToString(),
+                            location, 
+                            reader["Grade"].ToString(),
+                            reader["GuardianName"].ToString(),
+                            reader["GuardianRelationship"].ToString(),
+                            reader["GuardianPhone"].ToString(),
+                            (int)reader["SchoolID"],
+                            reader["SpecialCare"].ToString()));
+                        //{
+                        //    _studentID = (int)reader["StudentID"],
+                        //    _name = reader["FullName"].ToString(),
+                        //    _address = location,
+                        //    _grade = reader["Grade"].ToString(),
+                        //    _guardianName = reader["GuardianName"].ToString(),
+                        //    _guardianRelationship = reader["GuardianRelationship"].ToString(),
+                        //    _guardianPhone = reader["GuardianPhone"].ToString(),
+                        //    _schoolID = (int)reader["SchoolID"],
+                        //    _specialCare = reader["SpecialCare"].ToString()
+                        //});
+                    }
+                    reader.Close();
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                MessageBox.Show($"SQL Error: {sqlEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+
+            return students;
         }
     }
 }

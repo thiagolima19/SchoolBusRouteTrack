@@ -29,8 +29,6 @@ namespace SchoolBusRouteTrack.DriverSystem
 
         private void LoadAttendanceData()
         {
-
-            studentsAttendancePanel.Controls.Clear();
             try
             {
                 List<Trip> trips = db.GetTrips(_driverId);
@@ -104,6 +102,110 @@ namespace SchoolBusRouteTrack.DriverSystem
             }
         }
 
+        private Panel CreateAttendanceCard (Student student)
+        {
+            Panel attedCard = new Panel();
+            attedCard.Width = 500;
+            attedCard.Height = 30;
+            attedCard.BackColor = Color.White;
+            attedCard.BorderStyle = BorderStyle.FixedSingle;
+            attedCard.Margin = new Padding(5);
+
+            Label lblStudentName = new Label();
+            lblStudentName.Text = student._name;
+            lblStudentName.Font = new Font("Microsoft Sans Serif", 8);
+            lblStudentName.Location = new Point(20, 9);
+            lblStudentName.AutoSize = true;
+
+            CheckBox cbPickUp = new CheckBox();
+            cbPickUp.Text = "Picked up";
+            cbPickUp.Font = new Font("Microsoft Sans Serif", 8);
+            cbPickUp.Location = new Point(190, 7);
+
+            CheckBox cbDropOff = new CheckBox();
+            cbDropOff.Text = "Dropped Off";
+            cbDropOff.Font = new Font("Microsoft Sans Serif", 8);
+            cbDropOff.Location = new Point(295, 7);
+
+            CheckBox cbAbsent = new CheckBox();
+            cbAbsent.Text = "Absent";
+            cbAbsent.Font = new Font("Microsoft Sans Serif", 8);
+            cbAbsent.Location = new Point(408, 7);
+
+            if (cbPickUp.Checked)
+            {
+                attedCard.BackColor = Color.Green;
+                cbDropOff.Enabled = false;
+                cbAbsent.Enabled = false;
+            }
+
+            else if (cbDropOff.Checked)
+            {
+                attedCard.BackColor = Color.LightGray;
+                cbPickUp.Enabled = false;
+                cbAbsent.Enabled = false;
+            }
+
+            else if(cbAbsent.Checked)
+            {
+                attedCard.BackColor = Color.Red;
+                cbPickUp.Enabled = false;
+                cbDropOff.Enabled = false;
+            }
+            
+            return attedCard;
+        }
+
+        private Panel CreateNoStudentsCard()
+        {
+            Panel noStudentsCard = new Panel();
+            noStudentsCard.Width = 500;
+            noStudentsCard.Height = 30;
+            noStudentsCard.BackColor = Color.White;
+            noStudentsCard.BorderStyle = BorderStyle.FixedSingle;
+            noStudentsCard.Margin = new Padding(5);
+
+            Label lblStudentName = new Label();
+            lblStudentName.Text = "No students for this stop!";
+            lblStudentName.Font = new Font("Microsoft Sans Serif", 8);
+            lblStudentName.Location = new Point(20, 9);
+            lblStudentName.AutoSize = true;
+
+            return noStudentsCard;
+        }
+
+        private void buttonShowStudents_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                studentsAttendancePanel.Controls.Clear();
+                string stringStopId = comboBoxStops.Text.Split(' ')[0];
+                int _stopId = int.Parse(stringStopId);
+
+                List<Student> students = db.GetStudentsByStop(_stopId);
+
+                if(students.Count == 0)
+                {
+                    var card = CreateNoStudentsCard();
+                    studentsAttendancePanel.Controls.Add(card);
+                }
+                else
+                {
+                    foreach(Student student in students)
+                    {
+                        var card = CreateAttendanceCard(student);
+                        studentsAttendancePanel.Controls.Add(card);
+                    }
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading students: {ex.Message}");
+            }
+        }
+
         private void UserControlAttendence_Load(object sender, EventArgs e)
         {
 
@@ -114,5 +216,6 @@ namespace SchoolBusRouteTrack.DriverSystem
 
         }
 
+        
     }
 }

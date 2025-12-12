@@ -111,6 +111,7 @@
             this.buttonShowStudents.TabIndex = 11;
             this.buttonShowStudents.Text = "Show Students";
             this.buttonShowStudents.UseVisualStyleBackColor = true;
+            this.buttonShowStudents.Click += new System.EventHandler(this.buttonShowStudents_Click);
             // 
             // UserControlAttendence
             // 
