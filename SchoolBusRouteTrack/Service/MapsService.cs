@@ -15,46 +15,7 @@ namespace SchoolBusRouteTrack.Service
         private const double calgaryLat = 51.0447;
         private const double calgaryLng = -114.0719;
         private const int searchRadiusMeters = 50000; // 50km radius around Calgary
-        /*public async Task<Tuple<double, double>> GetCoordinatesFromAddress(string address)
-        {
-            string encodedAddress = Uri.EscapeDataString(address);
-            string apiUrl = $"https://maps.googleapis.com/maps/api/geocode/json" +
-                $"?address={encodedAddress}" +
-                $"&components=country:ca" +
-                $"&language=en" +
-                $"&key={googleApiKey}";
 
-            HttpClient client = new HttpClient();
-
-            try
-            {
-                HttpResponseMessage response = await client.GetAsync(apiUrl);
-                response.EnsureSuccessStatusCode(); // Throws an exception if the HTTP status is an error code
-
-                string responseBody = await response.Content.ReadAsStringAsync();
-                JObject jsonResponse = JObject.Parse(responseBody);
-
-                Console.WriteLine(jsonResponse);
-
-                if (jsonResponse["status"].ToString() == "OK")
-                {
-                    double latitude = (double)jsonResponse["results"][0]["geometry"]["location"]["lat"];
-                    double longitude = (double)jsonResponse["results"][0]["geometry"]["location"]["lng"];
-                    return Tuple.Create(latitude, longitude);
-                }
-                else
-                {
-                    // Handle error cases (e.g., address not found)
-                    return null;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error fetching coordinates: {ex.Message}");
-                return null;
-            }
-        }
-*/
         public async Task<GeocodeResult> GetCoordinatesFromAddress(string address)
         {
             string encodedAddress = Uri.EscapeDataString(address);
@@ -114,15 +75,15 @@ namespace SchoolBusRouteTrack.Service
 
             // Location bias for Calgary, Alberta
             string apiUrl =
-    "https://maps.googleapis.com/maps/api/place/autocomplete/json" +
-    $"?input={encodedInput}" +
-    $"&types=address" +
-    $"&language=en" +
-    $"&components=country:ca" +
-    $"&location={calgaryLat},{calgaryLng}" +
-    $"&radius={searchRadiusMeters}" +
-    $"&strictbounds=false" +
-    $"&key={googleApiKey}";
+                            "https://maps.googleapis.com/maps/api/place/autocomplete/json" +
+                            $"?input={encodedInput}" +
+                            $"&types=address" +
+                            $"&language=en" +
+                            $"&components=country:ca" +
+                            $"&location={calgaryLat},{calgaryLng}" +
+                            $"&radius={searchRadiusMeters}" +
+                            $"&strictbounds=false" +
+                            $"&key={googleApiKey}";
 
             Debug.WriteLine("URL chamada: " + apiUrl);
 
@@ -152,8 +113,6 @@ namespace SchoolBusRouteTrack.Service
                 {
                     string errorMessage = data["error_message"]?.ToString() ?? "(sem mensagem)";
                     Debug.WriteLine($"Places AUTOCOMPLETE status: {status} | erro: {errorMessage}");
-                    // aqui você pode dar MessageBox se quiser:
-                    // MessageBox.Show($"Erro Places: {status}\n{errorMessage}");
                 }
             }
             catch (Exception ex)

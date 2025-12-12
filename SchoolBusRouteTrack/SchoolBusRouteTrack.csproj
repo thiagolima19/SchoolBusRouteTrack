@@ -359,6 +359,7 @@
     <None Include="Resources\temp_logo.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Data\SQLQueryBus1.sql" />
     <Content Include="Resources\logo_bus.png" />
   </ItemGroup>
   <ItemGroup />

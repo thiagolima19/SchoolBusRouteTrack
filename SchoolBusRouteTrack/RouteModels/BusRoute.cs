@@ -8,10 +8,10 @@ namespace SchoolBusRouteTrack.AdministratorSystem
 {
     public class BusRoute
     {
-        public int RouteID { get; set; } // PK
+        public int RouteID { get; set; } 
 
-        public string RouteNumber { get; set; } //Route code
-        public string RouteName { get; set; } // Description
+        public string RouteNumber { get; set; } 
+        public string RouteName { get; set; }
         public string SchoolName { get; set; }
         public string DriverName { get; set; }
         public string Plate { get; set; }
