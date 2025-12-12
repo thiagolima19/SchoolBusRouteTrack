@@ -31,14 +31,12 @@
             // comboBoxRoutes
             // 
             this.comboBoxRoutes.FormattingEnabled = true;
-            this.comboBoxRoutes.Items.AddRange(new object[] {
-            "Route School 1",
-            "Route School 2"});
             this.comboBoxRoutes.Location = new System.Drawing.Point(89, 49);
             this.comboBoxRoutes.Name = "comboBoxRoutes";
-            this.comboBoxRoutes.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxRoutes.Size = new System.Drawing.Size(200, 21);
             this.comboBoxRoutes.TabIndex = 0;
-            this.comboBoxRoutes.Text = "Route School 1";
+            this.comboBoxRoutes.Text = "-- Select a Route --";
+            this.comboBoxRoutes.SelectedIndexChanged += new System.EventHandler(this.comboBoxRoutes_SelectedIndexChanged);
             // 
             // labelRouteName
             // 
@@ -52,14 +50,12 @@
             // checkedListBoxBusStop
             // 
             this.checkedListBoxBusStop.FormattingEnabled = true;
-            this.checkedListBoxBusStop.Items.AddRange(new object[] {
-            "Bus Stop 1",
-            "Bus Stop 2",
-            "Bus Stop 3"});
             this.checkedListBoxBusStop.Location = new System.Drawing.Point(44, 106);
             this.checkedListBoxBusStop.Name = "checkedListBoxBusStop";
             this.checkedListBoxBusStop.Size = new System.Drawing.Size(245, 334);
             this.checkedListBoxBusStop.TabIndex = 2;
+            this.checkedListBoxBusStop.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxBusStop_ItemCheck);
+            this.checkedListBoxBusStop.SelectedIndexChanged += new System.EventHandler(this.checkedListBoxBusStop_SelectedIndexChanged);
             // 
             // gMapControlRoute
             // 

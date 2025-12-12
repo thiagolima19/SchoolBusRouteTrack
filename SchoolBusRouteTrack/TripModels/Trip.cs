@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SchoolBusRouteTrack.TripModels
+namespace SchoolBusRouteTrack
 {
     public class Trip
     {

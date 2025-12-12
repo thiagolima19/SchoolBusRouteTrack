@@ -1,5 +1,4 @@
 ﻿using Microsoft.Data.SqlClient;
-using SchoolBusRouteTrack.TripModels;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
