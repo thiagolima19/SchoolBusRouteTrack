@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace SchoolBusRouteTrack
 {
-    public class RouteStop
+    public class BusStopCheckin
     {
-        public int StopID {  get;  set; }
-
-        public BusStop BusStop { get; set; }
-        public int StopOrder { get; set; }
-       
+        public int BusStopID { get; set; }
+        public BusStop BusStop {  get; set; }
+        public DateTime CheckinTime { get; set; }
     }
 }

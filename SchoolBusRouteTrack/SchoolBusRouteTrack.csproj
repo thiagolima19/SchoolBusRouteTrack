@@ -200,6 +200,7 @@
     <Compile Include="AdministratorSystem\AddRouteForm.Designer.cs">
       <DependentUpon>AddRouteForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\TripRepository.cs" />
     <Compile Include="Data\RouteStopRepository.cs" />
     <Compile Include="Data\DriverRepository.cs" />
     <Compile Include="Models\Driver.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="Models\School.cs" />
     <Compile Include="Models\Stop.cs" />
     <Compile Include="Models\Vehicle.cs" />
+    <Compile Include="RouteModels\BusStopCheckin.cs" />
     <Compile Include="RouteModels\RouteStop.cs" />
     <Compile Include="Service\GeoCodeResult.cs" />
     <Compile Include="Service\MapsService.cs" />
