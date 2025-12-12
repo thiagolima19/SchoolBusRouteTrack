@@ -9,7 +9,6 @@ using System.Text;
 
 namespace SchoolBusRouteTrack.Data
 {
-
     internal class TripRepository
     {
         private DBHelper _db = new DBHelper();
@@ -19,7 +18,6 @@ namespace SchoolBusRouteTrack.Data
             try
             {
                 var sql = new StringBuilder();
-
 
                 sql.AppendLine("SELECT t.TripID, t.RouteID, t.DriverID, t.Status, r.Description");
                 sql.AppendLine("FROM Trip t ");
@@ -47,7 +45,5 @@ namespace SchoolBusRouteTrack.Data
             catch (Exception ex) { throw ex; }
 
         }
-
-
     }
 }
