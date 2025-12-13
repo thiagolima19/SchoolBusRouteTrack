@@ -104,56 +104,49 @@ namespace SchoolBusRouteTrack.DriverSystem
 
         private Panel CreateAttendanceCard (Student student)
         {
-            Panel attedCard = new Panel();
-            attedCard.Width = 500;
-            attedCard.Height = 30;
-            attedCard.BackColor = Color.White;
-            attedCard.BorderStyle = BorderStyle.FixedSingle;
-            attedCard.Margin = new Padding(5);
+            Panel attendCard = new Panel();
+            attendCard.Width = 528;
+            attendCard.Height = 30;
+            attendCard.BackColor = Color.AliceBlue;
+            attendCard.BorderStyle = BorderStyle.FixedSingle;
+            attendCard.Margin = new Padding(5);
 
             Label lblStudentName = new Label();
             lblStudentName.Text = student._name;
             lblStudentName.Font = new Font("Microsoft Sans Serif", 8);
-            lblStudentName.Location = new Point(20, 9);
+            lblStudentName.Location = new Point(20, 8);
             lblStudentName.AutoSize = true;
 
             CheckBox cbPickUp = new CheckBox();
             cbPickUp.Text = "Picked up";
             cbPickUp.Font = new Font("Microsoft Sans Serif", 8);
-            cbPickUp.Location = new Point(190, 7);
+            cbPickUp.Location = new Point(190, 5);
 
             CheckBox cbDropOff = new CheckBox();
             cbDropOff.Text = "Dropped Off";
             cbDropOff.Font = new Font("Microsoft Sans Serif", 8);
-            cbDropOff.Location = new Point(295, 7);
+            cbDropOff.Location = new Point(295, 5);
 
             CheckBox cbAbsent = new CheckBox();
             cbAbsent.Text = "Absent";
             cbAbsent.Font = new Font("Microsoft Sans Serif", 8);
-            cbAbsent.Location = new Point(408, 7);
+            cbAbsent.Location = new Point(408, 5);
 
-            if (cbPickUp.Checked)
-            {
-                attedCard.BackColor = Color.Green;
-                cbDropOff.Enabled = false;
-                cbAbsent.Enabled = false;
-            }
+            cbPickUp.CheckedChanged += (s, e) =>
+            UpdateAttendanceCardState(attendCard, cbPickUp, cbDropOff, cbAbsent);
 
-            else if (cbDropOff.Checked)
-            {
-                attedCard.BackColor = Color.LightGray;
-                cbPickUp.Enabled = false;
-                cbAbsent.Enabled = false;
-            }
+            cbDropOff.CheckedChanged += (s, e) =>
+            UpdateAttendanceCardState(attendCard, cbPickUp, cbDropOff, cbAbsent);
 
-            else if(cbAbsent.Checked)
-            {
-                attedCard.BackColor = Color.Red;
-                cbPickUp.Enabled = false;
-                cbDropOff.Enabled = false;
-            }
-            
-            return attedCard;
+            cbAbsent.CheckedChanged += (s, e) =>
+            UpdateAttendanceCardState(attendCard, cbPickUp, cbDropOff, cbAbsent);
+                   
+            attendCard.Controls.Add(lblStudentName);
+            attendCard.Controls.Add(cbPickUp);
+            attendCard.Controls.Add(cbDropOff);
+            attendCard.Controls.Add(cbAbsent);
+
+            return attendCard;
         }
 
         private Panel CreateNoStudentsCard()
@@ -206,16 +199,40 @@ namespace SchoolBusRouteTrack.DriverSystem
             }
         }
 
-        private void UserControlAttendence_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void buttonSaveAttendance_Click(object sender, EventArgs e)
         {
 
         }
 
-        
+        private void UpdateAttendanceCardState(Panel attendCard, CheckBox cbPickUp, CheckBox cbDropOff, CheckBox cbAbsent)
+        {
+            if (cbPickUp.Checked)
+            {
+                attendCard.BackColor = Color.LightGreen;
+                cbDropOff.Enabled = false;
+                cbAbsent.Enabled = false;
+            }
+            else if (cbDropOff.Checked)
+            {
+                attendCard.BackColor = Color.LightGray;
+                cbPickUp.Enabled = false;
+                cbAbsent.Enabled = false;
+            }
+            else if (cbAbsent.Checked)
+            {
+                attendCard.BackColor = Color.Salmon;
+                cbPickUp.Enabled = false;
+                cbDropOff.Enabled = false;
+            }
+            else
+            {
+                attendCard.BackColor = Color.AliceBlue;
+                cbPickUp.Enabled = true;
+                cbDropOff.Enabled = true;
+                cbAbsent.Enabled = true;
+            }
+        }
+
+
     }
 }

@@ -216,8 +216,8 @@ namespace SchoolBusRouteTrack.Data
                         {
                             StopID = (int)reader["StopID"],
                             Address = reader["Address"].ToString(),
-                            Latitude = (float)reader["Latitude"],
-                            Longitude = (float)reader["Longitude"]
+                            Latitude = (double)reader["Latitude"],
+                            Longitude = (double)reader["Longitude"]
                         });
                     }
                     reader.Close();

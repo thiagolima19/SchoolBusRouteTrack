@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.studentsAttendancePanel = new System.Windows.Forms.Panel();
             this.labelAttendancePage = new System.Windows.Forms.Label();
             this.labelRoute = new System.Windows.Forms.Label();
             this.comboBoxRoutes = new System.Windows.Forms.ComboBox();
@@ -36,16 +35,8 @@
             this.comboBoxStops = new System.Windows.Forms.ComboBox();
             this.buttonSaveAttendance = new System.Windows.Forms.Button();
             this.buttonShowStudents = new System.Windows.Forms.Button();
+            this.studentsAttendancePanel = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
-            // 
-            // studentsAttendancePanel
-            // 
-            this.studentsAttendancePanel.AutoScroll = true;
-            this.studentsAttendancePanel.BackColor = System.Drawing.Color.White;
-            this.studentsAttendancePanel.Location = new System.Drawing.Point(61, 106);
-            this.studentsAttendancePanel.Name = "studentsAttendancePanel";
-            this.studentsAttendancePanel.Size = new System.Drawing.Size(538, 300);
-            this.studentsAttendancePanel.TabIndex = 0;
             // 
             // labelAttendancePage
             // 
@@ -113,11 +104,23 @@
             this.buttonShowStudents.UseVisualStyleBackColor = true;
             this.buttonShowStudents.Click += new System.EventHandler(this.buttonShowStudents_Click);
             // 
+            // studentsAttendancePanel
+            // 
+            this.studentsAttendancePanel.AutoScroll = true;
+            this.studentsAttendancePanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.studentsAttendancePanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.studentsAttendancePanel.Location = new System.Drawing.Point(61, 106);
+            this.studentsAttendancePanel.Name = "studentsAttendancePanel";
+            this.studentsAttendancePanel.Size = new System.Drawing.Size(538, 300);
+            this.studentsAttendancePanel.TabIndex = 12;
+            this.studentsAttendancePanel.WrapContents = false;
+            // 
             // UserControlAttendence
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.Controls.Add(this.studentsAttendancePanel);
             this.Controls.Add(this.buttonShowStudents);
             this.Controls.Add(this.buttonSaveAttendance);
             this.Controls.Add(this.labelStop);
@@ -125,7 +128,6 @@
             this.Controls.Add(this.labelAttendancePage);
             this.Controls.Add(this.labelRoute);
             this.Controls.Add(this.comboBoxRoutes);
-            this.Controls.Add(this.studentsAttendancePanel);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "UserControlAttendence";
             this.Size = new System.Drawing.Size(653, 468);
@@ -135,8 +137,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel studentsAttendancePanel;
         private System.Windows.Forms.Label labelAttendancePage;
         private System.Windows.Forms.Label labelRoute;
         private System.Windows.Forms.ComboBox comboBoxRoutes;
@@ -144,5 +144,6 @@
         private System.Windows.Forms.ComboBox comboBoxStops;
         private System.Windows.Forms.Button buttonSaveAttendance;
         private System.Windows.Forms.Button buttonShowStudents;
+        private System.Windows.Forms.FlowLayoutPanel studentsAttendancePanel;
     }
 }
