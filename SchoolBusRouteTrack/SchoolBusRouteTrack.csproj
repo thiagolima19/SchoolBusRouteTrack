@@ -201,6 +201,7 @@
       <DependentUpon>AddRouteForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\DriverRepository.cs" />
+    <Compile Include="Data\ReportsRepository.cs" />
     <Compile Include="Models\Driver.cs" />
     <Compile Include="Models\Route.cs" />
     <Compile Include="Data\RouteRepository.cs" />
