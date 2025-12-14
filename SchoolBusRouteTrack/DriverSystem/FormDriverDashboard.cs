@@ -75,7 +75,17 @@ namespace SchoolBusRouteTrack.DriverSystem
 
         private void btn_attendance_Click(object sender, EventArgs e)
         {
-
+            // Pass the driver ID from CurrentUser
+            int driverId = CurrentUser.DriverID ?? 0;
+            if (driverId > 0)
+            {
+                UserControlAttendence UCAtt = new UserControlAttendence(driverId);
+                LoadContent(UCAtt);
+            }
+            else
+            {
+                MessageBox.Show("Driver ID not found. Please contact administrator.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

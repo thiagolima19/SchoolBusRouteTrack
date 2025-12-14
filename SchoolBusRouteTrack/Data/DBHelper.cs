@@ -1,10 +1,16 @@
 ﻿using Microsoft.Data.SqlClient;
+using SchoolBusRouteTrack.AdministratorSystem;
+using SchoolBusRouteTrack.DriverSystem;
+using SchoolBusRouteTrack.Models;
+using SchoolBusRouteTrack.TripModels;
+using SchoolBusRouteTrack.UserModel;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Windows.Forms;
-using SchoolBusRouteTrack.UserModel;
+using static GMap.NET.Entity.OpenStreetMapGeocodeEntity;
 
 namespace SchoolBusRouteTrack.Data
 {
@@ -186,6 +192,120 @@ namespace SchoolBusRouteTrack.Data
                 conn.Open();
                 return cmd.ExecuteNonQuery() > 0;
             }
+        }
+
+        //Gets all the stops related to a specific route
+        public List<Stop> GetStopsByRoute(int routeId)
+        {
+            List<Stop> stops = new List<Stop>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("GetStopsByRoute", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@RouteID", routeId);
+
+                    conn.Open();
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        stops.Add(new Stop
+                        {
+                            StopID = (int)reader["StopID"],
+                            Address = reader["Address"].ToString(),
+                            Latitude = (double)reader["Latitude"],
+                            Longitude = (double)reader["Longitude"]
+                        });
+                    }
+                    reader.Close();
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                MessageBox.Show($"SQL Error: {sqlEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+
+            return stops;
+        }
+
+
+        //Gets all students based on the stop
+        internal List<Student> GetStudentsByStop(int stopId)
+        {
+            List<Student> students = new List<Student>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("GetStudentsByStop", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@StopID", stopId);
+
+                    conn.Open();
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        var location = new MapLocation(
+                            (double)reader["Latitude"],
+                            (double)reader["Longitude"],
+                            reader["Address"].ToString(),
+                            (int)reader["StudentID"]
+                        );
+
+                        students.Add(new Student(
+                            (int)reader["StudentID"],
+                            reader["FullName"].ToString(),
+                            location, 
+                            reader["Grade"].ToString(),
+                            reader["GuardianName"].ToString(),
+                            reader["GuardianRelationship"].ToString(),
+                            reader["GuardianPhone"].ToString(),
+                            (int)reader["SchoolID"],
+                            reader["SpecialCare"].ToString()));
+                    }
+                    reader.Close();
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                MessageBox.Show($"SQL Error: {sqlEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+
+            return students;
+        }
+
+
+        //Insert attendance status to StudentTrip table
+        internal bool InsertStudentAttendance (StudentTrip attend)
+        {
+            SqlParameter[] param = new SqlParameter[]
+            {
+                new SqlParameter("@TripID", attend._tripId),
+                new SqlParameter("@StudentID", attend._studentId),
+                new SqlParameter("@StopID", attend._stopId),
+                new SqlParameter("@PickupTime",
+                    attend._pickUpTime == null ? DBNull.Value : (object)attend._pickUpTime),
+                new SqlParameter("@DropoffTime",
+                    attend._dropOffTime == null ? DBNull.Value : (object)attend._dropOffTime),
+                new SqlParameter("@Status", attend._status),
+            };
+
+            return ExecuteNonQuerySP("InsertStudentTrip", param) > 0;
         }
     }
 }
