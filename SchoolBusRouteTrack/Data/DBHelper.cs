@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using SchoolBusRouteTrack.AdministratorSystem;
+using SchoolBusRouteTrack.DriverSystem;
 using SchoolBusRouteTrack.Models;
 using SchoolBusRouteTrack.TripModels;
 using SchoolBusRouteTrack.UserModel;
@@ -272,17 +273,6 @@ namespace SchoolBusRouteTrack.Data
                             reader["GuardianPhone"].ToString(),
                             (int)reader["SchoolID"],
                             reader["SpecialCare"].ToString()));
-                        //{
-                        //    _studentID = (int)reader["StudentID"],
-                        //    _name = reader["FullName"].ToString(),
-                        //    _address = location,
-                        //    _grade = reader["Grade"].ToString(),
-                        //    _guardianName = reader["GuardianName"].ToString(),
-                        //    _guardianRelationship = reader["GuardianRelationship"].ToString(),
-                        //    _guardianPhone = reader["GuardianPhone"].ToString(),
-                        //    _schoolID = (int)reader["SchoolID"],
-                        //    _specialCare = reader["SpecialCare"].ToString()
-                        //});
                     }
                     reader.Close();
                 }
@@ -297,6 +287,25 @@ namespace SchoolBusRouteTrack.Data
             }
 
             return students;
+        }
+
+
+        //Insert attendance status to StudentTrip table
+        internal bool InsertStudentAttendance (StudentTrip attend)
+        {
+            SqlParameter[] param = new SqlParameter[]
+            {
+                new SqlParameter("@TripID", attend._tripId),
+                new SqlParameter("@StudentID", attend._studentId),
+                new SqlParameter("@StopID", attend._stopId),
+                new SqlParameter("@PickupTime",
+                    attend._pickUpTime == null ? DBNull.Value : (object)attend._pickUpTime),
+                new SqlParameter("@DropoffTime",
+                    attend._dropOffTime == null ? DBNull.Value : (object)attend._dropOffTime),
+                new SqlParameter("@Status", attend._status),
+            };
+
+            return ExecuteNonQuerySP("InsertStudentTrip", param) > 0;
         }
     }
 }

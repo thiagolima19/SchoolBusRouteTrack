@@ -210,6 +210,7 @@
     <Compile Include="Models\School.cs" />
     <Compile Include="Models\Stop.cs" />
     <Compile Include="Models\Student.cs" />
+    <Compile Include="Models\StudentTrip.cs" />
     <Compile Include="Models\Vehicle.cs" />
     <Compile Include="Service\GeoCodeResult.cs" />
     <Compile Include="Service\MapsService.cs" />

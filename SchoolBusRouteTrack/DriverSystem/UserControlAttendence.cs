@@ -47,7 +47,7 @@ namespace SchoolBusRouteTrack.DriverSystem
                         {
                             status = trip.Status;
                             string direction1 = trip.RouteID % 2 == 0 ? "Outbound" : "Inbound";
-                            comboBoxRoutes.Text = trip.RouteID + " - " + direction1;
+                            comboBoxRoutes.Text = trip.RouteID + " - " + trip.TripID + " - " + direction1;
                         }   
                     }
 
@@ -60,7 +60,7 @@ namespace SchoolBusRouteTrack.DriverSystem
                     foreach (var trip in trips)
                     {
                         string direction2 = trip.RouteID % 2 == 0 ? "Outbound" : "Inbound";
-                        comboBoxRoutes.Items.Add(trip.RouteID + " - " + direction2);
+                        comboBoxRoutes.Items.Add(trip.RouteID + " - " + trip.TripID + " - " + direction2);
                     }
                 }
                     
@@ -110,9 +110,10 @@ namespace SchoolBusRouteTrack.DriverSystem
             attendCard.BackColor = Color.AliceBlue;
             attendCard.BorderStyle = BorderStyle.FixedSingle;
             attendCard.Margin = new Padding(5);
+            attendCard.Tag = student._studentID;
 
             Label lblStudentName = new Label();
-            lblStudentName.Text = student._name;
+            lblStudentName.Text = student._name + " - " + student._studentID;
             lblStudentName.Font = new Font("Microsoft Sans Serif", 8);
             lblStudentName.Location = new Point(20, 8);
             lblStudentName.AutoSize = true;
@@ -121,16 +122,19 @@ namespace SchoolBusRouteTrack.DriverSystem
             cbPickUp.Text = "Picked up";
             cbPickUp.Font = new Font("Microsoft Sans Serif", 8);
             cbPickUp.Location = new Point(190, 5);
+            cbPickUp.Tag = "PickUp";
 
             CheckBox cbDropOff = new CheckBox();
             cbDropOff.Text = "Dropped Off";
             cbDropOff.Font = new Font("Microsoft Sans Serif", 8);
             cbDropOff.Location = new Point(295, 5);
+            cbDropOff.Tag = "DropOff";
 
             CheckBox cbAbsent = new CheckBox();
             cbAbsent.Text = "Absent";
             cbAbsent.Font = new Font("Microsoft Sans Serif", 8);
             cbAbsent.Location = new Point(408, 5);
+            cbAbsent.Tag = "Absent";
 
             cbPickUp.CheckedChanged += (s, e) =>
             UpdateAttendanceCardState(attendCard, cbPickUp, cbDropOff, cbAbsent);
@@ -199,8 +203,79 @@ namespace SchoolBusRouteTrack.DriverSystem
             }
         }
 
+        private string GetAttendanceStatus(Panel attendCard)
+        {
+            var checkedBox = attendCard.Controls
+                .OfType<CheckBox>()
+                .FirstOrDefault(cb => cb.Checked);
+
+            return checkedBox?.Tag?.ToString(); // PickUp | DropOff | Absent | null
+        }
+
         private void buttonSaveAttendance_Click(object sender, EventArgs e)
         {
+            List<StudentTrip> attendance = new List<StudentTrip>();
+
+            string stringStopId = comboBoxStops.Text.Split(' ')[0];
+            int stopId = int.Parse(stringStopId);
+
+            string stringTripId = comboBoxRoutes.Text.Split(' ')[2];
+            int tripId = int.Parse(stringTripId);
+
+            
+            foreach (Panel attendCard in studentsAttendancePanel.Controls.OfType<Panel>())
+            {
+                int studentId = (int)attendCard.Tag;
+
+                string status = GetAttendanceStatus(attendCard);
+
+                if(status == null)
+                {
+                    MessageBox.Show("Please mark all student's attendance.");
+                    return;
+                }
+
+                StudentTrip trip = new StudentTrip
+                {
+                    _tripId = tripId,
+                    _studentId = studentId,
+                    _stopId = stopId,
+                    _status = status
+                };
+
+                if (status == "PickUp")
+                {
+                    trip._pickUpTime = DateTime.Now;
+                    trip._dropOffTime = null;
+                }
+                else if (status == "DropOff")
+                {
+                    trip._pickUpTime = null;
+                    trip._dropOffTime = DateTime.Now;
+                }
+                else if (status == "Absent")
+                {
+                    trip._pickUpTime = null;
+                    trip._dropOffTime = null;
+                }
+
+                attendance.Add(trip);
+            }
+
+            bool success = true;
+
+            foreach (var attend in attendance)
+            {
+                if (!db.InsertStudentAttendance(attend))
+                {
+                    success = false;
+                    break;
+                }
+            }
+
+            MessageBox.Show(success
+                ? "Attendance recorded!"
+                : "Error saving attendance.");
 
         }
 
@@ -232,7 +307,6 @@ namespace SchoolBusRouteTrack.DriverSystem
                 cbAbsent.Enabled = true;
             }
         }
-
 
     }
 }
