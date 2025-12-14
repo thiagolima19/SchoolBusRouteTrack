@@ -3,7 +3,6 @@
     internal class Student
     {
         public string _name { get;  set; }
-
         public int _studentID { get;  set; }
         public MapLocation _address { get;  set; }
         public string _grade { get;  set; }

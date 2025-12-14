@@ -17,11 +17,12 @@ namespace SchoolBusRouteTrack.Data
         private static readonly string ConnectionString =
            ConfigurationManager.ConnectionStrings["SchoolBusRouteTrackerDB"].ConnectionString;
 
-        public DataTable GetRoutesAndStops() // Bring all routes with their stops
+        public DataTable GetRoutesAndStops()
         {
             var sql = new StringBuilder();
             sql.AppendLine("SELECT r.RouteID, r.RouteNumber, r.Description, s.Address, s.Latitude, s.Longitude, ");
-            sql.AppendLine("       sc.Name AS SchoolName, d.FullName AS DriverName, v.Plate ");
+            sql.AppendLine("       sc.Name AS SchoolName, d.FullName AS DriverName, v.Plate, ");
+            sql.AppendLine("       s.StopID, d.DriverID, rs.StopOrder ");
             sql.AppendLine("FROM RouteStop rs ");
             sql.AppendLine("INNER JOIN Route r ON r.RouteID = rs.RouteID ");
             sql.AppendLine("INNER JOIN Stop s ON s.StopID = rs.StopID ");

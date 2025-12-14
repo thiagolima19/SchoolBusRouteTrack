@@ -81,7 +81,6 @@ namespace SchoolBusRouteTrack.Data
 
             return _db.ExecuteNonQuerySP("sp_UpdateStudent", parameters) > 0;
         }
-
         public bool DeleteStudent(int studentID)
         {
             SqlParameter[] prm = { new SqlParameter("@StudentID", studentID) };

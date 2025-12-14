@@ -29,7 +29,5 @@ namespace SchoolBusRouteTrack.Data
             catch (Exception ex) { throw ex; }
     
         }
-
-
     }
 }

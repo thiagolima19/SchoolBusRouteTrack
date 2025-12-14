@@ -25,7 +25,7 @@ namespace SchoolBusRouteTrack
             UserID = 0;
         }
 
-        // ⭐ FIXED: Required constructor (2 parameters)
+        
         public MapLocation(double latitude, double longitude)
         {
             Latitude = latitude;

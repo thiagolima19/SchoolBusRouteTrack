@@ -10,7 +10,6 @@ namespace SchoolBusRouteTrack.Models
     public class Driver
     {
         public int DriverID { get; set; }
-       // public string FullName { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
         public string Status { get; set; }
@@ -18,23 +17,6 @@ namespace SchoolBusRouteTrack.Models
         public string AssignedRoute { get; set; }
         public MapLocation Address { get; set; }  // Stores Latitude, Longitude, Address
 
-        /*public static List<Driver> FromDataTable(DataTable dt)
-        {
-            var list = new List<Driver>();
-
-            foreach (DataRow row in dt.Rows)
-            {
-                list.Add(new Driver
-                {
-                    DriverID = Convert.ToInt32(row["DriverID"]),
-                    FullName = row["FullName"].ToString(),
-                    Phone = row["Phone"].ToString(),
-                    Status = row["Status"].ToString()
-                });
-            }
-
-            return list;
-        }*/
 
         //Combobox/Listbox Display 
         public string FullName => Name;

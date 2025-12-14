@@ -65,11 +65,7 @@ namespace SchoolBusRouteTrack.DriverSystem
             LoadContent(UCRoute);
         }
 
-        //private void ButtonAttendence_Click(object sender, EventArgs e)
-        //{
-
-        //}
-
+        
         private void buttonLogout_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
