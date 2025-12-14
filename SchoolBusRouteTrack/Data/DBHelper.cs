@@ -106,10 +106,11 @@ namespace SchoolBusRouteTrack.Data
                     DataTable dt = new DataTable();
                     try
                     {
-                        
+
                         adapter.Fill(dt);
                     }
-                    catch (Exception ex) {
+                    catch (Exception ex)
+                    {
                         Console.WriteLine(ex.ToString());
                         throw ex;
                     } // fulfill Data table with SELECT result
@@ -145,9 +146,9 @@ namespace SchoolBusRouteTrack.Data
                             StartTime = reader["StartTime"] as DateTime?,
                             EndTime = reader["EndTime"] as DateTime?,
                             Status = reader["Status"].ToString(),
-                            RouteNumber = reader["RouteNumber"].ToString(),        
-                            RouteDescription = reader["RouteDescription"].ToString(), 
-                            SchoolName = reader["SchoolName"].ToString()           
+                            RouteNumber = reader["RouteNumber"].ToString(),
+                            RouteDescription = reader["RouteDescription"].ToString(),
+                            SchoolName = reader["SchoolName"].ToString()
                         });
                     }
                     reader.Close();
@@ -191,6 +192,43 @@ namespace SchoolBusRouteTrack.Data
                 conn.Open();
                 return cmd.ExecuteNonQuery() > 0;
             }
+        }
+
+        public DataTable ExecuteSelectSP(string storedProcedureName, SqlParameter[] parameters)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection conn = GetConnection()) // Reutiliza seu método de conexão
+                using (SqlCommand cmd = new SqlCommand(storedProcedureName, conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    if (parameters != null)
+                    {
+                        cmd.Parameters.AddRange(parameters);
+                    }
+
+                    conn.Open();
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        // Preenche o DataTable com os resultados
+                        da.Fill(dt);
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                // Use o padrão de tratamento de erro existente na sua classe
+                MessageBox.Show($"SQL Error: {sqlEx.Message}");
+                throw; // Propaga a exceção para que o Repositório possa capturá-la
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+                throw;
+            }
+            return dt;
         }
 
         //Gets all the stops related to a specific route

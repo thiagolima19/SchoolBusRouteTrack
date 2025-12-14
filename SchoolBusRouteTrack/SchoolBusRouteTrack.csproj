@@ -203,6 +203,7 @@
     <Compile Include="Data\TripRepository.cs" />
     <Compile Include="Data\RouteStopRepository.cs" />
     <Compile Include="Data\DriverRepository.cs" />
+    <Compile Include="Data\ReportsRepository.cs" />
     <Compile Include="Models\Driver.cs" />
     <Compile Include="Data\DriversRepository.cs" />
     <Compile Include="Models\MapLocation.cs" />
