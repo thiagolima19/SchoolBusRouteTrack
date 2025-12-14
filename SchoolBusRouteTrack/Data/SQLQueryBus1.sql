@@ -284,7 +284,7 @@ INSERT INTO RouteStop (RouteID, StopID, StopOrder) VALUES
 (8, 7, 1), (8, 8, 2), (8, 9, 3), (8, 3, 4), (8, 2, 5),
 (9, 10, 1), (9, 6, 2), (9, 5, 3), (9, 8, 4), (9, 7, 5),
 (10, 2, 1), (10, 3, 2), (10, 7, 3), (10, 9, 4), (10, 10, 5);
-
+GO
 
 -- Create StudentTrip table for tracking student attendance on trips
 CREATE TABLE StudentTrip (
@@ -301,9 +301,56 @@ CREATE TABLE StudentTrip (
 );
 GO
 
+-- INSERT TEST DATA FOR REPORTS
+
+-- Define today's and yesterday's date for test data
+DECLARE @TestDate DATE = CAST(GETDATE() AS DATE);
+DECLARE @YesterdayDate DATE = DATEADD(day, -1, @TestDate);
+
+PRINT 'Inserting test trip and attendance data for reports...';
+
+-- 1. Trip for R001 (RouteID 1) - Today (Morning Trip)
+INSERT INTO Trip (RouteID, DriverID, StartTime, EndTime, Status)
+VALUES (1, 1, DATEADD(minute, -30, CAST(@TestDate AS DATETIME) + CAST('07:30:00' AS DATETIME)), CAST(@TestDate AS DATETIME) + CAST('08:00:00' AS DATETIME), 'Completed');
+DECLARE @Trip1ID INT = SCOPE_IDENTITY();
+
+-- Attendance for Trip 1
+-- Student 1: Alice Smith (Stop 1) | Student 2: John Doe (Stop 4)
+INSERT INTO StudentTrip (TripID, StudentID, StopID, PickupTime, Status)
+VALUES (@Trip1ID, 1, 1, DATEADD(minute, 5, CAST(@TestDate AS DATETIME) + CAST('07:30:00' AS DATETIME)), 'Picked Up');
+INSERT INTO StudentTrip (TripID, StudentID, StopID, PickupTime, Status)
+VALUES (@Trip1ID, 2, 4, DATEADD(minute, 15, CAST(@TestDate AS DATETIME) + CAST('07:30:00' AS DATETIME)), 'Picked Up');
+
+
+-- 2. Trip for R006 (RouteID 6) - Today (Afternoon Trip)
+INSERT INTO Trip (RouteID, DriverID, StartTime, EndTime, Status)
+VALUES (6, 1, DATEADD(minute, -30, CAST(@TestDate AS DATETIME) + CAST('15:30:00' AS DATETIME)), CAST(@TestDate AS DATETIME) + CAST('16:00:00' AS DATETIME), 'Completed');
+DECLARE @Trip2ID INT = SCOPE_IDENTITY();
+
+-- Attendance for Trip 2
+INSERT INTO StudentTrip (TripID, StudentID, StopID, DropoffTime, Status)
+VALUES (@Trip2ID, 1, 1, DATEADD(minute, 25, CAST(@TestDate AS DATETIME) + CAST('15:30:00' AS DATETIME)), 'Dropped Off');
+INSERT INTO StudentTrip (TripID, StudentID, StopID, DropoffTime, Status)
+VALUES (@Trip2ID, 2, 4, DATEADD(minute, 15, CAST(@TestDate AS DATETIME) + CAST('15:30:00' AS DATETIME)), 'Dropped Off');
+
+
+-- 3. Trip for R001 (RouteID 1) - Yesterday (For Trip Summary Report)
+INSERT INTO Trip (RouteID, DriverID, StartTime, EndTime, Status)
+VALUES (1, 1, DATEADD(minute, -30, CAST(@YesterdayDate AS DATETIME) + CAST('07:30:00' AS DATETIME)), CAST(@YesterdayDate AS DATETIME) + CAST('08:00:00' AS DATETIME), 'Completed');
+DECLARE @Trip3ID INT = SCOPE_IDENTITY();
+
+-- Attendance for Trip 3 (Yesterday)
+INSERT INTO StudentTrip (TripID, StudentID, StopID, PickupTime, Status)
+VALUES (@Trip3ID, 1, 1, DATEADD(minute, 5, CAST(@YesterdayDate AS DATETIME) + CAST('07:30:00' AS DATETIME)), 'Picked Up');
+INSERT INTO StudentTrip (TripID, StudentID, StopID, PickupTime, Status)
+VALUES (@Trip3ID, 2, 4, DATEADD(minute, 15, CAST(@YesterdayDate AS DATETIME) + CAST('07:30:00' AS DATETIME)), 'Picked Up');
+
+PRINT 'Data insertion complete.';
+GO
+
 -------------------------------------students---------------------------------------
 
-CREATE PROCEDURE sp_InsertStudent
+CREATE OR ALTER PROCEDURE sp_InsertStudent
  @FullName NVARCHAR(100),
     @Latitude FLOAT,
     @Longitude FLOAT,
@@ -328,7 +375,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_GetAllStudents AS
+CREATE OR ALTER PROCEDURE sp_GetAllStudents AS
 BEGIN
     SELECT S.*, SC.Name AS SchoolName
     FROM Student S
@@ -337,13 +384,13 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteStudent @StudentID INT AS
+CREATE OR ALTER PROCEDURE sp_DeleteStudent @StudentID INT AS
 BEGIN
     DELETE FROM Student WHERE StudentID = @StudentID;
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateStudent
+CREATE OR ALTER PROCEDURE sp_UpdateStudent
 	@StudentID INT,
     @FullName NVARCHAR(100),
     @Latitude FLOAT,
@@ -367,21 +414,20 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE GetStudentsByStop @StopId INT
+CREATE OR ALTER PROCEDURE GetStudentsByStop @StopId INT
 AS
-SELECT * FROM Student WHERE StopID = @StopId
-GO;
-
+SELECT * FROM Student WHERE StopID = @StopId;
+GO
 --------------------------trips--------------------------------------------------
 
-CREATE PROCEDURE GetTripsByRoute @RouteID INT
+CREATE OR ALTER PROCEDURE GetTripsByRoute @RouteID INT
 AS
 BEGIN
     SELECT * FROM Trip WHERE RouteID=@RouteID;
 END;
 GO
 
-CREATE PROCEDURE GetTripsByDriver 
+CREATE OR ALTER PROCEDURE GetTripsByDriver 
     @DriverID INT
 AS
 BEGIN
@@ -423,7 +469,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE GetTripDirection
+CREATE OR ALTER PROCEDURE GetTripDirection
     @TripID INT
 AS
 BEGIN
@@ -446,7 +492,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_StartTrip @TripID INT
+CREATE OR ALTER PROCEDURE sp_StartTrip @TripID INT
 AS
 BEGIN
     UPDATE Trip SET StartTime=GETDATE(), Status='In Progress'
@@ -454,18 +500,16 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_EndTrip @TripID INT
+CREATE OR ALTER PROCEDURE sp_EndTrip @TripID INT
 AS
 BEGIN
     UPDATE Trip SET EndTime=GETDATE(), Status='Completed'
     WHERE TripID=@TripID AND Status='In Progress';
 END;
 GO
-
-
 -------------------------------------attendance------------------------------------
 
-CREATE PROCEDURE MarkAttendance
+CREATE OR ALTER PROCEDURE MarkAttendance
     @TripID INT,
     @StudentID INT,
     @StopID INT,
@@ -479,7 +523,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE GetAttendanceByTrip 
+CREATE OR ALTER PROCEDURE GetAttendanceByTrip 
     @TripID INT 
 AS
 BEGIN
@@ -494,7 +538,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE InsertStudentTrip
+CREATE OR ALTER PROCEDURE InsertStudentTrip
     @TripID INT,
     @StudentID INT,
     @StopID INT,
@@ -512,7 +556,7 @@ GO
 
 -----------------------------------login validatio----------------------------
 
-CREATE PROCEDURE sp_ValidateLogin
+CREATE OR ALTER PROCEDURE sp_ValidateLogin
     @Username NVARCHAR(50),
     @Password NVARCHAR(100)
 AS
@@ -531,7 +575,7 @@ GO
 
 -------------------------------------drivers------------------------------------
 
-CREATE PROCEDURE GetAllDrivers 
+CREATE OR ALTER PROCEDURE GetAllDrivers 
 AS 
 	SELECT * FROM Driver 
 	ORDER BY FullName;
@@ -613,7 +657,7 @@ END;
 GO
 
 ---------------------------------------------Vehicle---------------------------
-CREATE PROCEDURE sp_GetAvailableVehicles
+CREATE OR ALTER PROCEDURE sp_GetAvailableVehicles
 AS
 BEGIN
     SELECT 
@@ -628,7 +672,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_AssignVehicleToRoute
+CREATE OR ALTER PROCEDURE sp_AssignVehicleToRoute
     @RouteID INT,
     @VehicleID INT
 AS
@@ -646,7 +690,7 @@ GO
 
 ---------------------------------Routes------------------------------------
 
-CREATE PROCEDURE sp_GetAllRoutes
+CREATE OR ALTER PROCEDURE sp_GetAllRoutes
 AS
 BEGIN
     SELECT 
@@ -664,7 +708,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_AssignDriverToRoute
+CREATE OR ALTER PROCEDURE sp_AssignDriverToRoute
     @RouteID INT,
     @DriverID INT
 AS
@@ -675,9 +719,78 @@ BEGIN
 END;
 GO
 
+--------------------------------------reports-----------------------------------
+
+-- 1. sp_GetRouteList: Returns the list of routes for the selection combo box.
+CREATE OR ALTER PROCEDURE sp_GetRouteList
+AS
+BEGIN
+    SELECT RouteID, RouteNumber, Description
+    FROM Route
+    ORDER BY RouteNumber;
+END;
+GO
+
+-- 2. sp_GetDailyRouteAttendance: Returns the daily attendance report.
+CREATE OR ALTER PROCEDURE sp_GetDailyRouteAttendance
+    @RouteID INT,
+    @ReportDate DATE 
+AS
+BEGIN
+    SELECT 
+        S.FullName,
+        STP.Address AS StopAddress,
+        R.RouteNumber,
+        T.TripID,
+        T.StartTime,
+        T.EndTime,
+        ST.PickupTime,
+        ST.DropoffTime,
+        ST.Status AS AttendanceStatus,
+        D.FullName AS DriverName
+    FROM Trip T
+    JOIN Route R ON T.RouteID = R.RouteID
+    JOIN Driver D ON T.DriverID = D.DriverID
+    JOIN StudentTrip ST ON T.TripID = ST.TripID
+    JOIN Student S ON ST.StudentID = S.StudentID
+    JOIN Stop STP ON ST.StopID = STP.StopID
+    WHERE R.RouteID = @RouteID
+    -- Ensures the trip started or ended on the selected date
+    AND (CAST(T.StartTime AS DATE) = @ReportDate OR CAST(T.EndTime AS DATE) = @ReportDate)
+    ORDER BY T.StartTime, ST.PickupTime, ST.DropoffTime;
+END;
+GO
+
+-- 3. sp_GetTripSummary: Returns the historical trip summary for a route.
+CREATE OR ALTER PROCEDURE sp_GetTripSummary 
+    @RouteID INT
+AS
+BEGIN
+    SELECT
+        T.TripID,
+        T.StartTime,
+        T.EndTime,
+        DATEDIFF(MINUTE, T.StartTime, T.EndTime) AS DurationMinutes,
+        T.Status,
+        D.FullName AS DriverName,
+        V.Plate AS VehiclePlate,
+        COUNT(ST.StudentTripID) AS TotalStudentsTracked
+    FROM Trip T
+    JOIN Route R ON T.RouteID = R.RouteID
+    JOIN Driver D ON T.DriverID = D.DriverID
+    LEFT JOIN Vehicle V ON R.VehicleID = V.VehicleID 
+    LEFT JOIN StudentTrip ST ON T.TripID = ST.TripID
+    WHERE R.RouteID = @RouteID AND T.StartTime IS NOT NULL 
+    GROUP BY
+        T.TripID, T.StartTime, T.EndTime, T.Status, D.FullName, V.Plate
+    ORDER BY T.StartTime DESC;
+END;
+GO
+
+
 --------------------------------------Stops----------------------------------------------
 
-CREATE PROCEDURE GetStopsByRoute
+CREATE OR ALTER PROCEDURE GetStopsByRoute
     @RouteID INT
 AS
 BEGIN
@@ -692,4 +805,3 @@ BEGIN
     ORDER BY RS.StopOrder;
 END;
 GO
-
