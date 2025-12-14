@@ -367,6 +367,11 @@ BEGIN
 END;
 GO
 
+CREATE PROCEDURE GetStudentsByStop @StopId INT
+AS
+SELECT * FROM Student WHERE StopID = @StopId
+GO;
+
 --------------------------trips--------------------------------------------------
 
 CREATE PROCEDURE GetTripsByRoute @RouteID INT
@@ -487,6 +492,22 @@ BEGIN
     JOIN Stop Stp ON ST.StopID = Stp.StopID
     WHERE ST.TripID = @TripID;
 END;
+GO
+
+CREATE PROCEDURE InsertStudentTrip
+    @TripID INT,
+    @StudentID INT,
+    @StopID INT,
+    @PickupTime DATETIME = NULL,
+    @DropoffTime DATETIME = NULL,
+    @Status NVARCHAR(20)
+AS
+BEGIN
+    INSERT INTO StudentTrip
+    (TripID, StudentID, StopID, PickupTime, DropoffTime, Status)
+    VALUES
+    (@TripID, @StudentID, @StopID, @PickupTime, @DropoffTime, @Status)
+END
 GO
 
 -----------------------------------login validatio----------------------------
@@ -654,5 +675,21 @@ BEGIN
 END;
 GO
 
------------------------------------------------------------------
+--------------------------------------Stops----------------------------------------------
+
+CREATE PROCEDURE GetStopsByRoute
+    @RouteID INT
+AS
+BEGIN
+    SELECT 
+        S.StopID,
+        S.Address,
+        S.Latitude,
+        S.Longitude
+    FROM RouteStop RS
+    INNER JOIN Stop S ON S.StopID = RS.StopID
+    WHERE RS.RouteID = @RouteID
+    ORDER BY RS.StopOrder;
+END;
+GO
 
