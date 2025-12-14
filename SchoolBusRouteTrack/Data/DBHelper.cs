@@ -194,7 +194,7 @@ namespace SchoolBusRouteTrack.Data
             }
         }
 
-        //gets all the stops on DB for a route
+        //Gets all the stops related to a specific route
         public List<Stop> GetStopsByRoute(int routeId)
         {
             List<Stop> stops = new List<Stop>();
@@ -237,7 +237,7 @@ namespace SchoolBusRouteTrack.Data
         }
 
 
-        //gets all the students on DB for a stop
+        //Gets all students based on the stop
         internal List<Student> GetStudentsByStop(int stopId)
         {
             List<Student> students = new List<Student>();

@@ -27,6 +27,7 @@ namespace SchoolBusRouteTrack.DriverSystem
             LoadAttendanceData();
         }
 
+        //Load data from the DB to the combo boxes 
         private void LoadAttendanceData()
         {
             try
@@ -102,6 +103,7 @@ namespace SchoolBusRouteTrack.DriverSystem
             }
         }
 
+        //Create the cards to be added to the main panel
         private Panel CreateAttendanceCard (Student student)
         {
             Panel attendCard = new Panel();
@@ -153,6 +155,7 @@ namespace SchoolBusRouteTrack.DriverSystem
             return attendCard;
         }
 
+        //Create a card to be used when there are no students registered to that specific bus stop
         private Panel CreateNoStudentsCard()
         {
             Panel noStudentsCard = new Panel();
@@ -171,6 +174,7 @@ namespace SchoolBusRouteTrack.DriverSystem
             return noStudentsCard;
         }
 
+        //Adding functionality to the button that returns all the students registered for the bus stop selected in the combobox
         private void buttonShowStudents_Click(object sender, EventArgs e)
         {
             try
@@ -203,6 +207,7 @@ namespace SchoolBusRouteTrack.DriverSystem
             }
         }
 
+        //Auxiliar method to return the status selected per student
         private string GetAttendanceStatus(Panel attendCard)
         {
             var checkedBox = attendCard.Controls
@@ -212,6 +217,7 @@ namespace SchoolBusRouteTrack.DriverSystem
             return checkedBox?.Tag?.ToString(); // PickUp | DropOff | Absent | null
         }
 
+        //Saves the attendance data in the DB
         private void buttonSaveAttendance_Click(object sender, EventArgs e)
         {
             List<StudentTrip> attendance = new List<StudentTrip>();
@@ -279,6 +285,7 @@ namespace SchoolBusRouteTrack.DriverSystem
 
         }
 
+        //Once one of the check boxes is checked, this method is called to update the card
         private void UpdateAttendanceCardState(Panel attendCard, CheckBox cbPickUp, CheckBox cbDropOff, CheckBox cbAbsent)
         {
             if (cbPickUp.Checked)
